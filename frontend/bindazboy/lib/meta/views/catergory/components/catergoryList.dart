@@ -1,0 +1,48 @@
+import 'package:bindazboy/app/constant/colors.dart';
+import 'package:bindazboy/core/notifiers/catergoryblogs.notifer.dart';
+import 'package:bindazboy/meta/views/catergory/components/catergorys.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class CatergoryList extends StatelessWidget {
+  final Function callback;
+  final int selected;
+
+  const CatergoryList({required this.callback, required this.selected});
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<CatergoryBlogNotifer>(context, listen: false);
+    return Container(
+      height: 60,
+      child: FutureBuilder(
+          future: provider.fetchBlogs(
+            context: context,
+          ),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center();
+            }
+            if (snapshot.data != null) {
+              var _snapshot = snapshot.data as List;
+              if (_snapshot.isEmpty) {
+                return Center(
+                  child: Text(
+                    "Add category",
+                    style: TextStyle(
+                        fontSize: 17, color: BConstantColors.fullblack),
+                  ),
+                );
+              }
+              return Catergorys(
+                snapshot: _snapshot,
+                callback: callback,
+                selected: selected,
+              );
+            }
+            return Center(
+              child: Text("something went wrong try again"),
+            );
+          }),
+    );
+  }
+}

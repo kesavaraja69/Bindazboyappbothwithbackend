@@ -1,0 +1,238 @@
+import 'dart:io';
+import 'package:bindazboyadminapp/credentials/cloudnary.credential.dart';
+import 'package:cloudinary_sdk/cloudinary_sdk.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:logger/logger.dart';
+
+class UtilityNotifer extends ChangeNotifier {
+  final _logger = Logger();
+  String? _imageURL;
+  String? get imageURL => _imageURL;
+
+  Map<int, dynamic>? _imagesUrl;
+  Map<int, dynamic>? get imagesUrl => _imagesUrl;
+
+  List<String>? _myListimages;
+  List<String>? get myListimages => _myListimages;
+
+  List<String>? _myListfnimages;
+  List<String>? get myListfnimages => _myListfnimages;
+
+  String? _audioURL;
+  String? get audioURL => _audioURL;
+
+  String? _audioName;
+  String? get audioName => _audioName;
+
+  File? _previewblogimage;
+  File? get previewblogimage => _previewblogimage;
+
+  List<File>? _previewlistblogimages;
+  List<File>? get previewlistblogimages => _previewlistblogimages;
+
+  File? _previewblogaudio;
+  File? get previewblogaudio => _previewblogaudio;
+
+  Future<File?> pickblogimage(BuildContext context) async {
+    final picker = ImagePicker();
+    var image = await picker.pickImage(source: ImageSource.gallery);
+    if (image!.path.isNotEmpty) {
+      _previewblogimage = File(image.path);
+      notifyListeners();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Select Image"),
+      ));
+    }
+  }
+
+  Future<List<File>?> pickblogimages(BuildContext context) async {
+    final picker = FilePicker.platform;
+    var images = await picker.pickFiles(allowMultiple: true);
+    if (images!.paths.isNotEmpty) {
+      _previewlistblogimages = images.paths.map((path) => File(path!)).toList();
+      _myListimages = images.paths.cast();
+
+      notifyListeners();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Select Image"),
+      ));
+    }
+  }
+
+  Future<File?> pickblogaudio(BuildContext context) async {
+    final picker = FilePicker.platform;
+    var audio = await picker.pickFiles();
+
+    if (audio!.files.single.path!.isNotEmpty) {
+      _previewblogaudio = File(audio.files.single.path!);
+      _audioName = audio.files.single.name;
+      notifyListeners();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Select Audio"),
+      ));
+    }
+  }
+
+  Future removepreviewimage() async {
+    await _previewblogimage!.delete();
+    _previewblogimage = null;
+  }
+
+  Future removepreviewimages() async {
+    await _previewlistblogimages!.removeLast();
+    _previewlistblogimages = null;
+  }
+
+  Future removepreviewaudio() async {
+    await _previewblogaudio!.delete();
+    _previewblogaudio = null;
+    _audioName = null;
+    notifyListeners();
+  }
+
+  Future removeaudioname() async {
+    await _previewblogaudio!.delete();
+    _previewblogaudio = null;
+    _audioURL = null;
+    _audioName = null;
+    notifyListeners();
+  }
+
+  Future uploadblogImage({required BuildContext context}) async {
+    final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
+        CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
+    await _cloudinary
+        .uploadFile(
+            filePath: _previewblogimage!.path,
+            resourceType: CloudinaryResourceType.image,
+            folder: "Bindazboy blog images")
+        .then((value) {
+      _imageURL = value.secureUrl;
+      _previewblogimage!.delete();
+      _previewblogimage = null;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Image uploaded"),
+      ));
+
+      notifyListeners();
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
+  Future uploadblogImages(
+      {required BuildContext context, required int index}) async {
+    final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
+        CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
+    await _cloudinary
+        .uploadFiles(
+            filePaths: _myListimages,
+            resourceType: CloudinaryResourceType.image,
+            folder: "Bindazboy blog option images")
+        .then((responses) {
+      _myListfnimages =
+          responses.asMap().values.map((e) => e.secureUrl.toString()).toList();
+      // .map((i, res) => MapEntry(i, res.secureUrl.toString()));
+
+      // _imagesUrl?.forEach((key, value) {
+      //   _myListfnimages?.add(value);
+      // });
+      _logger.i(_myListfnimages);
+      _previewlistblogimages!.clear();
+      _previewlistblogimages = null;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Images uploaded"),
+      ));
+
+      notifyListeners();
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
+  Future uploadblogAudio({required BuildContext context}) async {
+    final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
+        CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
+    await _cloudinary
+        .uploadFile(
+            filePath: _previewblogaudio!.path,
+            resourceType: CloudinaryResourceType.auto,
+            folder: "Bindazboy blog Audios")
+        .then((value) {
+      _audioURL = value.secureUrl;
+      _audioName = value.originalFilename;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Audio uploaded"),
+      ));
+      notifyListeners();
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
+  Future deleteblogImage({required BuildContext context, required url}) async {
+    final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
+        CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
+    await _cloudinary
+        .deleteFile(
+      url: url,
+      resourceType: CloudinaryResourceType.image,
+    )
+        .then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Image Removed"),
+      ));
+      notifyListeners();
+      return true;
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
+  Future deleteblogImages(
+      {required BuildContext context, required dynamic urls}) async {
+    final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
+        CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
+    await _cloudinary
+        .deleteFiles(
+      urls: urls,
+      resourceType: CloudinaryResourceType.image,
+    )
+        .then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Image Removed"),
+      ));
+      notifyListeners();
+      return true;
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
+  Future deleteblogAudio({required BuildContext context, required url}) async {
+    final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
+        CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
+    await _cloudinary
+        .deleteFile(
+      url: url,
+      resourceType: CloudinaryResourceType.auto,
+    )
+        .then((value) {
+      _audioURL = null;
+      _audioName = null;
+      _previewblogaudio = null;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Audio Removed"),
+      ));
+      notifyListeners();
+      return true;
+    }).catchError((error) {
+      print(error);
+    });
+  }
+}

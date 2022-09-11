@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "367763699539",
+    "project_id": "bindaz-f6a49",
+    "storage_bucket": "bindaz-f6a49.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:367763699539:android:ead1f0465a73896785d3a6",
+        "android_client_info": {
+          "package_name": "com.bindazboy20.bindazboyblogapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "367763699539-d5ld85em7e43an7vbu8eb9fs727d1nkr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bindazboy20.bindazboyblogapp",
+            "certificate_hash": "e11c7374b13813fcdc47fc79d9efb3c4f0d7919c"
+          }
+        },
+        {
+          "client_id": "367763699539-4g7u9ugjpca3mgeeplud8snaihml9j1s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbMRoTshhDXAEPEXGG9LR9aUwp6ufL_gI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "367763699539-4g7u9ugjpca3mgeeplud8snaihml9j1s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
