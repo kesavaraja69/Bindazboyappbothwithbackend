@@ -7,6 +7,7 @@ import 'package:bindazboy/meta/views/home/components/navigationdrawer.view.dart'
 import 'package:bindazboy/meta/views/searchpage/search.view.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -19,10 +20,10 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
 
     LocalNotificationService.initialize(context);
+
     ///gives you the message on which user taps
     ///and it opened the app from terminated state
     FirebaseMessaging.instance.getInitialMessage().then((message) {});
-
     FirebaseMessaging.instance.subscribeToTopic("bindazboy");
 
     ///forground work
@@ -38,16 +39,15 @@ class _HomeViewState extends State<HomeView> {
     ///on the notification
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       // final routeFromMessage = message.data["route"];
-
       //  Navigator.of(context).pushNamed(routeFromMessage);
     });
   }
 
   int _index = 0;
   List<IconData> data = [
-    Icons.home_outlined,
-    Icons.category_outlined,
-    Icons.bookmark_outline,
+    Icons.home_filled,
+    Icons.category_sharp,
+    Icons.bookmark,
     Icons.search_outlined
   ];
   final PageController _pageController = new PageController();
@@ -80,7 +80,7 @@ class _HomeViewState extends State<HomeView> {
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 20),
             child: Material(
               elevation: 10,
               borderRadius: BorderRadius.circular(20),
@@ -105,7 +105,7 @@ class _HomeViewState extends State<HomeView> {
                       },
                       child: AnimatedContainer(
                         duration: Duration(milliseconds: 250),
-                        width: 35,
+                        width: MediaQuery.of(context).size.width * 0.08,
                         decoration: BoxDecoration(
                             border: index == _index
                                 ? Border(

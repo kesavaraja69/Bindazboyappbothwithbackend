@@ -30,6 +30,9 @@ class _HomeblogViewState extends State<HomeblogView> {
       backgroundColor: BConstantColors.backgroundColor,
       body: Column(
         children: [
+          SizedBox(
+            height: 15,
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 30),
             child: Row(

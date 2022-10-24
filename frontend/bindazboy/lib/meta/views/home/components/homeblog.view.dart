@@ -20,13 +20,12 @@ class HomeBlogs extends StatefulWidget {
 
 class _HomeBlogsState extends State<HomeBlogs> {
   late Future<dynamic> data;
+  late Future<dynamic> data1;
 
   Future loadblog() async {
-    // await Future.delayed(Duration(milliseconds: 500));
-    setState(() {
-      this.data = Provider.of<BlogNotifer>(context, listen: false)
-          .fetchBlogs(context: context);
-    });
+    final databg = Provider.of<BlogNotifer>(context, listen: false)
+        .fetchBlogs(context: context);
+    return databg;
   }
 
   Future loadblogaudio() async {
@@ -38,7 +37,9 @@ class _HomeBlogsState extends State<HomeBlogs> {
 
   @override
   void initState() {
-    loadblogaudio();
+    //  loadblogaudio();
+    // data = loadblog();
+    data1 = loadblog();
     super.initState();
   }
 
@@ -83,70 +84,70 @@ class _HomeBlogsState extends State<HomeBlogs> {
                 ),
               ],
             ),
-            audioprovider.isAudiobookln != 0
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 9),
-                    child: Text(
-                      "Audio Books",
-                      style: TextStyle(
-                          color: BConstantColors.appbartitleColor,
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
-                : Container(),
-            audioprovider.isAudiobookln != 0
-                ? SizedBox(
-                    height: 4,
-                  )
-                : Container(),
-            audioprovider.isAudiobookln != 0
-                ? Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 9, vertical: 1),
-                    child: Container(
-                      height: 170,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        // color: Color.fromARGB(255, 0, 0, 0),
-                        borderRadius: BorderRadius.circular(9),
-                      ),
-                      child: FutureBuilder(
-                          future: audioprovider.fetchAudioBooksall(
-                              context: context),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Center(
-                                  child: SpinKitFadingCircle(
-                                color: BConstantColors.black,
-                                size: 50.0,
-                              ));
-                            }
-                            if (snapshot.data != null) {
-                              var _snapshot = snapshot.data as List;
+            // audioprovider.isAudiobookln != 0
+            //     ? Padding(
+            //         padding: const EdgeInsets.symmetric(horizontal: 9),
+            //         child: Text(
+            //           "Audio Books",
+            //           style: TextStyle(
+            //               color: BConstantColors.appbartitleColor,
+            //               fontSize: 17,
+            //               fontWeight: FontWeight.bold),
+            //         ),
+            //       )
+            //     : Container(),
+            // audioprovider.isAudiobookln != 0
+            //     ? SizedBox(
+            //         height: 4,
+            //       )
+            //     : Container(),
+            // audioprovider.isAudiobookln != 0
+            //     ? Padding(
+            //         padding:
+            //             const EdgeInsets.symmetric(horizontal: 9, vertical: 1),
+            //         child: Container(
+            //           height: 170,
+            //           width: MediaQuery.of(context).size.width,
+            //           decoration: BoxDecoration(
+            //             // color: Color.fromARGB(255, 0, 0, 0),
+            //             borderRadius: BorderRadius.circular(9),
+            //           ),
+            //           child: FutureBuilder(
+            //               future: audioprovider.fetchAudioBooksall(
+            //                   context: context),
+            //               builder: (context, snapshot) {
+            //                 if (snapshot.connectionState ==
+            //                     ConnectionState.waiting) {
+            //                   return Center(
+            //                       child: SpinKitFadingCircle(
+            //                     color: BConstantColors.black,
+            //                     size: 50.0,
+            //                   ));
+            //                 }
+            //                 if (snapshot.data != null) {
+            //                   var _snapshot = snapshot.data as List;
 
-                              if (_snapshot.isEmpty) {
-                                return Center(
-                                  child: Text(
-                                    "No Audiobook",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Color.fromARGB(243, 8, 7, 7)),
-                                  ),
-                                );
-                              }
-                              return AudiobookList(
-                                snapshot: _snapshot,
-                              );
-                            }
-                            return Center(
-                              child: Text("something went wrong try again"),
-                            );
-                          }),
-                    ),
-                  )
-                : SizedBox(),
+            //                   if (_snapshot.isEmpty) {
+            //                     return Center(
+            //                       child: Text(
+            //                         "No Audiobook",
+            //                         style: TextStyle(
+            //                             fontSize: 15,
+            //                             color: Color.fromARGB(243, 8, 7, 7)),
+            //                       ),
+            //                     );
+            //                   }
+            //                   return AudiobookList(
+            //                     snapshot: _snapshot,
+            //                   );
+            //                 }
+            //                 return Center(
+            //                   child: Text("something went wrong try again"),
+            //                 );
+            //               }),
+            //         ),
+            //       )
+            //     : SizedBox(),
             SizedBox(
               height: 9,
             ),
@@ -166,7 +167,7 @@ class _HomeBlogsState extends State<HomeBlogs> {
                 backgroundColor: BConstantColors.black,
                 color: BConstantColors.yellow,
                 child: FutureBuilder(
-                    future: provider.fetchBlogs(context: context),
+                    future: data1,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(

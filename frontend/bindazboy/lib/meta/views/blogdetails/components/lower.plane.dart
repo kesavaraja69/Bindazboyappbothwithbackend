@@ -47,7 +47,9 @@ class LowerPlane extends StatelessWidget {
                 textDirection: TextDirection.ltr,
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                    color: BConstantColors.descrptionColor, fontSize: 15),
+                    color: BConstantColors.descrptionColor,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500),
               ),
             ),
           ],

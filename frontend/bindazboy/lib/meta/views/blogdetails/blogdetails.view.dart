@@ -95,7 +95,7 @@ class _BlogdetailsviewState extends State<Blogdetailsview> {
                   Image.network(
                     datadetails.blogImage,
                     fit: BoxFit.cover,
-                    color: Colors.black54.withOpacity(0.20),
+                    color: Colors.black54.withOpacity(0.45),
                     colorBlendMode: BlendMode.darken,
                   ),
                   Positioned(
@@ -237,7 +237,7 @@ class _BlogdetailsviewState extends State<Blogdetailsview> {
             child: Text(
               title,
               style: TextStyle(
-                  color: BConstantColors.titleColor.withOpacity(0.65),
+                  color: BConstantColors.descrptionColor,
                   fontSize: size,
                   fontWeight: weight),
             ),

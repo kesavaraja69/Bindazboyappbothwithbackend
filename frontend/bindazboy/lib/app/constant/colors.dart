@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BConstantColors {
   static const backgroundColor = Color.fromARGB(255, 255, 252, 158);
   static const titleColor = Color.fromRGBO(249, 249, 249, 0.78);
-  static const descrptionColor = Color.fromRGBO(249, 249, 249, 0.85);
+  static const descrptionColor = Color.fromARGB(213, 253, 253, 198);
   static const black = Colors.black87;
   static const yellow = Color.fromARGB(255, 251, 218, 110);
   static const fullblack = Colors.black;

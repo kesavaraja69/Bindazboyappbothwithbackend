@@ -3,20 +3,35 @@ import 'package:bindazboyadminapp/meta/views/addblog/catergorycomponents/catergo
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CatergoryList extends StatelessWidget {
+class CatergoryList extends StatefulWidget {
   final Function callback;
   final int selected;
 
   const CatergoryList({required this.callback, required this.selected});
+
+  @override
+  State<CatergoryList> createState() => _CatergoryListState();
+}
+
+class _CatergoryListState extends State<CatergoryList> {
+  dynamic _futureCatergory;
+
+  @override
+  void initState() {
+    final catergoryprovider =
+        Provider.of<CategoryNotifer>(context, listen: false);
+    _futureCatergory = catergoryprovider.fetchCategorys(context: context);
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<CategoryNotifer>(context, listen: false);
     return Container(
       height: 80,
       child: FutureBuilder(
-          future: provider.fetchCategorys(
-            context: context,
-          ),
+          future: _futureCatergory,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center();
@@ -25,8 +40,8 @@ class CatergoryList extends StatelessWidget {
               var _snapshot = snapshot.data as List;
               return Catergorys(
                 snapshot: _snapshot,
-                callback: callback,
-                selected: selected,
+                callback: widget.callback,
+                selected: widget.selected,
               );
             }
             return Center(

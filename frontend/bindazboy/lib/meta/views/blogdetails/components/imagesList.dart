@@ -21,7 +21,7 @@ class ImageList extends StatelessWidget {
                 height: 270,
                 decoration: BoxDecoration(
                   color: Color.fromARGB(255, 230, 230, 230),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
                       image: NetworkImage(images[index]), fit: BoxFit.cover),
                 )),

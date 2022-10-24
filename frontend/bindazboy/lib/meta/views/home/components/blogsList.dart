@@ -9,7 +9,7 @@ const int maxFailedLoadAttempts = 3;
 
 class Bloglist extends StatefulWidget {
   final dynamic snapshot;
-
+  bool? detailpage;
   Bloglist({
     required this.snapshot,
   });
@@ -25,6 +25,8 @@ class _BloglistState extends State<Bloglist> {
 
   // bool _isBannerAdload = false;
 
+  final ScrollController _controller = ScrollController();
+
   // void _createBottomBannerAd() {
   //   _bottomBannerAd = BannerAd(
   //       size: AdSize.fullBanner,
@@ -39,6 +41,36 @@ class _BloglistState extends State<Bloglist> {
   //       request: AdRequest());
   //   _bottomBannerAd.load();
   // }
+
+  List<String> items = [];
+  bool loading = false, allloaded = false;
+
+  mockfetch() async {
+    if (allloaded) {
+      return;
+    } else {
+      await Future.delayed(const Duration(milliseconds: 500))
+          .whenComplete(() async {
+        if (mounted) {
+          setState(() {
+            loading = true;
+          });
+        }
+        List<String> newData = items.length >= widget.snapshot.length
+            ? []
+            : List.generate(5, (index) => "${index + items.length}");
+        if (newData.isNotEmpty) {
+          items.addAll(newData);
+        }
+        if (mounted) {
+          setState(() {
+            loading = false;
+            allloaded = newData.isEmpty;
+          });
+        }
+      });
+    }
+  }
 
   void _createInterstitialAd() {
     InterstitialAd.load(
@@ -62,6 +94,15 @@ class _BloglistState extends State<Bloglist> {
   @override
   void initState() {
     super.initState();
+
+    mockfetch();
+    _controller.addListener(() {
+      if (_controller.position.pixels >= _controller.position.maxScrollExtent &&
+          !loading) {
+        mockfetch();
+      }
+    });
+
     // _createBottomBannerAd();
     _createInterstitialAd();
     // _blogwithAds = List.from(widget.snapshot);
@@ -107,13 +148,17 @@ class _BloglistState extends State<Bloglist> {
       //           height: 2.0,
       //         );
       // },
-      itemCount: widget.snapshot.length,
+      itemCount: items.length >= widget.snapshot.length
+          ? widget.snapshot.length
+          : widget.detailpage == false
+              ? items.length
+              : widget.snapshot.length,
       itemBuilder: (context, index) {
         final _blog = widget.snapshot[index];
         return GestureDetector(
           onTap: () async {
             int detailid = _blog.blogId;
-            if (index != 0 && index % 3 == 0) {
+            if (index != 0 && index % 2 == 0) {
               _showInterstitialAd();
             }
             Navigator.of(context).pushNamed(AppRoutes.BlogDetailRoute,
@@ -168,8 +213,8 @@ class _BloglistState extends State<Bloglist> {
                 ),
                 Align(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 9.0, vertical: 8.0),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
                     child: Text(
                       "Posted On ${_blog.blogDate.split('-').reversed.join('-')}",
                       style: TextStyle(
@@ -184,7 +229,7 @@ class _BloglistState extends State<Bloglist> {
                   alignment: Alignment.bottomRight,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 9.0, vertical: 8.0),
+                        horizontal: 10, vertical: 9.0),
                     child: Text(
                       "Posted By BindazBoy",
                       style: TextStyle(
