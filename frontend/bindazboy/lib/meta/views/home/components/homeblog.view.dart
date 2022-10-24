@@ -28,6 +28,13 @@ class _HomeBlogsState extends State<HomeBlogs> {
     return databg;
   }
 
+  Future loadblogs() async {
+    setState(() {
+      data1 = Provider.of<BlogNotifer>(context, listen: false)
+          .fetchBlogs(context: context);
+    });
+  }
+
   Future loadblogaudio() async {
     setState(() {
       this.data = Provider.of<AudioBookNotifer>(context, listen: false)
@@ -163,7 +170,7 @@ class _HomeBlogsState extends State<HomeBlogs> {
             ),
             Expanded(
               child: RefreshIndicator(
-                onRefresh: loadblog,
+                onRefresh: loadblogs,
                 backgroundColor: BConstantColors.black,
                 color: BConstantColors.yellow,
                 child: FutureBuilder(

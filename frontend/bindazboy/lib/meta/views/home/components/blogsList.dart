@@ -158,7 +158,7 @@ class _BloglistState extends State<Bloglist> {
         return GestureDetector(
           onTap: () async {
             int detailid = _blog.blogId;
-            if (index != 0 && index % 2 == 0) {
+            if (index != 0 && (index % 3).toInt() == 0) {
               _showInterstitialAd();
             }
             Navigator.of(context).pushNamed(AppRoutes.BlogDetailRoute,
@@ -180,7 +180,7 @@ class _BloglistState extends State<Bloglist> {
               ],
               image: DecorationImage(
                   colorFilter: ColorFilter.mode(
-                      BConstantColors.fullblack.withOpacity(0.40),
+                      BConstantColors.fullblack.withOpacity(0.55),
                       BlendMode.darken),
                   image: NetworkImage(_blog.blogImage),
                   fit: BoxFit.cover),
@@ -188,7 +188,7 @@ class _BloglistState extends State<Bloglist> {
             child: Stack(
               children: [
                 Positioned(
-                  top: 17,
+                  top: 19,
                   right: 6,
                   left: 6,
                   child: Column(
@@ -203,7 +203,7 @@ class _BloglistState extends State<Bloglist> {
                           maxLines: null,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 16,
                               color: BConstantColors.titleColor,
                               fontWeight: FontWeight.bold),
                         ),
