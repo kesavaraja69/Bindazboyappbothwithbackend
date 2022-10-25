@@ -18,9 +18,10 @@ class AddBlog extends StatefulWidget {
 }
 
 class _AddBlogState extends State<AddBlog> {
-  TextEditingController _titletext = TextEditingController();
-  TextEditingController _descriptiontext = TextEditingController();
-  TextEditingController _catgorytext = TextEditingController();
+  late TextEditingController _titletext;
+  late TextEditingController _descriptiontext;
+  late TextEditingController _catgorytext;
+  late TextEditingController _mainimageurltext;
   DateTime selectedDate = DateTime.now();
   var selected = 1;
   dynamic catergorytitle = "வழிபாடு";
@@ -30,13 +31,26 @@ class _AddBlogState extends State<AddBlog> {
   Timer? _timer;
   @override
   void initState() {
-    super.initState();
+    _titletext = TextEditingController();
+    _descriptiontext = TextEditingController();
+    _catgorytext = TextEditingController();
+    _mainimageurltext = TextEditingController();
     EasyLoading.addStatusCallback((status) {
       print('EasyLoading Status $status');
       if (status == EasyLoadingStatus.dismiss) {
         _timer?.cancel();
       }
     });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _catgorytext.dispose();
+    _descriptiontext.dispose();
+    _mainimageurltext.dispose();
+    _titletext.dispose();
+    super.dispose();
   }
 
   @override
@@ -115,6 +129,22 @@ class _AddBlogState extends State<AddBlog> {
               ),
               SizedBox(
                 height: 12,
+              ),
+              labeltext("Enter Background Image Url"),
+              SizedBox(
+                height: 4,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 3.0),
+                child: title(text: 'Imageurl', controller: _mainimageurltext),
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              labeltext("(OR)"),
+              SizedBox(
+                height: 6,
               ),
               labeltext("Select Background Image"),
               SizedBox(
@@ -310,52 +340,51 @@ class _AddBlogState extends State<AddBlog> {
                       var title = _titletext.text;
                       var description = _descriptiontext.text;
                       EasyLoading.show(status: 'Uploading..Wait..');
-                      utilityNotifer
-                          .uploadblogImage(context: context)
-                          .whenComplete(() {
-                        Future.delayed(Duration(seconds: 6))
-                            .whenComplete(() async {
-                          if (utilityNotifer.audioName != null) {
-                            await utilityNotifer.uploadblogAudio(
-                                context: context);
-                            print(utilityNotifer.audioURL);
-                            utilityNotifer.removepreviewaudio();
-                          }
-                          if (utilityNotifer.imageURL != null) {
-                            await blogNotifer.addBlogs(
-                                context: context,
-                                catergory_id: selected,
-                                blog_title: title,
-                                blog_description: description,
-                                blog_image: utilityNotifer.imageURL,
-                                blog_category: catergorytitle,
-                                blog_audio: utilityNotifer.audioURL == null
-                                    ? null
-                                    : utilityNotifer.audioURL,
-                                blog_images:
-                                    utilityNotifer.myListfnimages == null
-                                        ? null
-                                        : utilityNotifer.myListfnimages,
-                                blog_date:
-                                    selectedDate.toString().split(' ')[0]);
-                            EasyLoading.showSuccess('Uploaded Successfully!');
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                AppRoutes.HomeRoute, (route) => false);
-                            EasyLoading.dismiss();
-                            print(utilityNotifer.imageURL);
-                            print("id is $selected");
-                            print("title is $title");
-                            print("descrp is $description");
-                            print("cater is $catergorytitle");
-                            print("date is ${'$selectedDate'.split(' ')[0]}");
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text("fill the value"),
-                              ),
-                            );
-                          }
-                        });
+                      if (_mainimageurltext.text.isEmpty) {
+                        await utilityNotifer.uploadblogImage(context: context);
+                      }
+                      if (utilityNotifer.audioName != null) {
+                        await utilityNotifer.uploadblogAudio(context: context);
+                        print(utilityNotifer.audioURL);
+                        await utilityNotifer.removepreviewaudio();
+                      }
+                      Future.delayed(Duration(seconds: 6))
+                          .whenComplete(() async {
+                        if (_titletext.text.isNotEmpty &&
+                            _descriptiontext.text.isNotEmpty) {
+                          await blogNotifer.addBlogs(
+                              context: context,
+                              catergory_id: selected,
+                              blog_title: title,
+                              blog_description: description,
+                              blog_image: _mainimageurltext.text.isEmpty
+                                  ? utilityNotifer.imageURL
+                                  : _mainimageurltext.text,
+                              blog_category: catergorytitle,
+                              blog_audio: utilityNotifer.audioURL == null
+                                  ? null
+                                  : utilityNotifer.audioURL,
+                              blog_images: utilityNotifer.myListfnimages == null
+                                  ? null
+                                  : utilityNotifer.myListfnimages,
+                              blog_date: selectedDate.toString().split(' ')[0]);
+                          EasyLoading.showSuccess('Uploaded Successfully!');
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              AppRoutes.HomeRoute, (route) => false);
+                          EasyLoading.dismiss();
+                          print(utilityNotifer.imageURL);
+                          print("id is $selected");
+                          print("title is $title");
+                          print("descrp is $description");
+                          print("cater is $catergorytitle");
+                          print("date is ${'$selectedDate'.split(' ')[0]}");
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("fill the value"),
+                            ),
+                          );
+                        }
                       });
                     }),
               ),
@@ -404,7 +433,7 @@ class _AddBlogState extends State<AddBlog> {
   Widget title({required text, required controller}) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 70,
+      height: 60,
       decoration: BoxDecoration(
           color: Colors.yellow[200], borderRadius: BorderRadius.circular(12)),
       child: Padding(

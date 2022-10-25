@@ -94,7 +94,6 @@ class _BloglistState extends State<Bloglist> {
   @override
   void initState() {
     super.initState();
-
     mockfetch();
     _controller.addListener(() {
       if (_controller.position.pixels >= _controller.position.maxScrollExtent &&
