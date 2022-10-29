@@ -1,10 +1,15 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:bindazboyadminapp/app/routes/api.routes.dart';
 import 'package:bindazboyadminapp/credentials/cloudnary.credential.dart';
+import 'package:bindazboyadminapp/meta/widgets/snackbarutitly.dart';
 import 'package:cloudinary_sdk/cloudinary_sdk.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
+import 'package:http/http.dart' as http;
 
 class UtilityNotifer extends ChangeNotifier {
   final _logger = Logger();
@@ -40,6 +45,7 @@ class UtilityNotifer extends ChangeNotifier {
     var image = await picker.pickImage(source: ImageSource.gallery);
     if (image!.path.isNotEmpty) {
       _previewblogimage = File(image.path);
+
       notifyListeners();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -101,6 +107,64 @@ class UtilityNotifer extends ChangeNotifier {
     _audioURL = null;
     _audioName = null;
     notifyListeners();
+  }
+
+  Future addAllTypeFile({
+    required BuildContext context,
+  }) async {
+    final suburl = "/blogs/addimageupload";
+    var response;
+    var request =
+        http.MultipartRequest('PATCH', Uri.parse(APIRoutes.LocalHost + suburl));
+
+    request.files.add(http.MultipartFile(
+        'image',
+        File(_previewblogimage!.path.toString()).readAsBytes().asStream(),
+        File(_previewblogimage!.path.toString()).lengthSync(),
+        filename: "techking"));
+    var reqsendresponse = await request.send();
+
+    response = await http.Response.fromStream(reqsendresponse);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> parsedData = await jsonDecode(response.body);
+      final customstatuscode = parsedData['code'];
+      final customdata = parsedData['message'];
+
+      final customdataurl = parsedData['data'];
+      _logger.i("mes $customstatuscode");
+      _logger.i("mes list $customdata");
+
+      //  _videoURL = customdataurl;
+      //  notifyListeners();
+
+      switch (customstatuscode) {
+        case 201:
+          _imageURL = customdataurl;
+          notifyListeners();
+
+          // _videoURL = customdataurl;
+
+          ShowsnackBarUtiltiy.showSnackbar(
+              message: customdata, context: context);
+          break;
+        case 301:
+          ShowsnackBarUtiltiy.showSnackbar(
+              message: customdata, context: context);
+          break;
+        case 302:
+          ShowsnackBarUtiltiy.showSnackbar(
+              message: customdata, context: context);
+          break;
+      }
+
+      if (kDebugMode) {
+        print("Uploaded! ");
+        print('response.body ${response.body}');
+      }
+    }
+    // _responseData = response.body;
+    return response.body;
   }
 
   Future uploadblogImage({required BuildContext context}) async {
