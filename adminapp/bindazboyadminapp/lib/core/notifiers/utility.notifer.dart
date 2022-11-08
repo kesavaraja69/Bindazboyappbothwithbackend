@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:bindazboyadminapp/app/routes/api.routes.dart';
+import 'package:bindazboyadminapp/core/models/images.model.dart';
 import 'package:bindazboyadminapp/credentials/cloudnary.credential.dart';
 import 'package:bindazboyadminapp/meta/widgets/snackbarutitly.dart';
 import 'package:cloudinary_sdk/cloudinary_sdk.dart';
@@ -22,7 +23,7 @@ class UtilityNotifer extends ChangeNotifier {
   List<String>? _myListimages;
   List<String>? get myListimages => _myListimages;
 
-  List<String>? _myListfnimages;
+  List<String>? _myListfnimages = [];
   List<String>? get myListfnimages => _myListfnimages;
 
   String? _audioURL;
@@ -34,7 +35,7 @@ class UtilityNotifer extends ChangeNotifier {
   File? _previewblogimage;
   File? get previewblogimage => _previewblogimage;
 
-  List<File>? _previewlistblogimages;
+  List<File>? _previewlistblogimages = [];
   List<File>? get previewlistblogimages => _previewlistblogimages;
 
   File? _previewblogaudio;
@@ -107,6 +108,107 @@ class UtilityNotifer extends ChangeNotifier {
     _audioURL = null;
     _audioName = null;
     notifyListeners();
+  }
+
+  Future addimagefiles({required BuildContext context}) async {
+    final suburl = "/blogs/addimageupload/${_previewlistblogimages!.length}";
+    var responses;
+    var request =
+        http.MultipartRequest('PATCH', Uri.parse(APIRoutes.LocalHost + suburl));
+    // final httpDio = Dio();
+
+    // var formData = FormData();
+
+    // for (var file in _myListimages!) {
+    //   formData.files.addAll([
+    //     MapEntry("images", MultipartFile.fromFileSync(file)),
+    //   ]);
+    // }
+
+    // final response = await httpDio.patch(
+    //   ApiRoutes.LocalHost + suburl,
+    //   data: formData,
+    // );
+
+    // List<http.MultipartFile> newList = [];
+    // for (var i = 0; i < _allpreviewlistblogimages!.length; i++) {
+    //   var multipartFile = http.MultipartFile(
+    //     'Images',
+    //     File(_allpreviewlistblogimages![i].path).readAsBytes().asStream(),
+    //     File(_allpreviewlistblogimages![i].path).lengthSync(),
+    //     // filename: img.path.split('/').last,
+    //   );
+    //   newList.add(multipartFile);
+    // }
+    // request.files.addAll(newList);
+    if (_previewlistblogimages!.isNotEmpty) {
+      for (var i = 0; i < _previewlistblogimages!.length; i++) {
+        print("imagepath ${_previewlistblogimages![i].path}");
+        request.files.addAll([
+          http.MultipartFile(
+              'images',
+              File(_previewlistblogimages![i].path).readAsBytes().asStream(),
+              File(_previewlistblogimages![i].path).lengthSync(),
+              filename:
+                  _previewlistblogimages![i].path.toString().split('/').last)
+        ]);
+        if (i == _previewlistblogimages!.length - 1) {
+          print("loop is closed");
+          var reqsendresponse = await request.send();
+          responses = await http.Response.fromStream(reqsendresponse);
+        }
+      }
+      //   // var reqsendresponse = await request.send();
+    }
+
+    // }
+    // send
+    // var response = await request.send();
+    // request.files.add(http.MultipartFile(
+    //     'images',
+    //     File(_imagefilepath!.path.toString()).readAsBytes().asStream(),
+    //     File(_imagefilepath!.path.toString()).lengthSync(),
+    //     filename: "techking"));
+    //   var reqsendresponse = await request.send();
+
+    if (responses.statusCode == 200) {
+      final parsedData = Imagespostmodel.fromJson(jsonDecode(responses.body));
+      final customstatuscode = parsedData.code;
+      final customdata = parsedData.message.toString();
+
+      List<String?>? customdataurl = parsedData.data;
+      _logger.i("mes $customstatuscode");
+      _logger.i("mes list $customdata");
+      notifyListeners();
+
+      switch (customstatuscode) {
+        case 201:
+          // _videoURL = customdataurl;
+
+          _myListfnimages = List<String>.from(customdataurl!);
+
+          notifyListeners();
+          ShowsnackBarUtiltiy.showSnackbar(
+              message: customdata, context: context);
+          break;
+        case 301:
+          ShowsnackBarUtiltiy.showSnackbar(
+              message: customdata, context: context);
+          break;
+        case 302:
+          ShowsnackBarUtiltiy.showSnackbar(
+              message: customdata, context: context);
+          break;
+      }
+
+      if (kDebugMode) {
+        print("Uploaded! ");
+        print('response.body ${responses.body}');
+      }
+      return responses.body;
+    }
+    // _responseData = response.body;
+    return null;
   }
 
   Future addAllTypeFile({

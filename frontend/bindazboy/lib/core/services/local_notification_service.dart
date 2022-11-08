@@ -12,9 +12,11 @@ class LocalNotificationService {
             android: AndroidInitializationSettings("@mipmap/ic_launcher"));
 
     _notificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: (String? route) async {
-      if (route != null) {
-        Navigator.of(context).pushNamed(route);
+        onDidReceiveNotificationResponse:
+            (NotificationResponse notificationResponse) async {
+      if (notificationResponse.payload!.isNotEmpty) {
+        Navigator.of(context)
+            .pushNamed(notificationResponse.payload.toString());
       }
     });
   }
