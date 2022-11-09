@@ -80,10 +80,9 @@ class _ShowbottomViewState extends State<ShowbottomView> {
                           onclick: () {
                             EasyLoading.show(status: 'Uploadling..Wait..');
                             utilityNotifer
-                                .uploadblogImages(
-                                    context: context,
-                                    index: utilityNotifer
-                                        .previewlistblogimages!.length)
+                                .addimagefiles(
+                              context: context,
+                            )
                                 .whenComplete(() {
                               Navigator.of(context).pop();
                               EasyLoading.showSuccess("Uploaded Sucessfully");

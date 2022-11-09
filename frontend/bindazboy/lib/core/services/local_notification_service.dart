@@ -9,8 +9,8 @@ class LocalNotificationService {
   static void initialize(BuildContext context) {
     final InitializationSettings initializationSettings =
         InitializationSettings(
-            android: AndroidInitializationSettings("@mipmap/ic_launcher"));
-
+            android: AndroidInitializationSettings('ic_launcher1'));
+// "@mipmap/ic_launcher"
     _notificationsPlugin.initialize(initializationSettings,
         onDidReceiveNotificationResponse:
             (NotificationResponse notificationResponse) async {

@@ -8,6 +8,8 @@ import 'package:cloudinary_sdk/cloudinary_sdk.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
@@ -35,6 +37,9 @@ class UtilityNotifer extends ChangeNotifier {
   File? _previewblogimage;
   File? get previewblogimage => _previewblogimage;
 
+  File? _fnpreviewblogimage;
+  File? get fnpreviewblogimage => _fnpreviewblogimage;
+
   List<File>? _previewlistblogimages = [];
   List<File>? get previewlistblogimages => _previewlistblogimages;
 
@@ -46,7 +51,11 @@ class UtilityNotifer extends ChangeNotifier {
     var image = await picker.pickImage(source: ImageSource.gallery);
     if (image!.path.isNotEmpty) {
       _previewblogimage = File(image.path);
-
+      _fnpreviewblogimage = await FlutterNativeImage.compressImage(
+        _previewblogimage!.path,
+        quality: 10,
+      );
+      print(_fnpreviewblogimage!.path);
       notifyListeners();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -70,6 +79,14 @@ class UtilityNotifer extends ChangeNotifier {
     }
   }
 
+  Future<File> compressFile(File file) async {
+    File compressedFile = await FlutterNativeImage.compressImage(
+      file.path,
+      quality: 5,
+    );
+    return compressedFile;
+  }
+
   Future<File?> pickblogaudio(BuildContext context) async {
     final picker = FilePicker.platform;
     var audio = await picker.pickFiles();
@@ -87,6 +104,7 @@ class UtilityNotifer extends ChangeNotifier {
 
   Future removepreviewimage() async {
     await _previewblogimage!.delete();
+    await _fnpreviewblogimage!.delete();
     _previewblogimage = null;
   }
 
@@ -221,8 +239,8 @@ class UtilityNotifer extends ChangeNotifier {
 
     request.files.add(http.MultipartFile(
         'image',
-        File(_previewblogimage!.path.toString()).readAsBytes().asStream(),
-        File(_previewblogimage!.path.toString()).lengthSync(),
+        File(_fnpreviewblogimage!.path.toString()).readAsBytes().asStream(),
+        File(_fnpreviewblogimage!.path.toString()).lengthSync(),
         filename: "techking"));
     var reqsendresponse = await request.send();
 

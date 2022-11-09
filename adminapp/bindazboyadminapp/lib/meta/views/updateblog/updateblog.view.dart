@@ -23,9 +23,10 @@ class UpdateBlog extends StatefulWidget {
 }
 
 class _UpdateBlogState extends State<UpdateBlog> {
-  TextEditingController _titletext = TextEditingController();
-  TextEditingController _descriptiontext = TextEditingController();
-  TextEditingController _catgorytext = TextEditingController();
+  late TextEditingController _titletext;
+  late TextEditingController _descriptiontext;
+  late TextEditingController _catgorytext;
+  late TextEditingController _mainimageurltext;
   DateTime selectedDate = DateTime.now();
   var selected = 1;
   dynamic catergorytitle = "வழிபாடு";
@@ -37,6 +38,9 @@ class _UpdateBlogState extends State<UpdateBlog> {
   @override
   void initState() {
     super.initState();
+
+    _catgorytext = TextEditingController();
+    _mainimageurltext = TextEditingController();
     EasyLoading.addStatusCallback((status) {
       print('EasyLoading Status $status');
       if (status == EasyLoadingStatus.dismiss) {
@@ -56,6 +60,15 @@ class _UpdateBlogState extends State<UpdateBlog> {
       this.data = Provider.of<BlogNotifer>(context, listen: false)
           .fetchBlogs(context: context);
     });
+  }
+
+  @override
+  void dispose() {
+    _catgorytext.dispose();
+    _descriptiontext.dispose();
+    _mainimageurltext.dispose();
+    _titletext.dispose();
+    super.dispose();
   }
 
   @override
@@ -135,7 +148,23 @@ class _UpdateBlogState extends State<UpdateBlog> {
               SizedBox(
                 height: 12,
               ),
-              labeltext("Select Image"),
+              labeltext("Enter Background Image Url"),
+              SizedBox(
+                height: 4,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 3.0),
+                child: title(text: 'Imageurl', controller: _mainimageurltext),
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              labeltext("(OR)"),
+              SizedBox(
+                height: 6,
+              ),
+              labeltext("Select Background Image"),
               SizedBox(
                 height: 4,
               ),
@@ -459,6 +488,10 @@ class _UpdateBlogState extends State<UpdateBlog> {
                             onclick: () async {
                               var title = _titletext.text;
                               var description = _descriptiontext.text;
+                              if (_mainimageurltext.text.isEmpty) {
+                                await utilityNotifer.addAllTypeFile(
+                                    context: context);
+                              }
                               EasyLoading.show(status: 'Updating..Wait..');
                               Future.delayed(Duration(seconds: 6))
                                   .whenComplete(() async {
@@ -473,18 +506,23 @@ class _UpdateBlogState extends State<UpdateBlog> {
                                         blog_id: widget.blogDetailArguments.id,
                                         blog_title: title,
                                         blog_description: description,
-                                        blog_image: datadetails.blogImage,
+                                        blog_image: _mainimageurltext
+                                                .text.isEmpty
+                                            ? utilityNotifer.imageURL != null
+                                                ? utilityNotifer.imageURL
+                                                : widget.blogDetailArguments
+                                                    .blogImage
+                                            : _mainimageurltext.text,
+                                        blog_category: catergorytitle,
                                         blog_audio:
                                             utilityNotifer.audioURL == null
-                                                ? blogaudiodata
+                                                ? null
                                                 : utilityNotifer.audioURL,
                                         blog_images:
                                             utilityNotifer.myListfnimages ==
                                                     null
-                                                ? blogimagesdata
+                                                ? null
                                                 : utilityNotifer.myListfnimages,
-                                        blog_category: widget
-                                            .blogDetailArguments.blogCategroy,
                                         blog_date: selectedDate
                                             .toString()
                                             .split(' ')[0])

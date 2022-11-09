@@ -339,7 +339,7 @@ class _AddBlogState extends State<AddBlog> {
                     onclick: () async {
                       var title = _titletext.text;
                       var description = _descriptiontext.text;
-                      EasyLoading.show(status: 'Uploading..Wait..');
+                      // EasyLoading.show(status: 'Uploading..Wait..');
                       if (_mainimageurltext.text.isEmpty) {
                         await utilityNotifer.addAllTypeFile(context: context);
                       }
@@ -351,7 +351,9 @@ class _AddBlogState extends State<AddBlog> {
                       Future.delayed(Duration(seconds: 6))
                           .whenComplete(() async {
                         if (_titletext.text.isNotEmpty &&
-                            _descriptiontext.text.isNotEmpty) {
+                                _descriptiontext.text.isNotEmpty &&
+                                _mainimageurltext.text.isNotEmpty ||
+                            utilityNotifer.imageURL!.isNotEmpty) {
                           await blogNotifer.addBlogs(
                               context: context,
                               catergory_id: selected,
