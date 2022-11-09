@@ -18,11 +18,11 @@
    <application
         android:label="Bindazboy Blog App"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <!-- EDIT THE android:name ATTRIBUTE IN YOUR EXISTING "ACTIVITY" ELEMENT -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@mipmap/ic_launcher" />
+            android:resource="@mipmap/launcher_icon" />
         <meta-data 
             android:name="com.google.firebase.messaging.default_notification_color" 
             android:resource="@color/colorAccent" />
