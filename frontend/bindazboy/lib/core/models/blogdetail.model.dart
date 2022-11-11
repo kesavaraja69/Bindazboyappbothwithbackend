@@ -40,6 +40,7 @@ class Datadetails {
     this.blogDescription,
     this.blogImage,
     this.blogCategory,
+    this.blogView,
     this.blogDate, [
     this.blogAudio,
     this.blogImages,
@@ -50,6 +51,7 @@ class Datadetails {
   String blogDescription;
   String blogImage;
   String blogCategory;
+  String blogView;
   dynamic blogDate;
   String? blogAudio;
   List<String>? blogImages;
@@ -60,6 +62,7 @@ class Datadetails {
         json["blog_description"],
         json["blog_image"],
         json["blog_category"],
+        json["blog_view"],
         json["blog_date"],
         json["blog_audio"] == null ? null : json["blog_audio"],
         json["blog_images"] == null
@@ -73,6 +76,7 @@ class Datadetails {
         "blog_description": blogDescription,
         "blog_image": blogImage,
         "blog_category": blogCategory,
+        "blog_view": blogView,
         "blog_date": blogDate.toString().split('').reversed.join(),
         "blog_audio": blogAudio == null ? null : blogAudio,
         "blog_images": blogImages == null

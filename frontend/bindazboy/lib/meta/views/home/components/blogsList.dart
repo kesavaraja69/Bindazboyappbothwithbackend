@@ -1,9 +1,13 @@
 import 'package:bindazboy/app/constant/colors.dart';
 import 'package:bindazboy/app/routes/app.routes.dart';
+import 'package:bindazboy/core/models/blog.model.dart';
+import 'package:bindazboy/core/notifiers/blogs.notifier.dart';
+import 'package:bindazboy/core/notifiers/views.notifier.dart';
 import 'package:bindazboy/meta/utils/ads_helper.dart';
 import 'package:bindazboy/meta/utils/blogdetail_arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:provider/provider.dart';
 
 const int maxFailedLoadAttempts = 3;
 
@@ -135,6 +139,8 @@ class _BloglistState extends State<Bloglist> {
 
   @override
   Widget build(BuildContext context) {
+    final postprovider = Provider.of<BlogNotifer>(context, listen: false);
+    final viewprovider = Provider.of<ViewsNotifier>(context, listen: false);
     return ListView.builder(
       // separatorBuilder: (context, index) {
       //   return (_isBottomBannerAdLoaded && index != 0 && index % 3 == 0)
@@ -153,13 +159,41 @@ class _BloglistState extends State<Bloglist> {
               ? items.length
               : widget.snapshot.length,
       itemBuilder: (context, index) {
-        final _blog = widget.snapshot[index];
+        final _blog = widget.snapshot[index] as Data;
         return GestureDetector(
           onTap: () async {
             int detailid = _blog.blogId;
             if (index != 0 && (index % 3).toInt() == 0) {
               _showInterstitialAd();
             }
+            // EasyLoading.show(status: 'Updateing..Wait..');
+            await viewprovider
+                .checkViews(context: context, post_id: _blog.blogId)
+                .whenComplete(() async {
+              if (viewprovider.isviewData == false) {
+                Navigator.of(context).pushNamed(AppRoutes.BlogDetailRoute,
+                    arguments: BlogDetailArguments(id: detailid));
+                //  EasyLoading.dismiss();
+                await viewprovider
+                    .addView(context: context, fspostid: _blog.blogId)
+                    .whenComplete(() {
+                  viewprovider
+                      .featchViews(context: context, post_id: _blog.blogId)
+                      .whenComplete(() {
+                    //    _logger.i("view is ${viewprovider.likeidData2}");
+                    postprovider.addviewupdatepost(
+                        context: context,
+                        blog_id: _blog.blogId,
+                        post_view: "${viewprovider.viewidData2}");
+                  });
+                });
+              } else {
+                Navigator.of(context).pushNamed(AppRoutes.BlogDetailRoute,
+                    arguments: BlogDetailArguments(id: detailid));
+                //  EasyLoading.dismiss();
+              }
+            });
+
             Navigator.of(context).pushNamed(AppRoutes.BlogDetailRoute,
                 arguments: BlogDetailArguments(id: detailid));
           },
@@ -194,8 +228,7 @@ class _BloglistState extends State<Bloglist> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 7.0, vertical: 4.0),
+                        padding: const EdgeInsets.only(top: 10.0),
                         child: Text(
                           _blog.blogTitle,
                           overflow: TextOverflow.clip,
@@ -212,8 +245,8 @@ class _BloglistState extends State<Bloglist> {
                 ),
                 Align(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 13, vertical: 9.0),
                     child: Text(
                       "Posted On ${_blog.blogDate.split('-').reversed.join('-')}",
                       style: TextStyle(
@@ -224,17 +257,45 @@ class _BloglistState extends State<Bloglist> {
                   ),
                   alignment: Alignment.bottomLeft,
                 ),
+                Positioned(
+                  bottom: 1,
+                  left: MediaQuery.of(context).size.width * 0.42,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.visibility,
+                          size: 13,
+                          color: BConstantColors.titleColor.withOpacity(0.75),
+                        ),
+                        SizedBox(
+                          width: 7,
+                        ),
+                        Text(
+                          "${_blog.blogView}",
+                          style: TextStyle(
+                              color:
+                                  BConstantColors.titleColor.withOpacity(0.75),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 13),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 9.0),
+                        horizontal: 13, vertical: 9.0),
                     child: Text(
                       "Posted By BindazBoy",
                       style: TextStyle(
                           color: BConstantColors.titleColor.withOpacity(0.75),
                           fontWeight: FontWeight.w400,
-                          fontSize: 10),
+                          fontSize: 9),
                     ),
                   ),
                 ),

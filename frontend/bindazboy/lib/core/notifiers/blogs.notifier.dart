@@ -3,6 +3,7 @@ import 'package:bindazboy/core/api/blog.api.dart';
 import 'package:bindazboy/core/models/blog.model.dart';
 import 'package:bindazboy/core/models/blogdetail.model.dart';
 import 'package:bindazboy/core/models/search.model.dart';
+import 'package:bindazboy/meta/utils/showsnackbar.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
@@ -73,6 +74,33 @@ class BlogNotifer extends ChangeNotifier {
           content: Text("Something went Wrong"),
         ),
       );
+    }
+  }
+
+  Future addviewupdatepost({
+    required BuildContext context,
+    required dynamic blog_id,
+    required dynamic post_view,
+  }) async {
+    var data = await blogAPI.addviewupdatepost(
+        context: context, blog_id: blog_id, post_view: post_view);
+
+    final Map<String, dynamic> parsedData = await json.decode(data);
+
+    final customStatusCode = parsedData['code'];
+    final viewdata = parsedData['message'];
+
+    //  _logger.i("like is added code $customStatusCode");
+
+    switch (customStatusCode) {
+      case 201:
+        return viewdata;
+      case 301:
+        ShowsnackBarUtiltiy.showSnackbar(message: viewdata, context: context);
+        break;
+      case 401:
+        ShowsnackBarUtiltiy.showSnackbar(message: viewdata, context: context);
+        break;
     }
   }
 
