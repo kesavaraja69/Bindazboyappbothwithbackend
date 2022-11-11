@@ -7,6 +7,7 @@ import 'package:bindazboy/meta/utils/ads_helper.dart';
 import 'package:bindazboy/meta/utils/blogdetail_arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:numeral/numeral.dart';
 import 'package:provider/provider.dart';
 
 const int maxFailedLoadAttempts = 3;
@@ -267,7 +268,7 @@ class _BloglistState extends State<Bloglist> {
                           width: 7,
                         ),
                         Text(
-                          "${_blog.blogView}",
+                          "${Numeral(int.parse(_blog.blogView)).format()}",
                           style: TextStyle(
                               color:
                                   BConstantColors.titleColor.withOpacity(0.75),
