@@ -166,36 +166,29 @@ class _BloglistState extends State<Bloglist> {
             if (index != 0 && (index % 3).toInt() == 0) {
               _showInterstitialAd();
             }
+            Navigator.of(context).pushNamed(AppRoutes.BlogDetailRoute,
+                arguments: BlogDetailArguments(id: detailid));
             // EasyLoading.show(status: 'Updateing..Wait..');
             await viewprovider
                 .checkViews(context: context, post_id: _blog.blogId)
                 .whenComplete(() async {
               if (viewprovider.isviewData == false) {
-                Navigator.of(context).pushNamed(AppRoutes.BlogDetailRoute,
-                    arguments: BlogDetailArguments(id: detailid));
                 //  EasyLoading.dismiss();
                 await viewprovider
                     .addView(context: context, fspostid: _blog.blogId)
-                    .whenComplete(() {
+                    .then((v) {
                   viewprovider
                       .featchViews(context: context, post_id: _blog.blogId)
-                      .whenComplete(() {
+                      .then((f) {
                     //    _logger.i("view is ${viewprovider.likeidData2}");
                     postprovider.addviewupdatepost(
                         context: context,
                         blog_id: _blog.blogId,
-                        post_view: "${viewprovider.viewidData2}");
+                        post_view: "${viewprovider.viewidData2.toString()}");
                   });
                 });
-              } else {
-                Navigator.of(context).pushNamed(AppRoutes.BlogDetailRoute,
-                    arguments: BlogDetailArguments(id: detailid));
-                //  EasyLoading.dismiss();
               }
             });
-
-            Navigator.of(context).pushNamed(AppRoutes.BlogDetailRoute,
-                arguments: BlogDetailArguments(id: detailid));
           },
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 9, vertical: 9),

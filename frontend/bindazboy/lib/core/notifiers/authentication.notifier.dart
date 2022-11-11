@@ -42,7 +42,8 @@ class AuthenticationNotifer extends ChangeNotifier {
               content: Text("Register Sucessfully"),
             ),
           );
-
+          await Provider.of<CacheNotifier>(context, listen: false)
+              .writeCache(key: "key2", value: _loggedUserEmail.toString());
           await Provider.of<CacheNotifier>(context, listen: false)
               .writeCache(key: "jwtdata", value: authdata)
               .whenComplete(() => Navigator.of(context).pushNamedAndRemoveUntil(
@@ -100,7 +101,8 @@ class AuthenticationNotifer extends ChangeNotifier {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("$user Logged in"),
           ));
-
+          await Provider.of<CacheNotifier>(context, listen: false)
+              .writeCache(key: "key2", value: user);
           await Provider.of<CacheNotifier>(context, listen: false)
               .writeCache(key: "jwtdata", value: authdata)
               .whenComplete(() => Navigator.of(context).pushNamedAndRemoveUntil(

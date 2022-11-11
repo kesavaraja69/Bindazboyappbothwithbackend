@@ -67,25 +67,30 @@ class ViewsNotifier extends ChangeNotifier {
     try {
       var _likedata =
           await viewApi.featchpostViews(context: context, blog_id: post_id);
-
       final Map<String, dynamic> parsedData = await json.decode(_likedata);
 
       final customStatusCode = parsedData['code'];
-      final recived = parsedData['recivied'];
+      final viewdata = parsedData['data'];
+      //  final parsedData = FetchLike.fromJson(json.decode(_likedata));
 
+      //  final customStatusCode = parsedData.code;
+      //  final viewdata = parsedData.data.length;
+      _logger.i("view is added code $customStatusCode");
       switch (customStatusCode) {
         case 201:
-          _isFetchviewData = recived;
-          if (customStatusCode == 201) {
-            var parsedDatalike = FetchLike.fromJson(json.decode(_likedata));
-            _viewidData2 = parsedDatalike.data.length.toString();
-          }
+          //  _isFetchviewData = recived;
+
+          // var parsedDatalike = FetchLike.fromJson(json.decode(_likedata));
+          _viewidData2 = viewdata.length.toString();
+          _logger.i("view is added code $_viewidData2");
+          //  }
           notifyListeners();
-          break;
+          return viewdata.length.toString();
+
         case 204:
-          _isFetchviewData = recived;
+          _viewidData2 = "0";
           notifyListeners();
-          break;
+          return "0";
       }
     } catch (error) {
       _logger.i(error);
@@ -103,7 +108,7 @@ class ViewsNotifier extends ChangeNotifier {
         _loggedgmail1 = value;
       });
 
-      //   _logger.i("logged user like fn is $_loggedgmail1");
+      _logger.i("logged user like fn is $_loggedgmail1");
 
       var _likedata = await viewApi.checkpostViews(
           context: context, blog_id: post_id, useremail: _loggedgmail1);
@@ -115,23 +120,20 @@ class ViewsNotifier extends ChangeNotifier {
 
       //  final customStatusCode = parsedDatalike.code;
       //  _islikeData = customData;
-
+      _logger.i("logged user like fn is $customData");
       // _logger
       //     .i("check like notifer model id is ${parsedDatalike.message.likeId}");
 
       switch (customStatusCode) {
         case 201:
-          if (customStatusCode == 201) {
-            var parsedDatalike =
-                CheckLikeModel.fromJson(json.decode(_likedata));
-            _viewidData = parsedDatalike.message!.viewId;
-          }
+          _isviewData = customData;
+
           notifyListeners();
-          return _isviewData = customData;
+          return _isviewData = true;
         case 301:
           // _islikeData = customData;
           notifyListeners();
-          return _isviewData = customData;
+          return _isviewData = false;
       }
     } catch (error) {
       _logger.i(error);

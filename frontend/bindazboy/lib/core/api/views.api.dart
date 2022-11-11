@@ -9,7 +9,7 @@ import 'package:logger/logger.dart';
 
 class ViewsApi {
   final client = http.Client();
-
+  final _logger = Logger();
   final headers = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
@@ -28,6 +28,7 @@ class ViewsApi {
     final statuscode = response.statusCode;
     final body = response.body;
     if (statuscode == 200) {
+      _logger.i("add view api is $body");
       return body;
     } else {
       ShowsnackBarUtiltiy.showSnackbar(
@@ -39,7 +40,6 @@ class ViewsApi {
       {required BuildContext context,
       required dynamic blog_id,
       required dynamic useremail}) async {
-    final _logger = Logger();
     final subURL = "/views/checkviewpost/$useremail/$blog_id";
     final Uri uri = Uri.parse(APIRoutes.LocalHost + subURL);
 

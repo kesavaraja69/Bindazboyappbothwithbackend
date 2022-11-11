@@ -55,7 +55,7 @@ class BlogAPI {
 
     final statuscode = response.statusCode;
     final body = response.body;
-    _logger.i(body, statuscode);
+    // _logger.i(body, statuscode);
     if (statuscode == 200) {
       return body;
     } else {
