@@ -283,8 +283,10 @@ class _UpdateBlogState extends State<UpdateBlog> {
                         }
                         if (snapshot.data != null) {
                           var blogdetialdata = snapshot.data as dynamic;
+
                           Datadetails datadetails = blogdetialdata;
-                          return datadetails.blogImages != null
+                          return datadetails.blogImages != null ||
+                                  datadetails.blogImages!.isNotEmpty
                               ? SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Row(

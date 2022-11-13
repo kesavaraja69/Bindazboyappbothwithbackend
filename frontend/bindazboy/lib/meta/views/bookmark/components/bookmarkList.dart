@@ -4,6 +4,7 @@ import 'package:bindazboy/core/models/bookmark.model.dart';
 import 'package:bindazboy/core/notifiers/bookmark.notifer.dart';
 import 'package:bindazboy/meta/utils/blogdetail_arguments.dart';
 import 'package:flutter/material.dart';
+import 'package:numeral/numeral.dart';
 import 'package:provider/provider.dart';
 
 class Bookmarklist extends StatelessWidget {
@@ -81,6 +82,34 @@ class Bookmarklist extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                ),
+                Positioned(
+                  bottom: 1,
+                  left: MediaQuery.of(context).size.width * 0.42,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.visibility,
+                          size: 13,
+                          color: BConstantColors.titleColor.withOpacity(0.75),
+                        ),
+                        SizedBox(
+                          width: 7,
+                        ),
+                        Text(
+                          "${Numeral(int.parse(_blog.bookmarkBlogdata.blogView)).format()}",
+                          style: TextStyle(
+                              color:
+                                  BConstantColors.titleColor.withOpacity(0.75),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 13),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Align(

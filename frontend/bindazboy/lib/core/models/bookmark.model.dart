@@ -52,6 +52,7 @@ class BookmarkBlogdata {
     this.blogDescription,
     this.blogImage,
     this.blogCategory,
+    this.blogView,
     this.blogAudio,
     this.blogDate,
   );
@@ -61,6 +62,7 @@ class BookmarkBlogdata {
   String blogDescription;
   String blogImage;
   String blogCategory;
+  String blogView;
   dynamic blogAudio;
   dynamic blogDate;
 
@@ -71,6 +73,7 @@ class BookmarkBlogdata {
         json["blog_description"],
         json["blog_image"],
         json["blog_category"],
+        json["blog_view"],
         json["blog_audio"],
         json["blog_date"],
       );
@@ -81,6 +84,7 @@ class BookmarkBlogdata {
         "blog_description": blogDescription,
         "blog_image": blogImage,
         "blog_category": blogCategory,
+        "blog_view": blogView,
         "blog_audio": blogAudio,
         "blog_date": blogDate,
       };

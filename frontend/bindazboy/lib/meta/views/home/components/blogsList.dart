@@ -265,7 +265,7 @@ class _BloglistState extends State<Bloglist> {
                           color: BConstantColors.titleColor.withOpacity(0.75),
                         ),
                         SizedBox(
-                          width: 7,
+                          width: 5,
                         ),
                         Text(
                           "${Numeral(int.parse(_blog.blogView)).format()}",
