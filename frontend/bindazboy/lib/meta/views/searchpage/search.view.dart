@@ -1,6 +1,8 @@
 import 'package:bindazboy/app/constant/colors.dart';
+import 'package:bindazboy/core/notifiers/blogs.notifier.dart';
 import 'package:bindazboy/meta/views/searchpage/components/searchblogcardlist.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SearchBlogview extends StatefulWidget {
   SearchBlogview({Key? key}) : super(key: key);
@@ -10,8 +12,30 @@ class SearchBlogview extends StatefulWidget {
 }
 
 class _SearchBlogviewState extends State<SearchBlogview> {
-  TextEditingController _titletext = TextEditingController();
+  late TextEditingController _titletext;
   bool isSearchdata = false;
+  late Future<dynamic> data1;
+
+  @override
+  void initState() {
+    _titletext = TextEditingController();
+    super.initState();
+  }
+
+  loadblog() {
+    //Data fullscreendata = widget.snapshot;
+
+    final provider = Provider.of<BlogNotifer>(context, listen: false);
+    final data = provider.searchBlog(context: context, query: _titletext.text);
+    return data;
+  }
+
+  @override
+  void dispose() {
+    _titletext.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -46,6 +70,7 @@ class _SearchBlogviewState extends State<SearchBlogview> {
                     if (_titletext.text.isNotEmpty) {
                       setState(() {
                         isSearchdata = true;
+                        data1 = loadblog();
                       });
                     }
                   },
@@ -56,7 +81,7 @@ class _SearchBlogviewState extends State<SearchBlogview> {
               ),
               Expanded(
                 child: isSearchdata
-                    ? SearchBlogcardlist(query: _titletext.text)
+                    ? SearchBlogcardlist(query: data1)
                     : Center(
                         child: Text(
                           "Search Post",
@@ -75,26 +100,40 @@ class _SearchBlogviewState extends State<SearchBlogview> {
   Widget title({required text, required controller, required onclik}) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 55,
+      height: 50,
       decoration: BoxDecoration(
           color: BConstantColors.yellow,
           borderRadius: BorderRadius.circular(12)),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: TextFormField(
-          controller: controller,
-          maxLines: 2,
-          decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: text,
-              suffixIcon: InkWell(
-                onTap: onclik,
-                child: Icon(
-                  Icons.search_outlined,
-                  size: 26,
-                  color: BConstantColors.black,
-                ),
-              )),
+        padding: const EdgeInsets.symmetric(horizontal: 9),
+        child: Center(
+          child: TextFormField(
+            controller: controller,
+            maxLines: 1,
+            onChanged: (value) {
+              if (_titletext.text.isNotEmpty) {
+                isSearchdata = true;
+                setState(() {
+                  data1 = loadblog();
+                });
+              } else {
+                setState(() {
+                  isSearchdata = false;
+                });
+              }
+            },
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: text,
+                suffixIcon: InkWell(
+                  onTap: onclik,
+                  child: Icon(
+                    Icons.search_outlined,
+                    size: 26,
+                    color: BConstantColors.black,
+                  ),
+                )),
+          ),
         ),
       ),
     );

@@ -15,7 +15,7 @@ class SearchBlogcardlist extends StatelessWidget {
     final provider = Provider.of<BlogNotifer>(context, listen: false);
     return Container(
         child: FutureBuilder(
-      future: provider.searchBlog(context: context, query: query),
+      future: query,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(

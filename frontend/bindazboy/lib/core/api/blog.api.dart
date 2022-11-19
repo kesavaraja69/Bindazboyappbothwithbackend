@@ -86,7 +86,7 @@ class BlogAPI {
     if (statuscode == 200) {
       return body;
     } else {
-      Navigator.of(context).pushNamed(AppRoutes.ServerRoute);
+      //  Navigator.of(context).pushNamed(AppRoutes.ServerRoute);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Somthing went wrong"),
