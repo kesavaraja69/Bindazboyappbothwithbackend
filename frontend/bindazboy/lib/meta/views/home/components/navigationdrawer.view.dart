@@ -1,7 +1,9 @@
 import 'package:bindazboy/app/constant/colors.dart';
 import 'package:bindazboy/app/routes/app.routes.dart';
+import 'package:bindazboy/meta/utils/reportandcontact.arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
   final padding = EdgeInsets.symmetric(horizontal: 20);
@@ -51,6 +53,14 @@ class NavigationDrawerWidget extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
+            bulidMenuItem(
+              text: 'Contactus',
+              icon: Icons.people,
+              onClicked: () => selectedItem(context, 2),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
             GestureDetector(
                 onTap: () {
                   final url =
@@ -65,9 +75,11 @@ class NavigationDrawerWidget extends StatelessWidget {
     );
   }
 
-  Future openBrowserUrl({required String url, bool inApp = false}) async {
-    if (await canLaunch(url)) {
-      await launch(url, forceWebView: inApp, enableJavaScript: true);
+  Future openBrowserUrl({required dynamic url, bool inApp = false}) async {
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(
+        url,
+      );
     }
   }
 
@@ -85,7 +97,11 @@ class NavigationDrawerWidget extends StatelessWidget {
           padding: const EdgeInsets.only(left: 7),
           child: Text(
             text,
-            style: TextStyle(color: color, fontWeight: FontWeight.w500),
+            style: TextStyle(
+              fontSize: 17,
+              color: color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
         onTap: onClicked,
@@ -100,6 +116,11 @@ class NavigationDrawerWidget extends StatelessWidget {
         break;
       case 1:
         Navigator.of(context).pushNamed(AppRoutes.BookmarkRoute);
+        break;
+
+      case 2:
+        Navigator.of(context).pushNamed(AppRoutes.ContactusRoute,
+            arguments: ReportandcontactArguments(isReport: true));
         break;
     }
   }

@@ -43,7 +43,7 @@ class Bloglist extends StatelessWidget {
             margin: const EdgeInsets.only(
                 left: 12, right: 12, top: 0.0, bottom: 15.0),
             width: MediaQuery.of(context).size.width,
-            height: 170,
+            height: 110,
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(15),
@@ -135,7 +135,7 @@ class Bloglist extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: 55,
+                  top: 35,
                   right: 5,
                   left: 6,
                   child: Column(
@@ -151,7 +151,7 @@ class Bloglist extends StatelessWidget {
                           maxLines: null,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 12,
                               color: Colors.white,
                               fontWeight: FontWeight.bold),
                         ),
@@ -167,7 +167,9 @@ class Bloglist extends StatelessWidget {
                     child: Text(
                       "Posted On ${_blog.blogDate.split('-').reversed.join('-')}",
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w400),
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12),
                     ),
                   ),
                 ),

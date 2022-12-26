@@ -6,29 +6,19 @@ class SplashView extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.yellow[200],
-        body: Stack(children: [
-          Positioned(
-              top: 160,
-              left: 50,
-              right: 50,
-              child: Image(
-                height: 220,
-                width: 220,
-                image: AssetImage('assets/images/icolgn2.png'),
-              )),
-          Positioned(
-            top: 400,
-            left: 50,
-            right: 50,
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Container(
-              child: Image(
-                height: 260,
-                width: 260,
-                image: AssetImage('assets/q5.png'),
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/q5.png'),
+                ),
               ),
             ),
           ),
-        ]),
+        ),
       ),
     );
   }

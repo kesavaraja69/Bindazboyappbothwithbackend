@@ -4,6 +4,7 @@ import 'package:bindazboy/core/notifiers/blogs.notifier.dart';
 import 'package:bindazboy/core/notifiers/bookmark.notifer.dart';
 import 'package:bindazboy/core/notifiers/cache.notifier.dart';
 import 'package:bindazboy/core/notifiers/catergoryblogs.notifer.dart';
+import 'package:bindazboy/core/notifiers/contactus.notifier.dart';
 import 'package:bindazboy/core/notifiers/forgotpassword.notifier.dart';
 import 'package:bindazboy/core/notifiers/utility.notifer.dart';
 import 'package:bindazboy/core/notifiers/views.notifier.dart';
@@ -21,4 +22,5 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (_) => UtilityNotifier()),
   ChangeNotifierProvider(create: (_) => AudioBookNotifer()),
   ChangeNotifierProvider(create: (_) => ViewsNotifier()),
+  ChangeNotifierProvider(create: (_) => ContactusNotifier()),
 ];

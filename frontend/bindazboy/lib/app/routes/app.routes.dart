@@ -3,6 +3,7 @@ import 'package:bindazboy/meta/views/authentication/signup.view.dart';
 import 'package:bindazboy/meta/views/blogdetails/blogdetails.view.dart';
 import 'package:bindazboy/meta/views/bookmark/bookmark.view.dart';
 import 'package:bindazboy/meta/views/catergory/catergory.view.dart';
+import 'package:bindazboy/meta/views/contactus/contactus.view.dart';
 import 'package:bindazboy/meta/views/deciderview/decider.view.dart';
 import 'package:bindazboy/meta/views/forgotpassword/changepassword.view.dart';
 import 'package:bindazboy/meta/views/forgotpassword/updatepassword.view.dart';
@@ -31,6 +32,7 @@ class AppRoutes {
   static const String ForgotPasswordRoute = "/forgotpassword";
   static const String VerifyOTPRoute = "/verifyOtp";
   static const String UpdatePasswordRoute = "/updatepassword";
+  static const String ContactusRoute = "/contactus";
 
   static Map<String, Widget Function(BuildContext)> routes = {
     LoginRoute: (context) => LoginView(),
@@ -39,6 +41,10 @@ class AppRoutes {
     SignUpRoute: (context) => SignupView(),
     BookmarkRoute: (context) => BookmarkView(),
     CatergoryRoute: (context) => CatergoryView(),
+    ContactusRoute: (context) => ContactusView(
+          reportandcontactArguments:
+              ModalRoute.of(context)!.settings.arguments as dynamic,
+        ),
     HomeRoute: (context) => HomeView(),
     DeciderRoute: (context) => DeciderView(),
     BlogDetailRoute: (context) => Blogdetailsview(

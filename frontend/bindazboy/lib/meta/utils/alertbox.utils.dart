@@ -1,3 +1,4 @@
+import 'package:bindazboy/app/constant/colors.dart';
 import 'package:flutter/material.dart';
 
 class AlertdailogBoxgm {
@@ -7,6 +8,7 @@ class AlertdailogBoxgm {
         context: context,
         barrierDismissible: false,
         builder: (context) => AlertDialog(
+              backgroundColor: BConstantColors.backgroundColor,
               title: Text(title),
               content: content,
               titleTextStyle: const TextStyle(

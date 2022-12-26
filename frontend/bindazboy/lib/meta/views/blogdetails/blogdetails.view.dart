@@ -6,6 +6,7 @@ import 'package:bindazboy/core/notifiers/bookmark.notifer.dart';
 import 'package:bindazboy/meta/utils/blogdetail_arguments.dart';
 import 'package:bindazboy/meta/utils/custombannerad.dart';
 import 'package:bindazboy/meta/views/blogdetails/components/lower.plane.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -96,147 +97,175 @@ class _BlogdetailsviewState extends State<Blogdetailsview> {
                     } else {
                       var blogdetialdata = snapshot.data as dynamic;
                       Datadetails datadetails = blogdetialdata;
-                      return SizedBox(
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: <Widget>[
-                            Image.network(
-                              datadetails.blogImage,
-                              fit: BoxFit.cover,
-                              color: Colors.black54.withOpacity(0.45),
-                              colorBlendMode: BlendMode.darken,
-                            ),
-                            Positioned(
-                              top: screenheight * 0.06,
-                              left: 13,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                  advancedPlayer.stop();
-                                },
-                                child: iconcontainer(
-                                  context,
-                                  Icons.arrow_back_ios_new_sharp,
-                                  BConstantColors.detailcontrollColor,
-                                  24.0,
+                      return CachedNetworkImage(
+                        imageUrl: "${datadetails.blogImage}",
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        imageBuilder: (context, imageProvider) => Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height,
+                          decoration: BoxDecoration(
+                            color: BConstantColors.fullblack,
+                            borderRadius: BorderRadius.circular(2),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: BConstantColors.fullblack
+                                      .withOpacity(0.6),
+                                  offset: Offset(0.0, 10.0),
+                                  blurRadius: 10.0,
+                                  spreadRadius: -6.0),
+                            ],
+                            image: DecorationImage(
+                                colorFilter: ColorFilter.mode(
+                                    BConstantColors.fullblack.withOpacity(0.55),
+                                    BlendMode.darken),
+                                image: imageProvider,
+                                fit: BoxFit.cover),
+                          ),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: <Widget>[
+                              // Image.network(
+                              //   datadetails.blogImage,
+                              //   fit: BoxFit.cover,
+                              //   color: Colors.black54.withOpacity(0.45),
+                              //   colorBlendMode: BlendMode.darken,
+                              // ),
+                              Positioned(
+                                top: screenheight * 0.06,
+                                left: 13,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    advancedPlayer.stop();
+                                  },
+                                  child: iconcontainer(
+                                    context,
+                                    Icons.arrow_back_ios_new_sharp,
+                                    BConstantColors.detailcontrollColor,
+                                    24.0,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Positioned(
-                                top: screenheight * 0.06,
-                                right: 15,
-                                child: Container(
-                                  child: FutureBuilder(
-                                    future:
-                                        bookmarkNotifier.checkIfBookmarkExists(
-                                      context: context,
-                                      blog_id: widget.blogDetailArguments.id,
-                                    ),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return iconcontainer(
-                                          context,
-                                          Icons.bookmark_border,
-                                          BConstantColors.detailcontrollColor,
-                                          25.0,
-                                        );
-                                      }
-                                      if (snapshot.connectionState ==
-                                              ConnectionState.none &&
-                                          snapshot.data == null) {
-                                        return iconcontainer(
-                                          context,
-                                          Icons.bookmark_border,
-                                          BConstantColors.detailcontrollColor,
-                                          25.0,
-                                        );
-                                      }
-                                      if (snapshot.data != null) {
-                                        bool isBookmarked =
-                                            snapshot.data as bool;
-                                        return InkWell(
-                                          onTap: () async {
-                                            if (!isBookmarked) {
-                                              await bookmarkNotifier
-                                                  .addBookmark(
-                                                context: context,
-                                                blog_id: widget
-                                                    .blogDetailArguments.id,
-                                              );
-                                              setState(() {
-                                                isBookmarked = true;
-                                              });
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                content:
-                                                    Text("Bookmark is added"),
-                                              ));
-                                            } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                      content: Text(
-                                                          "Already bookmarked!")));
-                                            }
-                                          },
-                                          child: iconcontainer(
+                              Positioned(
+                                  top: screenheight * 0.06,
+                                  right: 15,
+                                  child: Container(
+                                    child: FutureBuilder(
+                                      future: bookmarkNotifier
+                                          .checkIfBookmarkExists(
+                                        context: context,
+                                        blog_id: widget.blogDetailArguments.id,
+                                      ),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return iconcontainer(
                                             context,
-                                            isBookmarked
-                                                ? Icons.bookmark
-                                                : Icons.bookmark_border,
+                                            Icons.bookmark_border,
                                             BConstantColors.detailcontrollColor,
                                             25.0,
-                                          ),
+                                          );
+                                        }
+                                        if (snapshot.connectionState ==
+                                                ConnectionState.none &&
+                                            snapshot.data == null) {
+                                          return iconcontainer(
+                                            context,
+                                            Icons.bookmark_border,
+                                            BConstantColors.detailcontrollColor,
+                                            25.0,
+                                          );
+                                        }
+                                        if (snapshot.data != null) {
+                                          bool isBookmarked =
+                                              snapshot.data as bool;
+                                          return InkWell(
+                                            onTap: () async {
+                                              if (!isBookmarked) {
+                                                await bookmarkNotifier
+                                                    .addBookmark(
+                                                  context: context,
+                                                  blog_id: widget
+                                                      .blogDetailArguments.id,
+                                                );
+                                                setState(() {
+                                                  isBookmarked = true;
+                                                });
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content:
+                                                      Text("Bookmark is added"),
+                                                ));
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                        content: Text(
+                                                            "Already bookmarked!")));
+                                              }
+                                            },
+                                            child: iconcontainer(
+                                              context,
+                                              isBookmarked
+                                                  ? Icons.bookmark
+                                                  : Icons.bookmark_border,
+                                              BConstantColors
+                                                  .detailcontrollColor,
+                                              25.0,
+                                            ),
+                                          );
+                                        }
+                                        return iconcontainer(
+                                          context,
+                                          Icons.bookmark_border,
+                                          BConstantColors.detailcontrollColor,
+                                          25.0,
                                         );
-                                      }
-                                      return iconcontainer(
-                                        context,
-                                        Icons.bookmark_border,
-                                        BConstantColors.detailcontrollColor,
-                                        25.0,
-                                      );
-                                    },
-                                  ),
-                                )),
-                            Positioned(
+                                      },
+                                    ),
+                                  )),
+                              Positioned(
+                                  top: screenheight * 0.23,
+                                  right: 4,
+                                  child: titletext(
+                                      context,
+                                      "Posted On ${datadetails.blogDate.toString().split('-').reversed.join('-')}",
+                                      12.0,
+                                      FontWeight.w500)),
+                              Positioned(
                                 top: screenheight * 0.23,
-                                right: 4,
+                                left: 3,
                                 child: titletext(
                                     context,
-                                    "Posted On ${datadetails.blogDate.toString().split('-').reversed.join('-')}",
+                                    "Category by ${datadetails.blogCategory}",
                                     12.0,
-                                    FontWeight.w500)),
-                            Positioned(
-                              top: screenheight * 0.23,
-                              left: 3,
-                              child: titletext(
-                                  context,
-                                  "Category by ${datadetails.blogCategory}",
-                                  12.0,
-                                  FontWeight.w500),
-                            ),
-                            Positioned(
-                              top: screenheight * 0.12,
-                              left: 50,
-                              right: 50,
-                              child: titletext(context, datadetails.blogTitle,
-                                  16.0, FontWeight.bold),
-                            ),
-                            SlidingUpPanel(
-                              color: Colors.black.withOpacity(0.30),
-                              maxHeight: planeHeightopen,
-                              minHeight: planeHeightclosed,
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(20.0)),
-                              panelBuilder: (controller) => LowerPlane(
-                                  audioplay: datadetails.blogAudio,
-                                  blogdetails: datadetails.blogDescription,
-                                  advancedPlayer: advancedPlayer,
-                                  images: datadetails.blogImages,
-                                  controller: controller),
-                            ),
-                          ],
+                                    FontWeight.w500),
+                              ),
+                              Positioned(
+                                top: screenheight * 0.12,
+                                left: 50,
+                                right: 50,
+                                child: titletext(context, datadetails.blogTitle,
+                                    16.0, FontWeight.bold),
+                              ),
+                              SlidingUpPanel(
+                                color: Colors.black.withOpacity(0.30),
+                                maxHeight: planeHeightopen,
+                                minHeight: planeHeightclosed,
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20.0)),
+                                panelBuilder: (controller) => LowerPlane(
+                                    audioplay: datadetails.blogAudio,
+                                    blogdetails: datadetails.blogDescription,
+                                    advancedPlayer: advancedPlayer,
+                                    images: datadetails.blogImages,
+                                    controller: controller),
+                              ),
+                            ],
+                          ),
                         ),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.image_search_rounded),
                       );
                     }
                   }),

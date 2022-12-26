@@ -14,6 +14,12 @@ class _CustomBannerAdState extends State<CustomBannerAd> {
   bool isBannerAdLoaded = false;
 
   @override
+  void dispose() {
+    bannerAd!.dispose();
+    super.dispose();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     bannerAd = BannerAd(

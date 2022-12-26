@@ -475,13 +475,13 @@ class _UpdateBlogState extends State<UpdateBlog> {
                           ),
                         );
                       } else {
-                        var blogdetialdata = snapshot.data as dynamic;
+                        final blogdetialdata = snapshot.data as dynamic;
                         Datadetails datadetails = blogdetialdata;
-                        var blogaudiodata =
+                        final blogaudiodata =
                             widget.blogDetailArguments.blog_audio == null
                                 ? null
                                 : datadetails.blogAudio;
-                        var blogimagesdata =
+                        final blogimagesdata =
                             widget.blogDetailArguments.blogImages == null
                                 ? null
                                 : datadetails.blogImages;
@@ -490,7 +490,8 @@ class _UpdateBlogState extends State<UpdateBlog> {
                             onclick: () async {
                               var title = _titletext.text;
                               var description = _descriptiontext.text;
-                              if (_mainimageurltext.text.isEmpty) {
+                              if (_mainimageurltext.text.isEmpty &&
+                                  datadetails.blogImage.isEmpty) {
                                 await utilityNotifer.addAllTypeFile(
                                     context: context);
                               }

@@ -88,6 +88,31 @@ class Bookmarklist extends StatelessWidget {
                       ],
                     ),
                   ),
+                  Positioned(
+                    top: 7,
+                    right: 9,
+                    child: InkWell(
+                      onTap: () async {
+                        await bookmarkNotifier.deleteBookmark(
+                            context: context, bookmark_id: _blog.bookmarkId);
+                        onclik();
+                      },
+                      child: Container(
+                        width: 35,
+                        height: 35,
+                        decoration: BoxDecoration(
+                            color: BConstantColors.fullblack.withOpacity(0.70),
+                            borderRadius: BorderRadius.circular(12.0)),
+                        child: Center(
+                          child: Icon(
+                            Icons.delete,
+                            size: 20,
+                            color: BConstantColors.yellow,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   Align(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(

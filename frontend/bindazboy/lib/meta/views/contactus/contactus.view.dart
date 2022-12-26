@@ -56,7 +56,7 @@ class _ContactusViewState extends State<ContactusView> {
               fontWeight: FontWeight.w600),
         ),
       ),
-      backgroundColor: Color.fromARGB(255, 11, 9, 19),
+      backgroundColor: BConstantColors.backgroundColor,
       body: SizedBox(
         height: mheight,
         width: mwidth,
@@ -116,7 +116,7 @@ class _ContactusViewState extends State<ContactusView> {
                             message: "Fill the value", context: context);
                       }
                     },
-                    color1: const Color.fromARGB(255, 179, 253, 237),
+                    color1: Color.fromARGB(255, 19, 19, 19),
                   ),
                 ),
               ],
@@ -140,8 +140,8 @@ class _ContactusViewState extends State<ContactusView> {
       ),
       child: Text(
         text,
-        style:
-            const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17),
+        style: const TextStyle(
+            color: Color.fromARGB(255, 239, 245, 110), fontSize: 17),
       ),
     );
   }
@@ -152,7 +152,7 @@ class _ContactusViewState extends State<ContactusView> {
       child: Text(
         text,
         style: const TextStyle(
-            color: Color.fromARGB(216, 255, 255, 255),
+            color: Color.fromARGB(215, 10, 10, 10),
             fontSize: 19,
             fontWeight: FontWeight.w400),
       ),
@@ -164,14 +164,14 @@ class _ContactusViewState extends State<ContactusView> {
       width: MediaQuery.of(context).size.width,
       height: 59,
       decoration: BoxDecoration(
-          color: const Color.fromRGBO(39, 42, 62, 15),
+          color: Color.fromARGB(255, 239, 248, 117),
           borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextFormField(
           controller: controller,
           maxLines: 2,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.black),
           decoration: InputDecoration(
               border: InputBorder.none,
               hintText: text,
@@ -186,14 +186,15 @@ class _ContactusViewState extends State<ContactusView> {
       width: MediaQuery.of(context).size.width,
       height: 190,
       decoration: BoxDecoration(
-          color: const Color.fromRGBO(39, 42, 62, 15),
+          color: Color.fromARGB(255, 239, 248, 117),
           borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextFormField(
           controller: controller,
           maxLines: null,
-          style: const TextStyle(color: Colors.white, fontSize: 17),
+          style: const TextStyle(
+              color: Color.fromARGB(255, 15, 15, 15), fontSize: 17),
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: text,

@@ -250,7 +250,7 @@ class _BloglistState extends State<Bloglist> {
                         "Posted On ${_blog.blogDate.split('-').reversed.join('-')}",
                         style: TextStyle(
                             color: BConstantColors.titleColor.withOpacity(0.75),
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w500,
                             fontSize: 10),
                       ),
                     ),
@@ -277,7 +277,7 @@ class _BloglistState extends State<Bloglist> {
                             style: TextStyle(
                                 color: BConstantColors.titleColor
                                     .withOpacity(0.75),
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w500,
                                 fontSize: 13),
                           ),
                         ],
