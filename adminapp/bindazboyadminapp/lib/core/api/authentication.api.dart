@@ -12,7 +12,7 @@ class AuthenticationApi {
   final headers = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
-    "Acess-Control-Allow-Origin": "*",
+    "Acess-Control-Allow-Origin": "*"
   };
 
   Future signup(

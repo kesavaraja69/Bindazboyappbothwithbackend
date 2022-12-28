@@ -1,10 +1,8 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:bindazboy/core/notifiers/utility.notifer.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_music_visualizer/mini_music_visualizer.dart';
 import 'package:provider/provider.dart';
 import '../../../../../../core/models/audiobook/audiobookdetail.model.dart';
-import 'audiobookaudio.dart';
 
 class AudioBookchapList extends StatefulWidget {
   final dynamic snapdata;
@@ -36,7 +34,6 @@ class _AudioBookchapListState extends State<AudioBookchapList> {
   Widget build(BuildContext context) {
     final audioutilty = Provider.of<UtilityNotifier>(context, listen: false);
     final mwidth = MediaQuery.of(context).size.width;
-    final mheight = MediaQuery.of(context).size.height;
     return ListView.builder(
         itemCount: widget.snapdata.length,
         shrinkWrap: true,

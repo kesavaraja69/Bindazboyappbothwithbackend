@@ -84,6 +84,33 @@ class BlogAPI {
     }
   }
 
+  Future removeBlogfile({
+    required BuildContext context,
+    required dynamic filetype,
+    required dynamic filename,
+    required dynamic deleteid,
+    required dynamic fileindex,
+  }) async {
+    final String subUrl = "/blogs/filedelete/$filetype/$filename/$deleteid/$fileindex";
+    final Uri uri = Uri.parse(APIRoutes.LocalHost + subUrl);
+    final http.Response response = await client.delete(
+      uri,
+      headers: headers,
+    );
+    final statuscode = response.statusCode;
+    final body = response.body;
+    _logger.i(body, statuscode);
+    if (statuscode == 200) {
+      return body;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Something went wrong"),
+        ),
+      );
+    }
+  }
+
   Future updateimagesBlog({
     required BuildContext context,
     required dynamic blog_id,
@@ -195,7 +222,7 @@ class BlogAPI {
 
     final statuscode = response.statusCode;
     final body = response.body;
-    _logger.i(body, statuscode);
+
     if (statuscode == 200) {
       return body;
     } else {

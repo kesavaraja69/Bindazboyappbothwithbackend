@@ -1,6 +1,6 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:bindazboy/app/constant/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 
 class AudioFile extends StatefulWidget {
   final AudioPlayer advancedPlayer;
@@ -14,7 +14,6 @@ class AudioFile extends StatefulWidget {
 }
 
 class _AudioFileState extends State<AudioFile> {
-  AudioCache audioCache = AudioCache();
   Duration _duration = new Duration();
   Duration _position = new Duration();
   bool isPaused = false;
@@ -29,35 +28,50 @@ class _AudioFileState extends State<AudioFile> {
   @override
   void initState() {
     super.initState();
-    widget.advancedPlayer.onDurationChanged.listen((d) {
+    widget.advancedPlayer.durationStream.listen((d) {
       setState(() {
-        _duration = d;
+        _duration = d!;
       });
     });
-    widget.advancedPlayer.onAudioPositionChanged.listen((p) {
+    widget.advancedPlayer.positionStream.listen((p) {
       setState(() {
         _position = p;
       });
     });
-    widget.advancedPlayer.onPlayerCompletion.listen((event) {
-      setState(() {
-        _position = Duration(seconds: 0);
-        isPlaying = false;
-        widget.advancedPlayer.stop();
-      });
+
+    widget.advancedPlayer.playbackEventStream.listen((event) {
+      if (event.processingState == ProcessingState.completed) {
+        // setState(() {
+        //   isPlaying = false;
+        //   //_position = Duration(seconds: 0);
+        // });
+        setState(() {
+          _position = Duration(seconds: 0);
+          isPlaying = false;
+          widget.advancedPlayer.stop();
+        });
+      }
     });
+    // widget.advancedPlayer.p.listen((event) {
+    //   setState(() {
+    //     _position = Duration(seconds: 0);
+    //     isPlaying = false;
+    //     widget.advancedPlayer.stop();
+    //   });
+    // });
     setState(() {
       path = widget.url;
     });
 
-    widget.advancedPlayer.setUrl(path);
+    widget.advancedPlayer.setUrl(widget.url);
   }
 
   Widget btnStart() {
     return IconButton(
       onPressed: () {
         if (isPlaying == false) {
-          widget.advancedPlayer.play(path);
+          widget.advancedPlayer.play();
+
           setState(() {
             isPlaying = true;
           });
@@ -70,25 +84,31 @@ class _AudioFileState extends State<AudioFile> {
       },
       icon: Icon(
         isPlaying == false ? _icon[0] : _icon[1],
-        size: 45,
+        size: 50,
         color: BConstantColors.detailcontrollColor,
       ),
     );
   }
 
   Widget slider() {
-    return Slider(
-        min: 0.0,
-        activeColor: BConstantColors.detailcontrollColor,
-        inactiveColor: Color.fromARGB(255, 32, 32, 32),
-        max: _duration.inSeconds.toDouble(),
-        value: _position.inSeconds.toDouble(),
-        onChanged: (double value) {
-          setState(() {
-            changetosecnd(value.toInt());
-            value = value;
-          });
-        });
+    return SizedBox(
+      height: 20,
+      width: MediaQuery.of(context).size.width * 0.80,
+      child: Center(
+        child: Slider(
+            min: 0.0,
+            activeColor: BConstantColors.detailcontrollColor,
+            inactiveColor: Color.fromARGB(255, 32, 32, 32),
+            max: _duration.inSeconds.toDouble(),
+            value: _position.inSeconds.toDouble(),
+            onChanged: (double value) {
+              setState(() {
+                changetosecnd(value.toInt());
+                value = value;
+              });
+            }),
+      ),
+    );
   }
 
   void changetosecnd(int second) {
@@ -96,21 +116,11 @@ class _AudioFileState extends State<AudioFile> {
     widget.advancedPlayer.seek(newDuration);
   }
 
-  Widget loadasset() {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [btnStart()],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 9.0, vertical: 3.0),
-      height: 140,
+      height: 110,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         color: Colors.white38,
@@ -138,8 +148,19 @@ class _AudioFileState extends State<AudioFile> {
               ],
             ),
           ),
-          slider(),
-          loadasset(),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: slider(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 17, left: 2),
+                child: btnStart(),
+              )
+            ],
+          ),
+          // loadasset(),
         ],
       ),
     );

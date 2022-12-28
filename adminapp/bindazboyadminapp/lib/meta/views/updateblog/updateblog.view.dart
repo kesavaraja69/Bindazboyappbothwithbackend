@@ -34,6 +34,7 @@ class _UpdateBlogState extends State<UpdateBlog> {
   final fristdate = DateTime(1990, 1);
   final lastdate = DateTime(3000, 1);
   late Future<dynamic> data;
+  late Future<dynamic> data1;
   Timer? _timer;
   @override
   void initState() {
@@ -59,6 +60,14 @@ class _UpdateBlogState extends State<UpdateBlog> {
     setState(() {
       this.data = Provider.of<BlogNotifer>(context, listen: false)
           .fetchBlogs(context: context);
+    });
+  }
+
+  Future loadblogdetail() async {
+    setState(() {
+      this.data1 = Provider.of<BlogNotifer>(context, listen: false)
+          .loadingBlogsDetail(
+              context: context, detailid: widget.blogDetailArguments.id);
     });
   }
 
@@ -181,12 +190,19 @@ class _UpdateBlogState extends State<UpdateBlog> {
                           })
                       : iconcontainer(
                           onclick: () async {
-                            await utilityNotifer
-                                .deleteblogImage(
-                                    context: context,
-                                    url: widget.blogDetailArguments.blogImage)
-                                .whenComplete(() =>
-                                    utilityNotifer.pickblogimage(context));
+                            await blogNotifer.removeBlogfile(
+                              context: context,
+                              filetype: "image",
+                              filename:
+                                  "${widget.blogDetailArguments.blogImage.split('/').toList().last}",
+                            );
+                            await utilityNotifer.pickblogimage(context);
+                            // await utilityNotifer
+                            //     .deleteblogImage(
+                            //         context: context,
+                            //         url: widget.blogDetailArguments.blogImage)
+                            //     .whenComplete(() =>
+                            //         utilityNotifer.pickblogimage(context));
                           },
                           context: context)),
               SizedBox(
@@ -263,7 +279,12 @@ class _UpdateBlogState extends State<UpdateBlog> {
                               topLeft: Radius.circular(12),
                               topRight: Radius.circular(12)),
                         ),
-                        builder: (context) => ShowbottomView(),
+                        builder: (context) => ShowbottomView(
+                          refreshonclick: () async {
+                            await loadblog();
+                            await loadblogdetail();
+                          },
+                        ),
                       );
                     }),
               ),
@@ -283,54 +304,61 @@ class _UpdateBlogState extends State<UpdateBlog> {
                         }
                         if (snapshot.data != null) {
                           var blogdetialdata = snapshot.data as dynamic;
-
                           Datadetails datadetails = blogdetialdata;
-                          return datadetails.blogImages != null ||
+                          return datadetails.blogImages != null &&
                                   datadetails.blogImages!.isNotEmpty
                               ? SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
                                     children: [
-                                      ImageList(images: datadetails.blogImages),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5.0, vertical: 4.0),
-                                        child: InkWell(
-                                          onTap: () {
-                                            EasyLoading.show(
-                                                status: 'Deleteing..Wait..');
-                                            utilityNotifer
-                                                .deleteblogImages(
-                                                    context: context,
-                                                    urls: widget
-                                                        .blogDetailArguments
-                                                        .blogImages)
-                                                .whenComplete(() => blogNotifer
-                                                    .updateimagesBlog(
-                                                        context: context,
-                                                        blog_id: widget
-                                                            .blogDetailArguments
-                                                            .id,
-                                                        blog_images: null));
-                                            EasyLoading.dismiss();
-                                            loadblog();
-                                          },
-                                          child: Container(
-                                            height: 35,
-                                            width: 35,
-                                            child: Center(
-                                              child: Icon(
-                                                Icons.delete,
-                                                color: Colors.yellow,
-                                              ),
-                                            ),
-                                            decoration: BoxDecoration(
-                                                color: Colors.black,
-                                                borderRadius:
-                                                    BorderRadius.circular(12)),
-                                          ),
-                                        ),
+                                      ImageList(
+                                        blogid: widget.blogDetailArguments.id,
+                                        images: datadetails.blogImages,
+                                        onclick: () async {
+                                          // await loadblog();
+                                          await loadblogdetail();
+                                        },
                                       ),
+                                      // Padding(
+                                      //   padding: const EdgeInsets.symmetric(
+                                      //       horizontal: 5.0, vertical: 4.0),
+                                      //   child:
+                                      //       // InkWell(
+                                      //       // onTap: () async {
+                                      //       //   EasyLoading.show(
+                                      //       //       status: 'Deleteing..Wait..');
+                                      //       //   await blogNotifer.updateimagesBlog(
+                                      //       //       context: context,
+                                      //       //       blog_id: widget
+                                      //       //           .blogDetailArguments.id,
+                                      //       //       blog_images: null);
+                                      //       //   // utilityNotifer
+                                      //       //   //     .deleteblogImages(
+                                      //       //   //         context: context,
+                                      //       //   //         urls: widget
+                                      //       //   //             .blogDetailArguments
+                                      //       //   //             .blogImages)
+                                      //       //   //     .whenComplete(() => );
+                                      //       //   EasyLoading.dismiss();
+                                      //       //   loadblog();
+                                      //       // },
+                                      //       // child:
+                                      //       Container(
+                                      //     height: 35,
+                                      //     width: 35,
+                                      //     child: Center(
+                                      //       child: Icon(
+                                      //         Icons.delete,
+                                      //         color: Colors.yellow,
+                                      //       ),
+                                      //     ),
+                                      //     decoration: BoxDecoration(
+                                      //         color: Colors.black,
+                                      //         borderRadius:
+                                      //             BorderRadius.circular(12)),
+                                      //   ),
+                                      //   // ),
+                                      // ),
                                     ],
                                   ),
                                 )
@@ -384,8 +412,9 @@ class _UpdateBlogState extends State<UpdateBlog> {
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 4.0, horizontal: 3.0),
-                                    child:
-                                        filename(text: "audioName", size: 16.0),
+                                    child: filename(
+                                        text: "${utilityNotifer.audioName}",
+                                        size: 16.0),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -419,21 +448,25 @@ class _UpdateBlogState extends State<UpdateBlog> {
                                       onTap: () async {
                                         EasyLoading.show(
                                             status: 'Deleteing..Wait..');
-                                        await utilityNotifer
-                                            .deleteblogAudio(
-                                                context: context,
-                                                url: widget.blogDetailArguments
-                                                    .blog_audio)
-                                            .whenComplete(() {
-                                          blogNotifer.updateaudioBlog(
-                                              context: context,
-                                              blog_id:
-                                                  widget.blogDetailArguments.id,
-                                              blog_audio: null);
-                                          EasyLoading.dismiss();
-                                          utilityNotifer.removeaudioname();
-                                          loadblog();
-                                        });
+                                        print(
+                                            "${datadetails.blogAudio!.split('/').toList().last}");
+                                        await blogNotifer.removeBlogfile(
+                                            context: context,
+                                            filetype: "audio",
+                                            filename:
+                                                "${datadetails.blogAudio!.split('/').toList().last}");
+                                        await blogNotifer.updateaudioBlog(
+                                            context: context,
+                                            blog_id:
+                                                widget.blogDetailArguments.id,
+                                            blog_audio: null);
+                                        EasyLoading.dismiss();
+                                        utilityNotifer.removeaudioname();
+                                        // loadblog();
+
+                                        //     .whenComplete(() {
+
+                                        // });
                                       },
                                       child: Container(
                                         height: 35,
@@ -462,45 +495,50 @@ class _UpdateBlogState extends State<UpdateBlog> {
               SizedBox(
                 height: 11,
               ),
-              Center(
-                child: FutureBuilder(
-                    future: blogNotifer.loadingBlogsDetail(
-                        context: context,
-                        detailid: widget.blogDetailArguments.id),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.black,
-                          ),
-                        );
-                      } else {
-                        final blogdetialdata = snapshot.data as dynamic;
-                        Datadetails datadetails = blogdetialdata;
-                        final blogaudiodata =
-                            widget.blogDetailArguments.blog_audio == null
-                                ? null
-                                : datadetails.blogAudio;
-                        final blogimagesdata =
-                            widget.blogDetailArguments.blogImages == null
-                                ? null
-                                : datadetails.blogImages;
-                        return subitbutton(
+              FutureBuilder(
+                  future: blogNotifer.loadingBlogsDetail(
+                      context: context,
+                      detailid: widget.blogDetailArguments.id),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.black,
+                        ),
+                      );
+                    } else {
+                      var blogdetialdata = snapshot.data as dynamic;
+                      Datadetails datadetails = blogdetialdata;
+                      return Center(
+                        child: subitbutton(
                             text: "Update",
                             onclick: () async {
+                              // final datafn = utilityNotifer.myListdatafnimages!.isEmpty
+                              //     ? widget.blogDetailArguments.blogImages == null
+                              //         ? null
+                              //         : widget.blogDetailArguments.blogImages
+                              //     : utilityNotifer.myListdatafnimages;
+
+                              // print("list of image $datafn");
+
+                              // print(
+                              //     "list wgt ${widget.blogDetailArguments.blogImages}");
+
                               var title = _titletext.text;
                               var description = _descriptiontext.text;
                               if (_mainimageurltext.text.isEmpty &&
-                                  datadetails.blogImage.isEmpty) {
+                                  widget
+                                      .blogDetailArguments.blogImage!.isEmpty) {
                                 await utilityNotifer.addAllTypeFile(
                                     context: context);
                               }
                               EasyLoading.show(status: 'Updating..Wait..');
                               Future.delayed(Duration(seconds: 6))
                                   .whenComplete(() async {
-                                if (utilityNotifer.audioName != null) {
-                                  await utilityNotifer.uploadblogAudio(
-                                      context: context);
+                                if (utilityNotifer.audioName != null &&
+                                    utilityNotifer.audioName!.isNotEmpty) {
+                                  await utilityNotifer.addAllTypeFile(
+                                      context: context, filetype: "audio");
                                   print(utilityNotifer.audioURL);
                                 }
                                 await blogNotifer
@@ -519,18 +557,22 @@ class _UpdateBlogState extends State<UpdateBlog> {
                                         blog_category: catergorytitle,
                                         blog_audio:
                                             utilityNotifer.audioURL == null
-                                                ? null
+                                                ? datadetails.blogAudio == null
+                                                    ? null
+                                                    : datadetails.blogAudio
                                                 : utilityNotifer.audioURL,
-                                        blog_images:
-                                            utilityNotifer.myListfnimages ==
-                                                    null
+                                        blog_images: utilityNotifer
+                                                .myListdatafnimages!.isEmpty
+                                            ? datadetails.blogImages == null
                                                 ? null
-                                                : utilityNotifer.myListfnimages,
+                                                : datadetails.blogImages
+                                            : utilityNotifer.myListdatafnimages,
                                         blog_date: selectedDate
                                             .toString()
                                             .split(' ')[0])
-                                    .whenComplete(() {
-                                  utilityNotifer.removeaudioname();
+                                    .whenComplete(() async {
+                                  utilityNotifer.removepreviewimages();
+                                  utilityNotifer.removeimgall();
                                   EasyLoading.showSuccess(
                                       'Updated Successfully!');
                                   Navigator.of(context).pushNamedAndRemoveUntil(
@@ -538,10 +580,99 @@ class _UpdateBlogState extends State<UpdateBlog> {
                                   EasyLoading.dismiss();
                                 });
                               });
-                            });
-                      }
-                    }),
-              ),
+                            }),
+                        // FutureBuilder(
+                        //     future: blogNotifer.loadingBlogsDetail(
+                        //         context: context,
+                        //         detailid: widget.blogDetailArguments.id),
+                        //     builder: (context, snapshot) {
+                        //       if (snapshot.connectionState == ConnectionState.waiting) {
+                        //         return Center(
+                        //           child: CircularProgressIndicator(
+                        //             color: Colors.black,
+                        //           ),
+                        //         );
+                        //       } else {
+                        //         final blogdetialdata = snapshot.data as dynamic;
+                        //         Datadetails datadetails = blogdetialdata;
+
+                        //         // final blogaudiodata = utilityNotifer.audioURL == null
+                        //         //     ? widget.blogDetailArguments.blog_audio == null
+                        //         //         ? null
+                        //         //         : datadetails.blogAudio
+                        //         //     : utilityNotifer.audioURL;
+
+                        //         // final blogimagesdata =
+                        //         //     utilityNotifer.myListfnimages == null
+                        //         //         ? widget.blogDetailArguments.blogImages == null
+                        //         //             ? null
+                        //         //             : datadetails.blogImages
+                        //         //         : utilityNotifer.myListfnimages;
+                        //         return subitbutton(
+                        //             text: "Update",
+                        //             onclick: () async {
+                        //               var title = _titletext.text;
+                        //               var description = _descriptiontext.text;
+                        //               if (_mainimageurltext.text.isEmpty &&
+                        //                   datadetails.blogImage!.isEmpty) {
+                        //                 await utilityNotifer.addAllTypeFile(
+                        //                     context: context);
+                        //               }
+                        //               EasyLoading.show(status: 'Updating..Wait..');
+                        //               Future.delayed(Duration(seconds: 6))
+                        //                   .whenComplete(() async {
+                        //                 if (utilityNotifer.audioName != null &&
+                        //                     utilityNotifer.audioName!.isNotEmpty) {
+                        //                   await utilityNotifer.addAllTypeFile(
+                        //                       context: context, filetype: "audio");
+                        //                   print(utilityNotifer.audioURL);
+                        //                 }
+                        //                 await blogNotifer
+                        //                     .updateBlogs(
+                        //                         context: context,
+                        //                         blog_id: widget.blogDetailArguments.id,
+                        //                         blog_title: title,
+                        //                         blog_description: description,
+                        //                         blog_image: _mainimageurltext
+                        //                                 .text.isEmpty
+                        //                             ? utilityNotifer.imageURL != null
+                        //                                 ? utilityNotifer.imageURL
+                        //                                 : widget.blogDetailArguments
+                        //                                     .blogImage
+                        //                             : _mainimageurltext.text,
+                        //                         blog_category: catergorytitle,
+                        //                         blog_audio:
+                        //                             utilityNotifer.audioURL == null
+                        //                                 ? datadetails.blogAudio == null
+                        //                                     ? null
+                        //                                     : datadetails.blogAudio
+                        //                                 : utilityNotifer.audioURL,
+                        //                         blog_images:
+                        //                             utilityNotifer.myListfnimages ==
+                        //                                         null &&
+                        //                                     utilityNotifer
+                        //                                         .myListfnimages!.isEmpty
+                        //                                 ? datadetails.blogImages == null
+                        //                                     ? null
+                        //                                     : datadetails.blogImages
+                        //                                 : utilityNotifer.myListfnimages,
+                        //                         blog_date: selectedDate
+                        //                             .toString()
+                        //                             .split(' ')[0])
+                        //                     .whenComplete(() async {
+                        //                   EasyLoading.showSuccess(
+                        //                       'Updated Successfully!');
+                        //                   Navigator.of(context).pushNamedAndRemoveUntil(
+                        //                       AppRoutes.HomeRoute, (route) => false);
+                        //                   EasyLoading.dismiss();
+                        //                 });
+                        //               });
+                        //             });
+                        //       }
+                        //     }),
+                      );
+                    }
+                  }),
               SizedBox(
                 height: 12,
               ),
@@ -592,7 +723,7 @@ class _UpdateBlogState extends State<UpdateBlog> {
           style: TextStyle(color: Colors.yellow),
         ),
         style: ElevatedButton.styleFrom(
-          primary: Colors.black,
+          backgroundColor: Colors.black,
           minimumSize: Size(88, 36),
           padding: EdgeInsets.symmetric(horizontal: 16),
           shape: const RoundedRectangleBorder(
@@ -698,7 +829,7 @@ class _UpdateBlogState extends State<UpdateBlog> {
             child: GestureDetector(
               onTap: () {
                 utilityNotifer
-                    .uploadblogImage(context: context)
+                    .addAllTypeFile(context: context)
                     .whenComplete(() => {
                           provider.updateimageBlog(
                               context: context,
@@ -752,7 +883,7 @@ class _UpdateBlogState extends State<UpdateBlog> {
                     image: DecorationImage(
                         colorFilter: ColorFilter.mode(
                             Colors.black.withOpacity(0.30), BlendMode.multiply),
-                        image: NetworkImage(datadetails.blogImage),
+                        image: NetworkImage(datadetails.blogImage.toString()),
                         fit: BoxFit.cover)),
               ),
               Positioned(

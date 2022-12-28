@@ -27,7 +27,6 @@ class _CatergoryListState extends State<CatergoryList> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<CategoryNotifer>(context, listen: false);
     return Container(
       height: 80,
       child: FutureBuilder(

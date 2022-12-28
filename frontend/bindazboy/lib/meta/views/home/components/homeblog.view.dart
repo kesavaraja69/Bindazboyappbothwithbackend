@@ -4,7 +4,6 @@ import 'package:bindazboy/app/routes/app.routes.dart';
 import 'package:bindazboy/core/notifiers/audiobook.notifer.dart';
 import 'package:bindazboy/core/notifiers/blogs.notifier.dart';
 import 'package:bindazboy/core/notifiers/cache.notifier.dart';
-import 'package:bindazboy/meta/views/home/components/audio/audiobooklist.dart';
 import 'package:bindazboy/meta/views/home/components/blogsList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -52,8 +51,8 @@ class _HomeBlogsState extends State<HomeBlogs> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<BlogNotifer>(context, listen: false);
-    final audioprovider = Provider.of<AudioBookNotifer>(context, listen: true);
+   // final provider = Provider.of<BlogNotifer>(context, listen: false);
+   // final audioprovider = Provider.of<AudioBookNotifer>(context, listen: true);
     return SafeArea(
       child: Scaffold(
         backgroundColor: BConstantColors.backgroundColor,

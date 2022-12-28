@@ -22,11 +22,14 @@ class UtilityNotifer extends ChangeNotifier {
   Map<int, dynamic>? _imagesUrl;
   Map<int, dynamic>? get imagesUrl => _imagesUrl;
 
-  List<String>? _myListimages;
+  List<String>? _myListimages = [];
   List<String>? get myListimages => _myListimages;
 
   List<String>? _myListfnimages = [];
   List<String>? get myListfnimages => _myListfnimages;
+
+  List<String>? _myListdatafnimages = [];
+  List<String>? get myListdatafnimages => _myListdatafnimages;
 
   String? _audioURL;
   String? get audioURL => _audioURL;
@@ -46,7 +49,7 @@ class UtilityNotifer extends ChangeNotifier {
   File? _previewblogaudio;
   File? get previewblogaudio => _previewblogaudio;
 
-  Future<File?> pickblogimage(BuildContext context) async {
+  pickblogimage(BuildContext context) async {
     final picker = ImagePicker();
     var image = await picker.pickImage(source: ImageSource.gallery);
     if (image!.path.isNotEmpty) {
@@ -64,7 +67,7 @@ class UtilityNotifer extends ChangeNotifier {
     }
   }
 
-  Future<List<File>?> pickblogimages(BuildContext context) async {
+  Future pickblogimages(BuildContext context) async {
     final picker = FilePicker.platform;
     var images = await picker.pickFiles(allowMultiple: true);
     if (images!.paths.isNotEmpty) {
@@ -87,7 +90,7 @@ class UtilityNotifer extends ChangeNotifier {
     return compressedFile;
   }
 
-  Future<File?> pickblogaudio(BuildContext context) async {
+  Future<String?> pickblogaudio(BuildContext context) async {
     final picker = FilePicker.platform;
     var audio = await picker.pickFiles();
 
@@ -100,28 +103,37 @@ class UtilityNotifer extends ChangeNotifier {
         content: Text("Select Audio"),
       ));
     }
+    return _audioName;
   }
 
   Future removepreviewimage() async {
-    await _previewblogimage!.delete();
+    await _previewblogimage?.delete();
     await _fnpreviewblogimage!.delete();
     _previewblogimage = null;
   }
 
+  Future removeimgall() async {
+    _myListdatafnimages?.clear();
+    _myListdatafnimages = [];
+    _myListfnimages?.clear();
+    _myListfnimages = [];
+    notifyListeners();
+  }
+
   Future removepreviewimages() async {
-    await _previewlistblogimages!.removeLast();
+    await _previewlistblogimages?.removeLast();
     _previewlistblogimages = null;
   }
 
   Future removepreviewaudio() async {
-    await _previewblogaudio!.delete();
+    await _previewblogaudio?.delete();
     _previewblogaudio = null;
     _audioName = null;
     notifyListeners();
   }
 
   Future removeaudioname() async {
-    await _previewblogaudio!.delete();
+    await _previewblogaudio?.delete();
     _previewblogaudio = null;
     _audioURL = null;
     _audioName = null;
@@ -129,7 +141,7 @@ class UtilityNotifer extends ChangeNotifier {
   }
 
   Future addimagefiles({required BuildContext context}) async {
-    final suburl = "/blogs/addimageupload/${_previewlistblogimages!.length}";
+    final suburl = "/blogs/addimagesupload/${_previewlistblogimages!.length}";
     var responses;
     var request =
         http.MultipartRequest('PATCH', Uri.parse(APIRoutes.LocalHost + suburl));
@@ -205,6 +217,9 @@ class UtilityNotifer extends ChangeNotifier {
 
           _myListfnimages = List<String>.from(customdataurl!);
 
+          _myListdatafnimages =
+              _myListfnimages?.map((e) => "${APIRoutes.LocalHost}$e").toList();
+
           notifyListeners();
           ShowsnackBarUtiltiy.showSnackbar(
               message: customdata, context: context);
@@ -229,22 +244,34 @@ class UtilityNotifer extends ChangeNotifier {
     return null;
   }
 
-  Future addAllTypeFile({
-    required BuildContext context,
-  }) async {
-    final suburl = "/blogs/addimageupload";
+  Future addAllTypeFile(
+      {required BuildContext context, dynamic filetype}) async {
+    final suburl = "/blogs/addimageupload/$filetype";
     var response;
     var request =
         http.MultipartRequest('PATCH', Uri.parse(APIRoutes.LocalHost + suburl));
 
-    request.files.add(http.MultipartFile(
-        'image',
-        File(_fnpreviewblogimage!.path.toString()).readAsBytes().asStream(),
-        File(_fnpreviewblogimage!.path.toString()).lengthSync(),
-        filename: "techking"));
-    var reqsendresponse = await request.send();
+    if (filetype == "audio") {
+      request.files.add(http.MultipartFile(
+          'image',
+          File(_previewblogaudio!.path.toString()).readAsBytes().asStream(),
+          File(_previewblogaudio!.path.toString()).lengthSync(),
+          filename:
+              _previewblogaudio!.path.toString().split('/').last.toString()));
+      var reqsendresponse = await request.send();
 
-    response = await http.Response.fromStream(reqsendresponse);
+      response = await http.Response.fromStream(reqsendresponse);
+    } else {
+      request.files.add(http.MultipartFile(
+          'image',
+          File(_fnpreviewblogimage!.path.toString()).readAsBytes().asStream(),
+          File(_fnpreviewblogimage!.path.toString()).lengthSync(),
+          filename:
+              _fnpreviewblogimage!.path.toString().split('/').last.toString()));
+      var reqsendresponse = await request.send();
+
+      response = await http.Response.fromStream(reqsendresponse);
+    }
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> parsedData = await jsonDecode(response.body);
@@ -260,8 +287,13 @@ class UtilityNotifer extends ChangeNotifier {
 
       switch (customstatuscode) {
         case 201:
-          _imageURL = customdataurl;
-          notifyListeners();
+          if (filetype == "audio") {
+            _audioURL = "${APIRoutes.LocalHost}$customdataurl";
+            notifyListeners();
+          } else {
+            _imageURL = customdataurl;
+            notifyListeners();
+          }
 
           // _videoURL = customdataurl;
 
@@ -287,77 +319,77 @@ class UtilityNotifer extends ChangeNotifier {
     return response.body;
   }
 
-  Future uploadblogImage({required BuildContext context}) async {
-    final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
-        CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
-    await _cloudinary
-        .uploadFile(
-            filePath: _previewblogimage!.path,
-            resourceType: CloudinaryResourceType.image,
-            folder: "Bindazboy blog images")
-        .then((value) {
-      _imageURL = value.secureUrl;
-      _previewblogimage!.delete();
-      _previewblogimage = null;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Image uploaded"),
-      ));
+  // Future uploadblogImage({required BuildContext context}) async {
+  //   final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
+  //       CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
+  //   await _cloudinary
+  //       .uploadFile(
+  //           filePath: _previewblogimage!.path,
+  //           resourceType: CloudinaryResourceType.image,
+  //           folder: "Bindazboy blog images")
+  //       .then((value) {
+  //     _imageURL = value.secureUrl;
+  //     _previewblogimage!.delete();
+  //     _previewblogimage = null;
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Text("Image uploaded"),
+  //     ));
 
-      notifyListeners();
-    }).catchError((error) {
-      print(error);
-    });
-  }
+  //     notifyListeners();
+  //   }).catchError((error) {
+  //     print(error);
+  //   });
+  // }
 
-  Future uploadblogImages(
-      {required BuildContext context, required int index}) async {
-    final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
-        CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
-    await _cloudinary
-        .uploadFiles(
-            filePaths: _myListimages,
-            resourceType: CloudinaryResourceType.image,
-            folder: "Bindazboy blog option images")
-        .then((responses) {
-      _myListfnimages =
-          responses.asMap().values.map((e) => e.secureUrl.toString()).toList();
-      // .map((i, res) => MapEntry(i, res.secureUrl.toString()));
+  // Future uploadblogImages(
+  //     {required BuildContext context, required int index}) async {
+  //   final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
+  //       CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
+  //   await _cloudinary
+  //       .uploadFiles(
+  //           filePaths: _myListimages,
+  //           resourceType: CloudinaryResourceType.image,
+  //           folder: "Bindazboy blog option images")
+  //       .then((responses) {
+  //     _myListfnimages =
+  //         responses.asMap().values.map((e) => e.secureUrl.toString()).toList();
+  //     // .map((i, res) => MapEntry(i, res.secureUrl.toString()));
 
-      // _imagesUrl?.forEach((key, value) {
-      //   _myListfnimages?.add(value);
-      // });
-      _logger.i(_myListfnimages);
-      _previewlistblogimages!.clear();
-      _previewlistblogimages = null;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Images uploaded"),
-      ));
+  //     // _imagesUrl?.forEach((key, value) {
+  //     //   _myListfnimages?.add(value);
+  //     // });
+  //     _logger.i(_myListfnimages);
+  //     _previewlistblogimages!.clear();
+  //     _previewlistblogimages = null;
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Text("Images uploaded"),
+  //     ));
 
-      notifyListeners();
-    }).catchError((error) {
-      print(error);
-    });
-  }
+  //     notifyListeners();
+  //   }).catchError((error) {
+  //     print(error);
+  //   });
+  // }
 
-  Future uploadblogAudio({required BuildContext context}) async {
-    final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
-        CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
-    await _cloudinary
-        .uploadFile(
-            filePath: _previewblogaudio!.path,
-            resourceType: CloudinaryResourceType.auto,
-            folder: "Bindazboy blog Audios")
-        .then((value) {
-      _audioURL = value.secureUrl;
-      _audioName = value.originalFilename;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Audio uploaded"),
-      ));
-      notifyListeners();
-    }).catchError((error) {
-      print(error);
-    });
-  }
+  // Future uploadblogAudio({required BuildContext context}) async {
+  //   final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
+  //       CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
+  //   await _cloudinary
+  //       .uploadFile(
+  //           filePath: _previewblogaudio!.path,
+  //           resourceType: CloudinaryResourceType.auto,
+  //           folder: "Bindazboy blog Audios")
+  //       .then((value) {
+  //     _audioURL = value.secureUrl;
+  //     _audioName = value.originalFilename;
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Text("Audio uploaded"),
+  //     ));
+  //     notifyListeners();
+  //   }).catchError((error) {
+  //     print(error);
+  //   });
+  // }
 
   Future deleteblogImage({required BuildContext context, required url}) async {
     final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,

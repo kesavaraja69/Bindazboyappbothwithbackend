@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:bindazboy/app/routes/api.routes.dart';
 import 'package:bindazboy/meta/utils/showsnackbar.utils.dart';
 import 'package:http/http.dart' as http;
-import 'package:logger/logger.dart';
 
 class ContactusApi {
   final client = http.Client();
@@ -13,7 +12,6 @@ class ContactusApi {
     'Accept': 'application/json',
     "Access-Controll-Allow-Origin": "*",
   };
-  final _logger = Logger();
   Future addContactus(
       {useremail, usname, usmessage, iscontactus, context}) async {
     const subURL = "/contactusandreport/addcontactusandreport";

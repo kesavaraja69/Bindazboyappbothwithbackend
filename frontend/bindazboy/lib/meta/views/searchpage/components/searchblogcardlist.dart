@@ -1,9 +1,7 @@
-import 'package:bindazboy/core/notifiers/blogs.notifier.dart';
 import 'package:bindazboy/meta/views/searchpage/components/searchblogcard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 
 class SearchBlogcardlist extends StatelessWidget {
   final dynamic query;
@@ -12,7 +10,6 @@ class SearchBlogcardlist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _logger = Logger();
-    final provider = Provider.of<BlogNotifer>(context, listen: false);
     return Container(
         child: FutureBuilder(
       future: query,

@@ -4,7 +4,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 
 class ShowbottomView extends StatefulWidget {
-  const ShowbottomView({Key? key}) : super(key: key);
+  final refreshonclick;
+  const ShowbottomView({Key? key, this.refreshonclick}) : super(key: key);
 
   @override
   State<ShowbottomView> createState() => _ShowbottomViewState();
@@ -77,13 +78,14 @@ class _ShowbottomViewState extends State<ShowbottomView> {
                       ),
                       subitbutton(
                           text: "Upload",
-                          onclick: () {
+                          onclick: () async {
                             EasyLoading.show(status: 'Uploadling..Wait..');
-                            utilityNotifer
+                            await utilityNotifer
                                 .addimagefiles(
                               context: context,
                             )
-                                .whenComplete(() {
+                                .whenComplete(() async {
+                              await widget.refreshonclick();
                               Navigator.of(context).pop();
                               EasyLoading.showSuccess("Uploaded Sucessfully");
                               EasyLoading.dismiss();
@@ -111,7 +113,7 @@ class _ShowbottomViewState extends State<ShowbottomView> {
           style: TextStyle(color: Colors.yellow),
         ),
         style: ElevatedButton.styleFrom(
-          primary: Colors.black,
+          backgroundColor: Colors.black,
           minimumSize: Size(88, 36),
           padding: EdgeInsets.symmetric(horizontal: 16),
           shape: const RoundedRectangleBorder(

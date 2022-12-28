@@ -149,7 +149,6 @@ class _AudioBookFileState extends State<AudioBookFile> {
 
   @override
   Widget build(BuildContext context) {
-    final mheight = MediaQuery.of(context).size.height;
     final mwidth = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),

@@ -138,7 +138,7 @@ class _UpdatePasswordViewState extends State<UpdatePasswordView> {
                     style: TextStyle(color: Colors.yellow),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
+                    backgroundColor: Colors.black,
                     minimumSize: Size(88, 36),
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     shape: const RoundedRectangleBorder(

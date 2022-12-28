@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:bindazboy/app/constant/colors.dart';
 import 'package:bindazboy/core/models/blogdetail.model.dart';
 import 'package:bindazboy/core/notifiers/blogs.notifier.dart';
@@ -9,6 +8,7 @@ import 'package:bindazboy/meta/views/blogdetails/components/lower.plane.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -63,7 +63,6 @@ class _BlogdetailsviewState extends State<Blogdetailsview> {
     final planeHeightclosed = MediaQuery.of(context).size.height * 0.65;
     final planeHeightopen = MediaQuery.of(context).size.height * 0.65;
     final screenheight = MediaQuery.of(context).size.height;
-    final screenwidth = MediaQuery.of(context).size.width;
 
     final provider = Provider.of<BlogNotifer>(context, listen: false);
     final BookmarkNotifier bookmarkNotifier =

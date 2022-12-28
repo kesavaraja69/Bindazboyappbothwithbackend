@@ -9,8 +9,7 @@ class CacheService {
     return cachedData;
   }
 
-  Future<String?> writeCache(
-      {required String key, required String value}) async {
+  Future writeCache({required String key, required String value}) async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
 

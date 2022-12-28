@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:bindazboy/core/api/audiobook.api.dart';
 import 'package:bindazboy/core/models/audiobook/audiobookfetchall.model.dart';
-import 'package:bindazboy/core/models/blog.model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';

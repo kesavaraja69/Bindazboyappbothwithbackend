@@ -8,7 +8,6 @@ import 'package:bindazboy/meta/views/home/components/navigationdrawer.view.dart'
 import 'package:bindazboy/meta/views/searchpage/search.view.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class HomeView extends StatefulWidget {
   @override

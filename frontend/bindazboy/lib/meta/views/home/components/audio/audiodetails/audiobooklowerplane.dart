@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 import 'audiobookchaplist.dart';
@@ -20,9 +19,6 @@ class AudiobookLowerpanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mwidth = MediaQuery.of(context).size.width;
-    final mheight = MediaQuery.of(context).size.height;
-
     return SingleChildScrollView(
       controller: controller,
       child: Column(

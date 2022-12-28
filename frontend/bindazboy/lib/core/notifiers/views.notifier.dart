@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:bindazboy/core/api/views.api.dart';
-import 'package:bindazboy/core/models/checkview.model.dart';
-import 'package:bindazboy/core/models/views.model.dart';
 import 'package:bindazboy/core/notifiers/cache.notifier.dart';
 import 'package:bindazboy/meta/utils/showsnackbar.utils.dart';
 import 'package:flutter/material.dart';

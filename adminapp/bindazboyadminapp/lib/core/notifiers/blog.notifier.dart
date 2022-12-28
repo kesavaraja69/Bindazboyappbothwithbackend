@@ -131,11 +131,73 @@ class BlogNotifer extends ChangeNotifier {
       }
     } catch (error) {
       _logger.i(error);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Something went Wrong"),
-        ),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text("Something went Wrong"),
+      //   ),
+      // );
+    }
+  }
+
+  Future removeBlogfile({
+    required BuildContext context,
+    required dynamic filetype,
+    required dynamic filename,
+    dynamic deleteid,
+     dynamic fileindex,
+  }) async {
+    try {
+      var _blogupdate = await blogAPI.removeBlogfile(
+          context: context,
+          filetype: filetype,
+          filename: filename,
+          deleteid: deleteid,
+          fileindex: fileindex);
+      final Map<String, dynamic> parsedData = await jsonDecode(_blogupdate);
+      final statuscode = parsedData["code"];
+      final statusmessage = parsedData["message"];
+
+      switch (statuscode) {
+        case 201:
+          _logger.i(statuscode, statusmessage);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(statusmessage),
+            ),
+          );
+          break;
+        case 401:
+          _logger.i(statuscode, statusmessage);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(statusmessage),
+            ),
+          );
+          break;
+        case 302:
+          _logger.i(statuscode, statusmessage);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(statusmessage),
+            ),
+          );
+          break;
+        case 303:
+          _logger.i(statuscode, statusmessage);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(statusmessage),
+            ),
+          );
+          break;
+      }
+    } catch (error) {
+      _logger.i(error);
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text("Something went Wrong"),
+      //   ),
+      // );
     }
   }
 
@@ -266,7 +328,6 @@ class BlogNotifer extends ChangeNotifier {
       final _blogBody = response.data;
       final _blogCode = response.code;
       final _blogReceived = response.received;
-      _logger.i(_blogBody);
       if (_blogReceived) {
         switch (_blogCode) {
           case 200:
@@ -298,13 +359,11 @@ class BlogNotifer extends ChangeNotifier {
       var response = await Blogdetails.fromJson(json.decode(_blogData));
       final _blogBody = response.data;
       final _blogCode = response.code;
-      final _blogReceived = response.received;
       _logger.i(_blogBody);
-      if (_blogReceived) {
-        switch (_blogCode) {
-          case 200:
-            return _blogBody;
-        }
+
+      switch (_blogCode) {
+        case 200:
+          return _blogBody;
       }
     } catch (error) {
       _logger.i(error);

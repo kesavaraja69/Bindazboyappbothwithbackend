@@ -1,78 +1,70 @@
-import 'dart:convert';
-
-Blogdetails blogdetailsFromJson(String str) =>
-    Blogdetails.fromJson(json.decode(str));
-
-String blogdetailsToJson(Blogdetails data) => json.encode(data.toJson());
-
 class Blogdetails {
-  Datadetails data;
-  bool received;
-  int code;
+  final Datadetails? data;
+  final bool? received;
+  final int? code;
 
-  Blogdetails(
+  Blogdetails({
     this.data,
     this.received,
     this.code,
-  );
+  });
 
-  factory Blogdetails.fromJson(Map<String, dynamic> json) => Blogdetails(
-        Datadetails.fromJson(json["data"]),
-        json["received"],
-        json["code"],
-      );
+  Blogdetails.fromJson(Map<String, dynamic> json)
+      : data = (json['data'] as Map<String, dynamic>?) != null
+            ? Datadetails.fromJson(json['data'] as Map<String, dynamic>)
+            : null,
+        received = json['received'] as bool?,
+        code = json['code'] as int?;
 
-  Map<String, dynamic> toJson() => {
-        "data": data.toJson(),
-        "received": received,
-        "code": code,
-      };
+  Map<String, dynamic> toJson() =>
+      {'data': data?.toJson(), 'received': received, 'code': code};
 }
 
 class Datadetails {
-  Datadetails(
+  final int? blogId;
+  final String? blogTitle;
+  final String? blogDescription;
+  final String? blogImage;
+  final String? blogView;
+  final String? blogCategory;
+  final String? blogAudio;
+  final List<String>? blogImages;
+  final String? blogDate;
+
+  Datadetails({
     this.blogId,
     this.blogTitle,
     this.blogDescription,
     this.blogImage,
+    this.blogView,
     this.blogCategory,
-    this.blogDate, [
     this.blogAudio,
     this.blogImages,
-  ]);
+    this.blogDate,
+  });
 
-  int blogId;
-  String blogTitle;
-  String blogDescription;
-  String blogImage;
-  String blogCategory;
-  dynamic blogDate;
-  String? blogAudio;
-  List<String>? blogImages;
-
-  factory Datadetails.fromJson(Map<String, dynamic> json) => Datadetails(
-        json["blog_id"],
-        json["blog_title"],
-        json["blog_description"],
-        json["blog_image"],
-        json["blog_category"],
-        json["blog_date"],
-        json["blog_audio"] == null ? null : json["blog_audio"],
-        json["blog_images"] == null
-            ? null
-            : List<String>.from(json["blog_images"].map((x) => x)),
-      );
+  Datadetails.fromJson(Map<String, dynamic> json)
+      : blogId = json['blog_id'] as int?,
+        blogTitle = json['blog_title'] as String?,
+        blogDescription = json['blog_description'] as String?,
+        blogImage = json['blog_image'] as String?,
+        blogView = json['blog_view'] as String?,
+        blogCategory = json['blog_category'] as String?,
+        blogAudio = json['blog_audio'] as String?,
+        blogImages = (json['blog_images'] as List?)
+            ?.map((dynamic e) => e as String)
+            .toList(),
+        blogDate = json['blog_date'] as String?;
 
   Map<String, dynamic> toJson() => {
-        "blog_id": blogId,
-        "blog_title": blogTitle,
-        "blog_description": blogDescription,
-        "blog_image": blogImage,
-        "blog_category": blogCategory,
-        "blog_date": blogDate.toString().split('').reversed.join(),
-        "blog_audio": blogAudio == null ? null : blogAudio,
-        "blog_images": blogImages == null
-            ? null
-            : List<dynamic>.from(blogImages!.map((x) => x)),
+        'blog_id': blogId,
+        'blog_title': blogTitle,
+        'blog_description': blogDescription,
+        'blog_image': blogImage,
+        'blog_view': blogView,
+        'blog_category': blogCategory,
+        'blog_audio': blogAudio,
+        'blog_images': blogImages,
+        'blog_date': blogDate
       };
 }

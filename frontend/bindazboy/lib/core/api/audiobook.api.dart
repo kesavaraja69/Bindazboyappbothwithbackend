@@ -1,11 +1,9 @@
 import 'package:bindazboy/app/routes/api.routes.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:logger/logger.dart';
 
 class AudiobookApi {
   final client = http.Client();
-  final _logger = Logger();
   final headers = {
     'Content-type': 'application/json',
     'Accept': 'application/json',

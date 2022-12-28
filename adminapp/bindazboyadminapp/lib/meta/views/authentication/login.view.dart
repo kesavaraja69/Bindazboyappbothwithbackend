@@ -137,7 +137,7 @@ class _LoginViewState extends State<LoginView> {
                       style: TextStyle(color: Colors.white),
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.brown,
+                      backgroundColor: Colors.brown,
                       minimumSize: Size(88, 36),
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       shape: const RoundedRectangleBorder(

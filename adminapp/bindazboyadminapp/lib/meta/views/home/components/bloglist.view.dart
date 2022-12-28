@@ -92,7 +92,9 @@ class Bloglist extends StatelessWidget {
                             blogDescription: _blog.blogDescription,
                             blogCategroy: _blog.blogCategory,
                             blogDate: _blog.blogDate,
-                            blogImages: _blog.blogImages,
+                            blogImages: _blog.blogImages == null
+                                ? null
+                                : _blog.blogImages,
                             blogImage: _blog.blogImage,
                           ));
                     },

@@ -151,7 +151,7 @@ class _LoginViewState extends State<LoginView> {
                             color: BConstantColors.authenticationTxtColor),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: BConstantColors.authenticationBtnColor,
+                        backgroundColor: BConstantColors.authenticationBtnColor,
                         minimumSize: Size(88, 36),
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         shape: const RoundedRectangleBorder(

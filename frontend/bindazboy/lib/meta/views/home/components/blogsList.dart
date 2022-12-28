@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 
 const int maxFailedLoadAttempts = 3;
 
+// ignore: must_be_immutable
 class Bloglist extends StatefulWidget {
   final dynamic snapshot;
   bool? detailpage;

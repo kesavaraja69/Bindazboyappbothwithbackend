@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:bindazboy/app/routes/api.routes.dart';
-import 'package:bindazboy/app/routes/app.routes.dart';
 import 'package:bindazboy/meta/utils/showsnackbar.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -9,7 +8,6 @@ import 'package:logger/logger.dart';
 
 class ViewsApi {
   final client = http.Client();
-  final _logger = Logger();
   final headers = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
@@ -60,7 +58,6 @@ class ViewsApi {
       {required BuildContext context,
       required dynamic useremail,
       required dynamic post_id}) async {
-    final _logger = Logger();
     const subURL = "/views/addviewpost";
     final Uri uri = Uri.parse(APIRoutes.LocalHost + subURL);
 

@@ -22,7 +22,6 @@ class _CatergoryListState extends State<CatergoryList> {
     final catergoryprovider =
         Provider.of<CatergoryBlogNotifer>(context, listen: false);
     _futureCatergory = catergoryprovider.fetchBlogs(context: context);
-    // TODO: implement initState
     super.initState();
   }
 

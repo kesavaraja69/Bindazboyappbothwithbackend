@@ -2,7 +2,6 @@ import 'package:bindazboy/app/constant/colors.dart';
 import 'package:bindazboy/app/routes/app.routes.dart';
 import 'package:bindazboy/meta/utils/reportandcontact.arguments.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {

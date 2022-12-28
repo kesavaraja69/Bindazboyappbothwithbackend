@@ -343,12 +343,14 @@ class _AddBlogState extends State<AddBlog> {
                       if (_mainimageurltext.text.isEmpty) {
                         await utilityNotifer.addAllTypeFile(context: context);
                       }
-                      if (utilityNotifer.audioName != null) {
-                        await utilityNotifer.uploadblogAudio(context: context);
+                      if (utilityNotifer.audioName != null &&
+                          utilityNotifer.audioName!.isNotEmpty) {
+                        await utilityNotifer.addAllTypeFile(
+                            context: context, filetype: "audio");
                         print(utilityNotifer.audioURL);
                         await utilityNotifer.removepreviewaudio();
                       }
-                      Future.delayed(Duration(seconds: 6))
+                      Future.delayed(Duration(seconds: 3))
                           .whenComplete(() async {
                         if (_titletext.text.isNotEmpty &&
                                 _descriptiontext.text.isNotEmpty &&
@@ -421,7 +423,7 @@ class _AddBlogState extends State<AddBlog> {
           style: TextStyle(color: Colors.yellow),
         ),
         style: ElevatedButton.styleFrom(
-          primary: Colors.black,
+          backgroundColor: Colors.black,
           minimumSize: Size(88, 36),
           padding: EdgeInsets.symmetric(horizontal: 16),
           shape: const RoundedRectangleBorder(

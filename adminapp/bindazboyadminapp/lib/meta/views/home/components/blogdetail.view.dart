@@ -38,7 +38,7 @@ class _BlogdetailsviewState extends State<Blogdetailsview> {
               Datadetails datadetails = blogdetialdata;
               return Stack(fit: StackFit.expand, children: <Widget>[
                 Image.network(
-                  datadetails.blogImage,
+                  datadetails.blogImage.toString(),
                   fit: BoxFit.cover,
                   color: Colors.black54.withOpacity(0.50),
                   colorBlendMode: BlendMode.darken,
@@ -90,7 +90,7 @@ class _BlogdetailsviewState extends State<Blogdetailsview> {
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(25.0)),
                   panelBuilder: (controller) => LowerPlane(
-                      blogdetails: datadetails.blogDescription,
+                      blogdetails: datadetails.blogDescription.toString(),
                       controller: controller),
                 ),
                 // Column(

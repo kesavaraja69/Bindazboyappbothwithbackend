@@ -1,8 +1,6 @@
 import 'package:bindazboy/core/notifiers/utility.notifer.dart';
-import 'package:bindazboy/meta/views/home/components/audio/audiodetails/audiobookchaplist.dart';
 import 'package:bindazboy/meta/views/home/components/audio/audiodetails/audiobooklowerplane.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../../../../../app/constant/colors.dart';

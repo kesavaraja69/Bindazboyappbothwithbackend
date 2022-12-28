@@ -82,6 +82,8 @@ class AuthenticationNotifier extends ChangeNotifier {
       final authdata = parsedData["message"];
       final user = parsedData["user"];
 
+      print("data is $authdata");
+
       switch (customStatusCode) {
         case 201:
           _logger.i(user);

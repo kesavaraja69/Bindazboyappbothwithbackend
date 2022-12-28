@@ -1,8 +1,8 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:bindazboy/app/constant/colors.dart';
 import 'package:bindazboy/meta/views/blogdetails/components/audio_player.dart';
 import 'package:bindazboy/meta/views/blogdetails/components/imagesList.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 
 class LowerPlane extends StatelessWidget {
   final String blogdetails;
