@@ -282,12 +282,14 @@ class _BlogdetailsviewState extends State<Blogdetailsview> {
         child: Container(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 9.0, vertical: 4.0),
-            child: Text(
-              title,
-              style: TextStyle(
-                  color: BConstantColors.descrptionColor,
-                  fontSize: size,
-                  fontWeight: weight),
+            child: Center(
+              child: Text(
+                title,
+                style: TextStyle(
+                    color: BConstantColors.descrptionColor,
+                    fontSize: size,
+                    fontWeight: weight),
+              ),
             ),
           ),
           decoration: BoxDecoration(

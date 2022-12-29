@@ -4,6 +4,7 @@ import 'package:bindazboy/app/routes/app.routes.dart';
 import 'package:bindazboy/core/notifiers/audiobook.notifer.dart';
 import 'package:bindazboy/core/notifiers/blogs.notifier.dart';
 import 'package:bindazboy/core/notifiers/cache.notifier.dart';
+import 'package:bindazboy/meta/utils/alertbox.utils.dart';
 import 'package:bindazboy/meta/views/home/components/blogsList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -20,6 +21,47 @@ class HomeBlogs extends StatefulWidget {
 class _HomeBlogsState extends State<HomeBlogs> {
   late Future<dynamic> data;
   late Future<dynamic> data1;
+
+  Future<bool> _logoutdailog() async {
+    return await AlertdailogBoxgm.showAlertbox(
+            context: context,
+            onclick1: () async {
+              await Provider.of<CacheNotifier>(context, listen: false)
+                  .deleteCache(key: "jwtdata");
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  AppRoutes.LoginRoute, (route) => false);
+            },
+            onclick2: () => Navigator.of(context).pop(false),
+            title: "Are you sure?",
+            content: Text(
+              "Do you want to Logout",
+              style: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                  fontSize: 24),
+            ))
+
+        // (await showDialog(
+        //   context: context,
+        //   builder: (context) => new AlertDialog(
+        //     title: new Text('Are you sure?'),
+        //     content: new Text('Do you want to exit an App'),
+        //     actions: <Widget>[
+        //       TextButton(
+        //         onPressed: () => Navigator.of(context).pop(false),
+        //         child: new Text('No'),
+        //       ),
+        //       TextButton(
+        //         onPressed: () => Navigator.of(context).pop(true),
+        //         child: new Text('Yes'),
+        //       ),
+        //     ],
+        //   ),
+        // ))
+
+        ??
+        false;
+  }
 
   Future loadblog() async {
     final databg = Provider.of<BlogNotifer>(context, listen: false)
@@ -51,8 +93,8 @@ class _HomeBlogsState extends State<HomeBlogs> {
 
   @override
   Widget build(BuildContext context) {
-   // final provider = Provider.of<BlogNotifer>(context, listen: false);
-   // final audioprovider = Provider.of<AudioBookNotifer>(context, listen: true);
+    // final provider = Provider.of<BlogNotifer>(context, listen: false);
+    // final audioprovider = Provider.of<AudioBookNotifer>(context, listen: true);
     return SafeArea(
       child: Scaffold(
         backgroundColor: BConstantColors.backgroundColor,
@@ -66,6 +108,7 @@ class _HomeBlogsState extends State<HomeBlogs> {
                   onPressed: widget.keys,
                   icon: Icon(
                     Icons.menu,
+                    size: 29,
                     color: BConstantColors.appbartitleColor,
                   ),
                 ),
@@ -78,13 +121,15 @@ class _HomeBlogsState extends State<HomeBlogs> {
                 ),
                 IconButton(
                   onPressed: () {
-                    Provider.of<CacheNotifier>(context, listen: false)
-                        .deleteCache(key: "jwtdata");
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        AppRoutes.LoginRoute, (route) => false);
+                    // Provider.of<CacheNotifier>(context, listen: false)
+                    //     .deleteCache(key: "jwtdata");
+                    // Navigator.of(context).pushNamedAndRemoveUntil(
+                    //     AppRoutes.LoginRoute, (route) => false);
+                    _logoutdailog();
                   },
                   icon: Icon(
                     Icons.logout,
+                    size: 29,
                     color: BConstantColors.appbartitleColor,
                   ),
                 ),

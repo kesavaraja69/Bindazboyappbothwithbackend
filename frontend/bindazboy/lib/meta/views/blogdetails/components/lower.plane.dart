@@ -7,7 +7,7 @@ import 'package:just_audio/just_audio.dart';
 class LowerPlane extends StatelessWidget {
   final String blogdetails;
   final dynamic audioplay;
-  final dynamic images;
+  final List<String>? images;
   final ScrollController controller;
   final AudioPlayer advancedPlayer;
 
@@ -16,7 +16,7 @@ class LowerPlane extends StatelessWidget {
       required this.controller,
       required this.advancedPlayer,
       this.audioplay,
-      this.images});
+      required this.images});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,9 @@ class LowerPlane extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            images == null ? Container() : ImageList(images: images),
+            images == null || images!.isEmpty
+                ? Container()
+                : ImageList(images: images!),
             audioplay == null
                 ? Container()
                 : AudioFile(
@@ -48,7 +50,7 @@ class LowerPlane extends StatelessWidget {
                 textAlign: TextAlign.left,
                 style: TextStyle(
                     color: BConstantColors.descrptionColor,
-                    fontSize: 17,
+                    fontSize: 18,
                     fontWeight: FontWeight.w500),
               ),
             ),

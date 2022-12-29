@@ -3,7 +3,6 @@ import 'package:bindazboy/app/routes/app.routes.dart';
 import 'package:bindazboy/core/models/blog.model.dart';
 import 'package:bindazboy/core/notifiers/blogs.notifier.dart';
 import 'package:bindazboy/core/notifiers/views.notifier.dart';
-import 'package:bindazboy/meta/utils/ads_helper.dart';
 import 'package:bindazboy/meta/utils/blogdetail_arguments.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +11,7 @@ import 'package:numeral/numeral.dart';
 import 'package:provider/provider.dart';
 
 const int maxFailedLoadAttempts = 3;
+const String testDevice = '198039EA87A433F495D95F51D12D8139';
 
 // ignore: must_be_immutable
 class Bloglist extends StatefulWidget {
@@ -29,7 +29,7 @@ class _BloglistState extends State<Bloglist> {
   InterstitialAd? _interstitialAd;
   int _interstitialLoadAttempts = 0;
   // late BannerAd _bottomBannerAd;
-
+  static final AdRequest request = AdRequest();
   // bool _isBannerAdload = false;
 
   final ScrollController _controller = ScrollController();
@@ -65,7 +65,7 @@ class _BloglistState extends State<Bloglist> {
         }
         List<String> newData = items.length >= widget.snapshot.length
             ? []
-            : List.generate(5, (index) => "${index + items.length}");
+            : List.generate(9, (index) => "${index + items.length}");
         if (newData.isNotEmpty) {
           items.addAll(newData);
         }
@@ -79,28 +79,29 @@ class _BloglistState extends State<Bloglist> {
     }
   }
 
-  void _createInterstitialAd() {
-    InterstitialAd.load(
-      adUnitId: AdHelper.interstrialAdUnitid,
-      request: AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (InterstitialAd ad) {
-          _interstitialAd = ad;
-        },
-        onAdFailedToLoad: (LoadAdError error) {
-          _interstitialLoadAttempts += 1;
-          _interstitialAd = null;
-          if (_interstitialLoadAttempts >= maxFailedLoadAttempts) {
-            _createInterstitialAd();
-          }
-        },
-      ),
-    );
-  }
+  // void _createInterstitialAd() {
+  //   InterstitialAd.load(
+  //     adUnitId: "ca-app-pub-3940256099942544/1033173712",
+  //     request: AdRequest(),
+  //     adLoadCallback: InterstitialAdLoadCallback(
+  //       onAdLoaded: (InterstitialAd ad) {
+  //         _interstitialAd = ad;
+  //       },
+  //       onAdFailedToLoad: (LoadAdError error) {
+  //         _interstitialLoadAttempts += 1;
+  //         _interstitialAd = null;
+  //         if (_interstitialLoadAttempts >= maxFailedLoadAttempts) {
+  //           _createInterstitialAd();
+  //         }
+  //       },
+  //     ),
+  //   );
+  // }
 
   @override
   void initState() {
     super.initState();
+    _createInterstitialAd();
     mockfetch();
     _controller.addListener(() {
       if (_controller.position.pixels >= _controller.position.maxScrollExtent &&
@@ -110,11 +111,56 @@ class _BloglistState extends State<Bloglist> {
     });
 
     // _createBottomBannerAd();
-    _createInterstitialAd();
+
     // _blogwithAds = List.from(widget.snapshot);
     // for (var i = _blogwithAds.length - 2; i >= 1; i -= 3) {
     //   _blogwithAds.insert(i, _bottomBannerAd);
     // }
+  }
+
+  void _createInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+        request: request,
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (InterstitialAd ad) {
+            print('$ad loaded');
+            _interstitialAd = ad;
+            _interstitialLoadAttempts = 0;
+            _interstitialAd!.setImmersiveMode(true);
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            print('InterstitialAd failed to load: $error.');
+            _interstitialLoadAttempts += 1;
+            _interstitialAd = null;
+            if (_interstitialLoadAttempts < maxFailedLoadAttempts) {
+              _createInterstitialAd();
+            }
+          },
+        ));
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd == null) {
+      print('Warning: attempt to show interstitial before loaded.');
+      return;
+    }
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          print('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        print('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        print('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+    );
+    _interstitialAd!.show();
+    _interstitialAd = null;
   }
 
   @override
@@ -124,21 +170,21 @@ class _BloglistState extends State<Bloglist> {
     // _bottomBannerAd.dispose();
   }
 
-  void _showInterstitialAd() {
-    if (_interstitialAd != null) {
-      _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-        onAdDismissedFullScreenContent: (InterstitialAd ad) {
-          ad.dispose();
-          _createInterstitialAd();
-        },
-        onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
-          ad.dispose();
-          _createInterstitialAd();
-        },
-      );
-      _interstitialAd!.show();
-    }
-  }
+  // void _showInterstitialAd() {
+  //   if (_interstitialAd != null) {
+  //     _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+  //       onAdDismissedFullScreenContent: (InterstitialAd ad) {
+  //         ad.dispose();
+  //         _createInterstitialAd();
+  //       },
+  //       onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+  //         ad.dispose();
+  //         _createInterstitialAd();
+  //       },
+  //     );
+  //     _interstitialAd!.show();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -165,8 +211,10 @@ class _BloglistState extends State<Bloglist> {
         final _blog = widget.snapshot[index] as Data;
         return GestureDetector(
           onTap: () async {
+            // _showInterstitialAd();
             int detailid = _blog.blogId;
-            if (index != 0 && (index % 3).toInt() == 0) {
+            print("index is ${(index % 3).toInt()}");
+            if ((index % 3).toInt() == 0) {
               _showInterstitialAd();
             }
             Navigator.of(context).pushNamed(AppRoutes.BlogDetailRoute,

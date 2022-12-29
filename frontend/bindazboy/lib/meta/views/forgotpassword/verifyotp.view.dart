@@ -59,6 +59,10 @@ class _verifyOtpViewState extends State<verifyOtpView> {
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(color: Colors.black)),
                   ),
+                  style: TextStyle(
+                      color: BConstantColors.appbartitleColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700),
                 ),
                 SizedBox(
                   height: 10,

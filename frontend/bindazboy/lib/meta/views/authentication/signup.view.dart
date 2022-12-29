@@ -63,6 +63,10 @@ class _SignupViewState extends State<SignupView> {
                         borderSide:
                             BorderSide(color: BConstantColors.fullblack)),
                   ),
+                  style: TextStyle(
+                      color: BConstantColors.appbartitleColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700),
                 ),
                 SizedBox(
                   height: 10,
@@ -87,6 +91,10 @@ class _SignupViewState extends State<SignupView> {
                         borderSide:
                             BorderSide(color: BConstantColors.fullblack)),
                   ),
+                  style: TextStyle(
+                      color: BConstantColors.appbartitleColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700),
                 ),
                 SizedBox(
                   height: 10,
@@ -128,6 +136,10 @@ class _SignupViewState extends State<SignupView> {
                         borderSide:
                             BorderSide(color: BConstantColors.fullblack)),
                   ),
+                  style: TextStyle(
+                      color: BConstantColors.appbartitleColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700),
                 ),
                 SizedBox(
                   height: 10,

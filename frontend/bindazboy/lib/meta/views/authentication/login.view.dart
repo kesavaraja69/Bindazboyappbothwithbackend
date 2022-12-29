@@ -57,6 +57,7 @@ class _LoginViewState extends State<LoginView> {
                           Icons.email,
                           color: BConstantColors.authenticationIconColor,
                         ),
+
                         hintText: "Enter Email",
                         labelText: 'Email',
                         labelStyle: TextStyle(color: BConstantColors.black),
@@ -70,6 +71,10 @@ class _LoginViewState extends State<LoginView> {
                             borderSide:
                                 BorderSide(color: BConstantColors.fullblack)),
                       ),
+                      style: TextStyle(
+                          color: BConstantColors.appbartitleColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700),
                     ),
                     SizedBox(
                       height: 20,
@@ -113,6 +118,10 @@ class _LoginViewState extends State<LoginView> {
                             borderSide:
                                 BorderSide(color: BConstantColors.fullblack)),
                       ),
+                      style: TextStyle(
+                          color: BConstantColors.appbartitleColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700),
                     ),
                     SizedBox(
                       height: 10,

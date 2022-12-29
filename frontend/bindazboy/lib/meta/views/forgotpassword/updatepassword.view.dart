@@ -77,6 +77,10 @@ class _UpdatePasswordViewState extends State<UpdatePasswordView> {
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(color: Colors.black)),
                   ),
+                  style: TextStyle(
+                      color: BConstantColors.appbartitleColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700),
                 ),
                 SizedBox(
                   height: 10,
@@ -110,6 +114,10 @@ class _UpdatePasswordViewState extends State<UpdatePasswordView> {
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(color: Colors.black)),
                   ),
+                  style: TextStyle(
+                      color: BConstantColors.appbartitleColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700),
                 ),
                 SizedBox(
                   height: 10,
