@@ -339,7 +339,7 @@ class _AddBlogState extends State<AddBlog> {
                     onclick: () async {
                       var title = _titletext.text;
                       var description = _descriptiontext.text;
-                      // EasyLoading.show(status: 'Uploading..Wait..');
+                      EasyLoading.show(status: 'Uploading..Wait..');
                       if (_mainimageurltext.text.isEmpty) {
                         await utilityNotifer.addAllTypeFile(context: context);
                       }
