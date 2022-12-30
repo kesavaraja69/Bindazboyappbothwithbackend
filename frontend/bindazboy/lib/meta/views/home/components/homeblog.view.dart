@@ -254,7 +254,6 @@ class _HomeBlogsState extends State<HomeBlogs> {
                     }),
               ),
             ),
-           
           ],
         ),
       ),
