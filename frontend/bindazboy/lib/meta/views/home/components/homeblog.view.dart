@@ -5,7 +5,7 @@ import 'package:bindazboy/core/notifiers/audiobook.notifer.dart';
 import 'package:bindazboy/core/notifiers/blogs.notifier.dart';
 import 'package:bindazboy/core/notifiers/cache.notifier.dart';
 import 'package:bindazboy/meta/utils/alertbox.utils.dart';
-import 'package:bindazboy/meta/views/home/components/blogsList.dart';
+import 'package:bindazboy/meta/views/home/components/parallxBlogList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -212,12 +212,15 @@ class _HomeBlogsState extends State<HomeBlogs> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            Expanded(
-              child: RefreshIndicator(
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.85,
+              child: 
+              RefreshIndicator(
                 onRefresh: loadblogs,
                 backgroundColor: BConstantColors.black,
                 color: BConstantColors.yellow,
-                child: FutureBuilder(
+                child: 
+                FutureBuilder(
                     future: data1,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -252,7 +255,7 @@ class _HomeBlogsState extends State<HomeBlogs> {
                         child: Text("something went wrong try again"),
                       );
                     }),
-              ),
+             ),
             ),
           ],
         ),

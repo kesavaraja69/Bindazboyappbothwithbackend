@@ -4,9 +4,8 @@ import 'package:bindazboy/core/models/blog.model.dart';
 import 'package:bindazboy/core/notifiers/blogs.notifier.dart';
 import 'package:bindazboy/core/notifiers/views.notifier.dart';
 import 'package:bindazboy/meta/utils/blogdetail_arguments.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:bindazboy/meta/views/home/components/finalparallaxlist.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:numeral/numeral.dart';
 import 'package:provider/provider.dart';
@@ -34,8 +33,6 @@ class _BloglistState extends State<Bloglist> {
   // bool _isBannerAdload = false;
 
   final ScrollController _controller = ScrollController();
-
-  final GlobalKey _backgroudimagekey = GlobalKey();
 
   // void _createBottomBannerAd() {
   //   _bottomBannerAd = BannerAd(
@@ -81,25 +78,6 @@ class _BloglistState extends State<Bloglist> {
       });
     }
   }
-
-  // void _createInterstitialAd() {
-  //   InterstitialAd.load(
-  //     adUnitId: "ca-app-pub-3940256099942544/1033173712",
-  //     request: AdRequest(),
-  //     adLoadCallback: InterstitialAdLoadCallback(
-  //       onAdLoaded: (InterstitialAd ad) {
-  //         _interstitialAd = ad;
-  //       },
-  //       onAdFailedToLoad: (LoadAdError error) {
-  //         _interstitialLoadAttempts += 1;
-  //         _interstitialAd = null;
-  //         if (_interstitialLoadAttempts >= maxFailedLoadAttempts) {
-  //           _createInterstitialAd();
-  //         }
-  //       },
-  //     ),
-  //   );
-  // }
 
   @override
   void initState() {
@@ -174,470 +152,174 @@ class _BloglistState extends State<Bloglist> {
     // _bottomBannerAd.dispose();
   }
 
-  // void _showInterstitialAd() {
-  //   if (_interstitialAd != null) {
-  //     _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-  //       onAdDismissedFullScreenContent: (InterstitialAd ad) {
-  //         ad.dispose();
-  //         _createInterstitialAd();
-  //       },
-  //       onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
-  //         ad.dispose();
-  //         _createInterstitialAd();
-  //       },
-  //     );
-  //     _interstitialAd!.show();
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     final postprovider = Provider.of<BlogNotifer>(context, listen: false);
     final viewprovider = Provider.of<ViewsNotifier>(context, listen: false);
     return ListView.builder(
-      // separatorBuilder: (context, index) {
-      //   return (_isBottomBannerAdLoaded && index != 0 && index % 3 == 0)
-      //       ? Container(
-      //           height: _bottomBannerAd.size.height.toDouble(),
-      //           width: _bottomBannerAd.size.width.toDouble(),
-      //           child: AdWidget(key: UniqueKey(), ad: _bottomBannerAd),
-      //         )
-      //       : Divider(
-      //           height: 2.0,
-      //         );
-      // },
-      itemCount: items.length >= widget.snapshot.length
-          ? widget.snapshot.length
-          : widget.detailpage == false
-              ? items.length
-              : widget.snapshot.length,
-      itemBuilder: (context, index) {
-        final _blog = widget.snapshot[index] as Data;
-        return GestureDetector(
-            onTap: () async {
-              // _showInterstitialAd();
-              int detailid = _blog.blogId;
-              print("index is ${(index % 3).toInt()}");
-              if ((index % 3).toInt() == 0) {
-                _showInterstitialAd();
-              }
-              Navigator.of(context).pushNamed(AppRoutes.BlogDetailRoute,
-                  arguments: BlogDetailArguments(id: detailid));
-              // EasyLoading.show(status: 'Updateing..Wait..');
-              await viewprovider
-                  .checkViews(context: context, post_id: _blog.blogId)
-                  .whenComplete(() async {
-                if (viewprovider.isviewData == false) {
-                  //  EasyLoading.dismiss();
+        // separatorBuilder: (context, index) {
+        //   return (_isBottomBannerAdLoaded && index != 0 && index % 3 == 0)
+        //       ? Container(
+        //           height: _bottomBannerAd.size.height.toDouble(),
+        //           width: _bottomBannerAd.size.width.toDouble(),
+        //           child: AdWidget(key: UniqueKey(), ad: _bottomBannerAd),
+        //         )
+        //       : Divider(
+        //           height: 2.0,
+        //         );
+        // },
+        shrinkWrap: true,
+        itemCount: items.length >= widget.snapshot.length
+            ? widget.snapshot.length
+            : widget.detailpage == false
+                ? items.length
+                : widget.snapshot.length,
+        itemBuilder: (context, index) {
+          final _blog = widget.snapshot[index] as Data;
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 9),
+            child: GestureDetector(
+                onTap: () async {
+                  // _showInterstitialAd();
+                  int detailid = _blog.blogId;
+                  print("index is ${(index % 3).toInt()}");
+                  if ((index % 3).toInt() == 0) {
+                    _showInterstitialAd();
+                  }
+                  Navigator.of(context).pushNamed(AppRoutes.BlogDetailRoute,
+                      arguments: BlogDetailArguments(id: detailid));
+                  // EasyLoading.show(status: 'Updateing..Wait..');
                   await viewprovider
-                      .addView(context: context, fspostid: _blog.blogId)
-                      .then((v) {
-                    viewprovider
-                        .featchViews(context: context, post_id: _blog.blogId)
-                        .then((f) {
-                      //    _logger.i("view is ${viewprovider.likeidData2}");
-                      postprovider.addviewupdatepost(
-                          context: context,
-                          blog_id: _blog.blogId,
-                          post_view:
-                              "${viewprovider.viewidData2.toString()}");
-                    });
+                      .checkViews(context: context, post_id: _blog.blogId)
+                      .whenComplete(() async {
+                    if (viewprovider.isviewData == false) {
+                      //  EasyLoading.dismiss();
+                      await viewprovider
+                          .addView(context: context, fspostid: _blog.blogId)
+                          .then((v) {
+                        viewprovider
+                            .featchViews(
+                                context: context, post_id: _blog.blogId)
+                            .then((f) {
+                          //    _logger.i("view is ${viewprovider.likeidData2}");
+                          postprovider.addviewupdatepost(
+                              context: context,
+                              blog_id: _blog.blogId,
+                              post_view:
+                                  "${viewprovider.viewidData2.toString()}");
+                        });
+                      });
+                    }
                   });
-                }
-              });
-            },
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 9, vertical: 9),
-              width: MediaQuery.of(context).size.width,
-              height: 135,
-              decoration: BoxDecoration(
-                color: BConstantColors.fullblack,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                      color: BConstantColors.fullblack.withOpacity(0.6),
-                      offset: Offset(0.0, 10.0),
-                      blurRadius: 10.0,
-                      spreadRadius: -6.0),
-                ],
-                // image: DecorationImage(
-                //     colorFilter: ColorFilter.mode(
-                //         BConstantColors.fullblack.withOpacity(0.55),
-                //         BlendMode.darken),
-                //     image: "",
-                //     fit: BoxFit.cover),
-              ),
-              child: Stack(
-                children: [
-                  Flow(
-                    delegate: ParallexFlowDelegate(
-                        scrollable: Scrollable.of(context)!,
-                        listItemContext: context,
-                        backgroundkey: _backgroudimagekey),
-                    children: [
-                      Image.network(
-                        _blog.blogImage,
-                        key: _backgroudimagekey,
-                        fit: BoxFit.cover,
-                      ),
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 135,
+                  decoration: BoxDecoration(
+                    color: BConstantColors.fullblack,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                          color: BConstantColors.fullblack.withOpacity(0.6),
+                          offset: Offset(0.0, 10.0),
+                          blurRadius: 10.0,
+                          spreadRadius: -6.0),
                     ],
                   ),
-                  Positioned(
-                    top: 19,
-                    right: 6,
-                    left: 6,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Text(
-                            _blog.blogTitle,
-                            overflow: TextOverflow.clip,
-                            maxLines: null,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: BConstantColors.titleColor,
-                                fontWeight: FontWeight.bold),
-                          ),
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: LocationListItem(
+                          imageUrl: "${_blog.blogImage}",
                         ),
-                      ],
-                    ),
-                  ),
-                  Align(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 13, vertical: 9.0),
-                      child: Text(
-                        "Posted On ${_blog.blogDate.split('-').reversed.join('-')}",
-                        style: TextStyle(
-                            color:
-                                BConstantColors.titleColor.withOpacity(0.75),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 10),
                       ),
-                    ),
-                    alignment: Alignment.bottomLeft,
-                  ),
-                  Positioned(
-                    bottom: 1,
-                    left: MediaQuery.of(context).size.width * 0.42,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 7, vertical: 7),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.visibility,
-                            size: 13,
-                            color:
-                                BConstantColors.titleColor.withOpacity(0.75),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            "${Numeral(int.parse(_blog.blogView)).format()}",
+                      Positioned(
+                        top: 19,
+                        right: 6,
+                        left: 6,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Text(
+                                _blog.blogTitle,
+                                overflow: TextOverflow.clip,
+                                maxLines: null,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: BConstantColors.titleColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Align(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 13, vertical: 9.0),
+                          child: Text(
+                            "Posted On ${_blog.blogDate.split('-').reversed.join('-')}",
                             style: TextStyle(
                                 color: BConstantColors.titleColor
                                     .withOpacity(0.75),
                                 fontWeight: FontWeight.w500,
-                                fontSize: 13),
+                                fontSize: 10),
                           ),
-                        ],
+                        ),
+                        alignment: Alignment.bottomLeft,
                       ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 13, vertical: 9.0),
-                      child: Text(
-                        "Posted By BindazBoy",
-                        style: TextStyle(
-                            color:
-                                BConstantColors.titleColor.withOpacity(0.75),
-                            fontWeight: FontWeight.w400,
-                            fontSize: 9),
+                      Positioned(
+                        bottom: 1,
+                        left: MediaQuery.of(context).size.width * 0.42,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 7, vertical: 7),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.visibility,
+                                size: 13,
+                                color: BConstantColors.titleColor
+                                    .withOpacity(0.75),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "${Numeral(int.parse(_blog.blogView)).format()}",
+                                style: TextStyle(
+                                    color: BConstantColors.titleColor
+                                        .withOpacity(0.75),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 13),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 13, vertical: 9.0),
+                          child: Text(
+                            "Posted By BindazBoy",
+                            style: TextStyle(
+                                color: BConstantColors.titleColor
+                                    .withOpacity(0.75),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 9),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ));
-
-        // CachedNetworkImage(
-        //   imageUrl: "${_blog.blogImage}",
-        //   width: MediaQuery.of(context).size.width,
-        //   height: 135,
-        //   imageBuilder: (context, imageProvider) =>
-        //   Container(
-        //     margin: const EdgeInsets.symmetric(
-        //         horizontal: 9, vertical: 9),
-        //     width: MediaQuery.of(context).size.width,
-        //     height: 135,
-        //     decoration: BoxDecoration(
-        //       color: BConstantColors.fullblack,
-        //       borderRadius: BorderRadius.circular(15),
-        //       boxShadow: [
-        //         BoxShadow(
-        //             color: BConstantColors.fullblack.withOpacity(0.6),
-        //             offset: Offset(0.0, 10.0),
-        //             blurRadius: 10.0,
-        //             spreadRadius: -6.0),
-        //       ],
-        //       image: DecorationImage(
-        //           colorFilter: ColorFilter.mode(
-        //               BConstantColors.fullblack.withOpacity(0.55),
-        //               BlendMode.darken),
-        //           image: imageProvider,
-        //           fit: BoxFit.cover),
-        //     ),
-        //     child:
-        //     Stack(
-        //       children: [
-        //         Positioned(
-        //           top: 19,
-        //           right: 6,
-        //           left: 6,
-        //           child: Column(
-        //             crossAxisAlignment: CrossAxisAlignment.center,
-        //             children: [
-        //               Padding(
-        //                 padding: const EdgeInsets.only(top: 10.0),
-        //                 child: Text(
-        //                   _blog.blogTitle,
-        //                   overflow: TextOverflow.clip,
-        //                   maxLines: null,
-        //                   textAlign: TextAlign.center,
-        //                   style: TextStyle(
-        //                       fontSize: 16,
-        //                       color: BConstantColors.titleColor,
-        //                       fontWeight: FontWeight.bold),
-        //                 ),
-        //               ),
-        //             ],
-        //           ),
-        //         ),
-        //         Align(
-        //           child: Padding(
-        //             padding: const EdgeInsets.symmetric(
-        //                 horizontal: 13, vertical: 9.0),
-        //             child: Text(
-        //               "Posted On ${_blog.blogDate.split('-').reversed.join('-')}",
-        //               style: TextStyle(
-        //                   color: BConstantColors.titleColor
-        //                       .withOpacity(0.75),
-        //                   fontWeight: FontWeight.w500,
-        //                   fontSize: 10),
-        //             ),
-        //           ),
-        //           alignment: Alignment.bottomLeft,
-        //         ),
-        //         Positioned(
-        //           bottom: 1,
-        //           left: MediaQuery.of(context).size.width * 0.42,
-        //           child: Padding(
-        //             padding: const EdgeInsets.symmetric(
-        //                 horizontal: 7, vertical: 7),
-        //             child: Row(
-        //               children: [
-        //                 Icon(
-        //                   Icons.visibility,
-        //                   size: 13,
-        //                   color: BConstantColors.titleColor
-        //                       .withOpacity(0.75),
-        //                 ),
-        //                 SizedBox(
-        //                   width: 5,
-        //                 ),
-        //                 Text(
-        //                   "${Numeral(int.parse(_blog.blogView)).format()}",
-        //                   style: TextStyle(
-        //                       color: BConstantColors.titleColor
-        //                           .withOpacity(0.75),
-        //                       fontWeight: FontWeight.w500,
-        //                       fontSize: 13),
-        //                 ),
-        //               ],
-        //             ),
-        //           ),
-        //         ),
-        //         Align(
-        //           alignment: Alignment.bottomRight,
-        //           child: Padding(
-        //             padding: const EdgeInsets.symmetric(
-        //                 horizontal: 13, vertical: 9.0),
-        //             child: Text(
-        //               "Posted By BindazBoy",
-        //               style: TextStyle(
-        //                   color: BConstantColors.titleColor
-        //                       .withOpacity(0.75),
-        //                   fontWeight: FontWeight.w400,
-        //                   fontSize: 9),
-        //             ),
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-
-        //   // placeholder: (context, url) => const SizedBox(
-        //   //   height: 15,
-        //   //   width: 15,
-        //   //   child: CircularProgressIndicator(
-        //   //     color: Colors.deepPurpleAccent,
-        //   //   ),
-        //   // ),
-        //   errorWidget: (context, url, error) =>
-        //       const Icon(Icons.image_search_rounded),
-        // ),
-        // );
-      },
-    );
-  }
-}
-
-class ParallexFlowDelegate extends FlowDelegate {
-  ParallexFlowDelegate({
-    required this.scrollable,
-    required this.listItemContext,
-    required this.backgroundkey,
-  }) : super(repaint: scrollable.position);
-
-  final ScrollableState scrollable;
-  final BuildContext listItemContext;
-  final GlobalKey backgroundkey;
-
-  @override
-  BoxConstraints getConstraintsForChild(int i, BoxConstraints boxConstraints) {
-    return BoxConstraints.tightFor(width: boxConstraints.maxWidth);
-  }
-
-  @override
-  void paintChildren(FlowPaintingContext context) {
-    final scrollableBox = scrollable.context.findRenderObject() as RenderBox;
-    final listitemBox = listItemContext.findRenderObject() as RenderBox;
-    final listItemOffset = listitemBox.localToGlobal(
-        listitemBox.size.center(Offset.zero),
-        ancestor: scrollableBox);
-    final viewportDimension = scrollable.position.viewportDimension;
-    final scrollFraction =
-        (listItemOffset.dy / viewportDimension).clamp(0.0, 1.0);
-    final verticalAliment = Alignment(0.0, scrollFraction * 2 - 1);
-    final backgroundSize =
-        (backgroundkey.currentContext!.findRenderObject() as RenderBox).size;
-
-    final listItemSize = context.size;
-
-    final childRect =
-        verticalAliment.inscribe(backgroundSize, Offset.zero & listItemSize);
-
-    context.paintChild(0,
-        transform:
-            Transform.translate(offset: Offset(0.0, childRect.top)).transform);
-  }
-
-  @override
-  bool shouldRepaint(ParallexFlowDelegate oldDelegate) {
-    return scrollable != oldDelegate.scrollable ||
-        listItemContext != oldDelegate.listItemContext ||
-        backgroundkey != oldDelegate.backgroundkey;
-  }
-}
-
-class Parallax extends SingleChildRenderObjectWidget {
-  const Parallax({
-    required Widget background,
-  }) : super(child: background);
-
-  @override
-  RenderObject createRenderObject(BuildContext context) {
-    return RenderParallax(scrollable: Scrollable.of(context)!);
-  }
-}
-
-class ParallaxParentData extends ContainerBoxParentData<RenderBox> {}
-
-class RenderParallax extends RenderBox
-    with RenderObjectWithChildMixin<RenderBox>, RenderProxyBoxMixin {
-  RenderParallax({required ScrollableState scrollable})
-      : _scrollable = scrollable;
-
-  ScrollableState _scrollable;
-
-  ScrollableState get scrollable => _scrollable;
-
-  set scrollable(ScrollableState value) {
-    if (value != _scrollable) {
-      if (attached) {
-        _scrollable.position.removeListener(markNeedsLayout);
-      }
-      _scrollable = value;
-      if (attached) {
-        _scrollable.position.addListener(markNeedsLayout);
-      }
-    }
-  }
-
-  @override
-  void attach(covariant PipelineOwner owner) {
-    super.attach(owner);
-    _scrollable.position.addListener(markNeedsLayout);
-  }
-
-  @override
-  void detach() {
-    _scrollable.position.removeListener(markNeedsLayout);
-    super.detach();
-  }
-
-  @override
-  void setupParentData(covariant RenderObject child) {
-    if (child.parentData is! ParallaxParentData) {
-      child.parentData = ParallaxParentData();
-    }
-  }
-
-  @override
-  void performLayout() {
-    final background = child;
-    final backgroundImageConstraints =
-        BoxConstraints.tightFor(width: size.width);
-    background!.layout(backgroundImageConstraints, parentUsesSize: true);
-
-    (background.parentData as ParallaxParentData).offset = Offset.zero;
-  }
-
-  @override
-  void paint(PaintingContext context, Offset offset) {
-    final viewportDimension = scrollable.position.viewportDimension;
-
-    final scrollableBox = scrollable.context.findRenderObject() as RenderBox;
-
-    final backgroundOffset =
-        localToGlobal(size.centerLeft(Offset.zero), ancestor: scrollableBox);
-
-    final scrollFraction =
-        (backgroundOffset.dy / viewportDimension).clamp(0.0, 1.0);
-
-    final verticalAligment = Alignment(0.0, scrollFraction * 2 - 1);
-
-    final background = child;
-
-    final backgroundSize = background?.size;
-
-    final listItemSize = size;
-
-    final childRect =
-        verticalAligment.inscribe(backgroundSize!, Offset.zero & listItemSize);
-
-    context.paintChild(
-        background!,
-        (background.parentData as ParallaxParentData).offset +
-            offset +
-            Offset(0.0, childRect.top));
+                )),
+          );
+        });
   }
 }
