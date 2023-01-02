@@ -88,23 +88,23 @@ class AuthenticationNotifer extends ChangeNotifier {
       var response = AuthResponse.fromJson(jsonDecode(_userData));
       final customStatusCode = response.code;
       final customMessage = response.message;
-      final user = response.user;
-      final authdata = response.message;
 
-      _logger.i(customMessage, customStatusCode);
+      //  _logger.i(customMessage, customStatusCode);
 
       switch (customStatusCode) {
         case 201:
+          final authdata = response.message;
           _loggedUserEmail = response.user;
+          final user = response.user;
           _logger.i(response.user);
           notifyListeners();
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("$user Logged in"),
           ));
           await Provider.of<CacheNotifier>(context, listen: false)
-              .writeCache(key: "key2", value: user);
+              .writeCache(key: "key2", value: user.toString());
           await Provider.of<CacheNotifier>(context, listen: false)
-              .writeCache(key: "jwtdata", value: authdata)
+              .writeCache(key: "jwtdata", value: authdata.toString())
               .whenComplete(() => Navigator.of(context).pushNamedAndRemoveUntil(
                   AppRoutes.HomeRoute, (route) => false));
 
@@ -113,7 +113,7 @@ class AuthenticationNotifer extends ChangeNotifier {
         case 401:
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(customMessage),
+              content: Text(customMessage.toString()),
             ),
           );
           break;
@@ -137,7 +137,7 @@ class AuthenticationNotifer extends ChangeNotifier {
         case 403:
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(customMessage),
+              content: Text(customMessage.toString()),
             ),
           );
           break;

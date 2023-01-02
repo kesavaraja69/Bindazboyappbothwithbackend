@@ -1,4 +1,4 @@
-package com.bindazboy20.bindazboyblogapp
+package com.dragonfistztamilan.bindazboyblogapp
 
 import io.flutter.embedding.android.FlutterActivity
 

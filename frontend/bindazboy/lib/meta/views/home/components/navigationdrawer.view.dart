@@ -63,7 +63,7 @@ class NavigationDrawerWidget extends StatelessWidget {
             GestureDetector(
                 onTap: () {
                   final url =
-                      'https://pages.flycricket.io/bindazboy-privacy/privacy.html';
+                      'https://pages.flycricket.io/bindazboyblog/privacy.html';
                   openBrowserUrl(url: url, inApp: true);
                 },
                 child: bulidMenuItem(

@@ -1,6 +1,7 @@
 import 'package:bindazboy/app/constant/colors.dart';
 import 'package:bindazboy/core/notifiers/forgotpassword.notifier.dart';
 import 'package:bindazboy/meta/utils/otpverify_arguments.dart';
+import 'package:bindazboy/meta/utils/showsnackbar.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +32,7 @@ class _verifyOtpViewState extends State<verifyOtpView> {
       backgroundColor: BConstantColors.backgroundColor,
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -45,6 +46,10 @@ class _verifyOtpViewState extends State<verifyOtpView> {
                 ),
                 SizedBox(
                   height: 40,
+                ),
+                labeltext("Email"),
+                const SizedBox(
+                  height: 6,
                 ),
                 TextField(
                   controller: otpVerifyController,
@@ -61,8 +66,8 @@ class _verifyOtpViewState extends State<verifyOtpView> {
                   ),
                   style: TextStyle(
                       color: BConstantColors.appbartitleColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700),
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                   height: 10,

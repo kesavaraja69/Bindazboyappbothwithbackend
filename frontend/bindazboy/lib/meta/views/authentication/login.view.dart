@@ -1,6 +1,7 @@
 import 'package:bindazboy/app/constant/colors.dart';
 import 'package:bindazboy/app/routes/app.routes.dart';
 import 'package:bindazboy/core/notifiers/authentication.notifier.dart';
+import 'package:bindazboy/meta/utils/showsnackbar.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,14 @@ class _LoginViewState extends State<LoginView> {
   }
 
   @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final authenticationNotifer =
         Provider.of<AuthenticationNotifer>(context, listen: false);
@@ -33,7 +42,7 @@ class _LoginViewState extends State<LoginView> {
         resizeToAvoidBottomInset: false,
         backgroundColor: BConstantColors.backgroundColor,
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -50,6 +59,10 @@ class _LoginViewState extends State<LoginView> {
                     SizedBox(
                       height: 40,
                     ),
+                    labeltext("Email"),
+                    const SizedBox(
+                      height: 6,
+                    ),
                     TextField(
                       controller: emailController,
                       decoration: InputDecoration(
@@ -59,7 +72,7 @@ class _LoginViewState extends State<LoginView> {
                         ),
 
                         hintText: "Enter Email",
-                        labelText: 'Email',
+
                         labelStyle: TextStyle(color: BConstantColors.black),
                         //fillColor: Colors.white,
                         focusedBorder: OutlineInputBorder(
@@ -73,11 +86,15 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       style: TextStyle(
                           color: BConstantColors.appbartitleColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700),
+                          fontSize: 19,
+                          fontWeight: FontWeight.w600),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 25,
+                    ),
+                    labeltext("Password"),
+                    const SizedBox(
+                      height: 6,
                     ),
                     TextField(
                       obscureText: _isPasswordVisible,
@@ -106,7 +123,6 @@ class _LoginViewState extends State<LoginView> {
                                         BConstantColors.authenticationIconColor,
                                   )),
                         hintText: "Enter Password",
-                        labelText: 'Password',
                         labelStyle: TextStyle(color: BConstantColors.black),
                         fillColor: Colors.white,
                         focusedBorder: OutlineInputBorder(
@@ -120,8 +136,8 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       style: TextStyle(
                           color: BConstantColors.appbartitleColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700),
+                          fontSize: 19,
+                          fontWeight: FontWeight.w600),
                     ),
                     SizedBox(
                       height: 10,
@@ -157,11 +173,12 @@ class _LoginViewState extends State<LoginView> {
                       child: Text(
                         "Login",
                         style: TextStyle(
-                            color: BConstantColors.authenticationTxtColor),
+                            color: BConstantColors.authenticationTxtColor,
+                            fontSize: 19),
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: BConstantColors.authenticationBtnColor,
-                        minimumSize: Size(88, 36),
+                        minimumSize: Size(95, 39),
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(7)),
@@ -178,9 +195,9 @@ class _LoginViewState extends State<LoginView> {
                       child: Text(
                         "New member? SignUp",
                         style: TextStyle(
-                          color: BConstantColors.appbartitleColor,
-                          fontSize: 20,
-                        ),
+                            color: BConstantColors.appbartitleColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600),
                       ),
                     )
                   ],

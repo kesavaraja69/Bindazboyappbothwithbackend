@@ -1,6 +1,7 @@
 import 'package:bindazboy/app/constant/colors.dart';
 import 'package:bindazboy/app/routes/app.routes.dart';
 import 'package:bindazboy/core/notifiers/authentication.notifier.dart';
+import 'package:bindazboy/meta/utils/showsnackbar.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +25,14 @@ class _SignupViewState extends State<SignupView> {
   }
 
   @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    nameController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final authenticationNotifer =
         Provider.of<AuthenticationNotifer>(context, listen: false);
@@ -31,12 +40,14 @@ class _SignupViewState extends State<SignupView> {
       backgroundColor: BConstantColors.backgroundColor,
       resizeToAvoidBottomInset: false,
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 25),
         child: Container(
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(
+                  height: 140,
+                ),
                 Text(
                   "SignUp",
                   style: TextStyle(
@@ -47,11 +58,14 @@ class _SignupViewState extends State<SignupView> {
                 SizedBox(
                   height: 40,
                 ),
+                labeltext("Name"),
+                const SizedBox(
+                  height: 6,
+                ),
                 TextField(
                   controller: nameController,
                   decoration: InputDecoration(
                     hintText: "Enter Name",
-                    labelText: 'Name',
                     labelStyle: TextStyle(color: BConstantColors.black),
                     //fillColor: Colors.white,
                     focusedBorder: OutlineInputBorder(
@@ -65,11 +79,15 @@ class _SignupViewState extends State<SignupView> {
                   ),
                   style: TextStyle(
                       color: BConstantColors.appbartitleColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700),
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 12,
+                ),
+                labeltext("Email"),
+                const SizedBox(
+                  height: 6,
                 ),
                 TextField(
                   controller: emailController,
@@ -79,7 +97,6 @@ class _SignupViewState extends State<SignupView> {
                       color: BConstantColors.authenticationIconColor,
                     ),
                     hintText: "Enter Email",
-                    labelText: 'Email',
                     labelStyle: TextStyle(color: BConstantColors.black),
                     //fillColor: Colors.white,
                     focusedBorder: OutlineInputBorder(
@@ -93,11 +110,15 @@ class _SignupViewState extends State<SignupView> {
                   ),
                   style: TextStyle(
                       color: BConstantColors.appbartitleColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700),
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 12,
+                ),
+                labeltext("Create Password"),
+                const SizedBox(
+                  height: 6,
                 ),
                 TextField(
                   obscureText: _isPasswordVisible,
@@ -124,7 +145,7 @@ class _SignupViewState extends State<SignupView> {
                                 color: BConstantColors.authenticationIconColor,
                               )),
                     hintText: "Enter Password",
-                    labelText: 'Password',
+
                     labelStyle: TextStyle(color: BConstantColors.black),
                     //fillColor: Colors.white,
                     focusedBorder: OutlineInputBorder(
@@ -138,11 +159,11 @@ class _SignupViewState extends State<SignupView> {
                   ),
                   style: TextStyle(
                       color: BConstantColors.appbartitleColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700),
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 12,
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -166,11 +187,12 @@ class _SignupViewState extends State<SignupView> {
                   child: Text(
                     "SignUp",
                     style: TextStyle(
-                        color: BConstantColors.authenticationTxtColor),
+                        color: BConstantColors.authenticationTxtColor,
+                        fontSize: 18),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: BConstantColors.authenticationBtnColor,
-                    minimumSize: Size(88, 36),
+                    minimumSize: Size(95, 39),
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(7)),
@@ -187,9 +209,9 @@ class _SignupViewState extends State<SignupView> {
                   child: Text(
                     "Old member? Login",
                     style: TextStyle(
-                      color: BConstantColors.appbartitleColor,
-                      fontSize: 20,
-                    ),
+                        color: BConstantColors.appbartitleColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600),
                   ),
                 )
               ],

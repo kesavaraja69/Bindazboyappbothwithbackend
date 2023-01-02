@@ -63,6 +63,7 @@ class _BlogdetailsviewState extends State<Blogdetailsview> {
     final planeHeightclosed = MediaQuery.of(context).size.height * 0.65;
     final planeHeightopen = MediaQuery.of(context).size.height * 0.65;
     final screenheight = MediaQuery.of(context).size.height;
+    final screenwidth = MediaQuery.of(context).size.width;
 
     final provider = Provider.of<BlogNotifer>(context, listen: false);
     final BookmarkNotifier bookmarkNotifier =
@@ -224,28 +225,28 @@ class _BlogdetailsviewState extends State<Blogdetailsview> {
                                     ),
                                   )),
                               Positioned(
-                                  top: screenheight * 0.23,
+                                  top: screenheight * 0.22,
                                   right: 4,
                                   child: titletext(
                                       context,
                                       "Posted On ${datadetails.blogDate.toString().split('-').reversed.join('-')}",
-                                      12.0,
+                                      screenwidth * 0.029,
                                       FontWeight.w500)),
                               Positioned(
-                                top: screenheight * 0.23,
+                                top: screenheight * 0.22,
                                 left: 3,
                                 child: titletext(
                                     context,
                                     "Category by ${datadetails.blogCategory}",
-                                    12.0,
+                                    screenwidth * 0.029,
                                     FontWeight.w500),
                               ),
                               Positioned(
-                                top: screenheight * 0.12,
+                                top: screenheight * 0.115,
                                 left: 50,
                                 right: 50,
                                 child: titletext(context, datadetails.blogTitle,
-                                    16.0, FontWeight.bold),
+                                    screenwidth * 0.037, FontWeight.bold),
                               ),
                               SlidingUpPanel(
                                 color: Colors.black.withOpacity(0.30),

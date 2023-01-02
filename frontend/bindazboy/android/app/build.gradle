@@ -42,9 +42,9 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.bindazboy20.bindazboyblogapp"
+        applicationId "com.dragonfistztamilan.bindazboyblogapp"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -85,8 +85,11 @@ flutter {
 
 dependencies {
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.window:window:1.1.0-alpha04'
     implementation 'com.google.android.material:material:1.6.0'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
-implementation 'com.google.android.gms:play-services-ads:21.4.0'
+    implementation 'com.google.android.gms:play-services-ads:21.4.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
+
+android.buildTypes.release.ndk.debugSymbolLevel = { SYMBOL_TABLE | FULL }

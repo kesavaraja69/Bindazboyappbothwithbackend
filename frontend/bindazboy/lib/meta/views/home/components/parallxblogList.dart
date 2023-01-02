@@ -156,6 +156,7 @@ class _BloglistState extends State<Bloglist> {
   Widget build(BuildContext context) {
     final postprovider = Provider.of<BlogNotifer>(context, listen: false);
     final viewprovider = Provider.of<ViewsNotifier>(context, listen: false);
+    final screenwidth = MediaQuery.of(context).size.width;
     return ListView.builder(
         // separatorBuilder: (context, index) {
         //   return (_isBottomBannerAdLoaded && index != 0 && index % 3 == 0)
@@ -249,7 +250,7 @@ class _BloglistState extends State<Bloglist> {
                                 maxLines: null,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: screenwidth * 0.043,
                                     color: BConstantColors.titleColor,
                                     fontWeight: FontWeight.bold),
                               ),

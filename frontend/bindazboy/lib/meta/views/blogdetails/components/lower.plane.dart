@@ -50,7 +50,7 @@ class LowerPlane extends StatelessWidget {
                 textAlign: TextAlign.left,
                 style: TextStyle(
                     color: BConstantColors.descrptionColor,
-                    fontSize: 18,
+                    fontSize: MediaQuery.of(context).size.width * 0.043,
                     fontWeight: FontWeight.w500),
               ),
             ),

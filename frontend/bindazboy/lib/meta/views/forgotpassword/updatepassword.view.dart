@@ -1,5 +1,6 @@
 import 'package:bindazboy/app/constant/colors.dart';
 import 'package:bindazboy/core/notifiers/forgotpassword.notifier.dart';
+import 'package:bindazboy/meta/utils/showsnackbar.utils.dart';
 import 'package:bindazboy/meta/utils/updatepasswod_arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +34,7 @@ class _UpdatePasswordViewState extends State<UpdatePasswordView> {
       backgroundColor: BConstantColors.backgroundColor,
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -48,6 +49,10 @@ class _UpdatePasswordViewState extends State<UpdatePasswordView> {
                 SizedBox(
                   height: 40,
                 ),
+                 labeltext("New Password"),
+                    const SizedBox(
+                      height: 6,
+                    ),
                 TextField(
                   obscureText: _isPasswordVisible,
                   controller: passwordController1,
@@ -67,7 +72,6 @@ class _UpdatePasswordViewState extends State<UpdatePasswordView> {
                             ? Icon(Icons.visibility_off)
                             : Icon(Icons.visibility)),
                     hintText: "Enter Password",
-                    labelText: 'Password',
                     labelStyle: TextStyle(color: Colors.brown[900]),
                     fillColor: Colors.white,
                     focusedBorder: OutlineInputBorder(
@@ -79,8 +83,8 @@ class _UpdatePasswordViewState extends State<UpdatePasswordView> {
                   ),
                   style: TextStyle(
                       color: BConstantColors.appbartitleColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700),
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                   height: 10,
@@ -104,7 +108,6 @@ class _UpdatePasswordViewState extends State<UpdatePasswordView> {
                             ? Icon(Icons.visibility_off)
                             : Icon(Icons.visibility)),
                     hintText: "Enter Password",
-                    labelText: 'Password',
                     labelStyle: TextStyle(color: Colors.brown[900]),
                     fillColor: Colors.white,
                     focusedBorder: OutlineInputBorder(
@@ -116,8 +119,8 @@ class _UpdatePasswordViewState extends State<UpdatePasswordView> {
                   ),
                   style: TextStyle(
                       color: BConstantColors.appbartitleColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700),
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                   height: 10,
