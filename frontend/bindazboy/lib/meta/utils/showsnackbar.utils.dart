@@ -5,9 +5,13 @@ class ShowsnackBarUtiltiy {
       {required String message, required BuildContext context}) {
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        duration: Duration(seconds: 2, milliseconds: 500),
         content: Text(
           message,
-          style: const TextStyle(color: Color.fromARGB(221, 16, 20, 14)),
+          style: const TextStyle(
+              color: Color.fromARGB(221, 16, 20, 14),
+              fontSize: 16,
+              fontWeight: FontWeight.w500),
         ),
       ),
     );
