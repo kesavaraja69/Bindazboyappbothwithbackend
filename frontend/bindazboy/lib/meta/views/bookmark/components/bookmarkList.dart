@@ -2,13 +2,17 @@ import 'package:bindazboy/app/constant/colors.dart';
 import 'package:bindazboy/app/routes/app.routes.dart';
 import 'package:bindazboy/core/models/bookmark.model.dart';
 import 'package:bindazboy/core/notifiers/bookmark.notifer.dart';
+import 'package:bindazboy/meta/utils/ads_helper.dart';
 import 'package:bindazboy/meta/utils/blogdetail_arguments.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:numeral/numeral.dart';
 import 'package:provider/provider.dart';
 
-class Bookmarklist extends StatelessWidget {
+const int maxFailedLoadAttempts = 3;
+
+class Bookmarklist extends StatefulWidget {
   final dynamic snapshot;
   final VoidCallback onclik;
 
@@ -18,15 +22,82 @@ class Bookmarklist extends StatelessWidget {
   });
 
   @override
+  State<Bookmarklist> createState() => _BookmarklistState();
+}
+
+class _BookmarklistState extends State<Bookmarklist> {
+  InterstitialAd? _interstitialAd;
+  int _interstitialLoadAttempts = 0;
+  // late BannerAd _bottomBannerAd;
+  static final AdRequest request = AdRequest();
+  void _createInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: AdHelper.interstrialAdUnitid,
+        request: request,
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (InterstitialAd ad) {
+            print('$ad loaded');
+            _interstitialAd = ad;
+            _interstitialLoadAttempts = 0;
+            _interstitialAd!.setImmersiveMode(true);
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            print('InterstitialAd failed to load: $error.');
+            _interstitialLoadAttempts += 1;
+            _interstitialAd = null;
+            if (_interstitialLoadAttempts < maxFailedLoadAttempts) {
+              _createInterstitialAd();
+            }
+          },
+        ));
+  }
+
+  @override
+  void initState() {
+    _createInterstitialAd();
+    super.initState();
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd == null) {
+      print('Warning: attempt to show interstitial before loaded.');
+      return;
+    }
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          print('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        print('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        print('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+    );
+    _interstitialAd!.show();
+    _interstitialAd = null;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _interstitialAd?.dispose();
+    // _bottomBannerAd.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final BookmarkNotifier bookmarkNotifier =
         Provider.of<BookmarkNotifier>(context, listen: false);
     return ListView.builder(
-      itemCount: snapshot.length,
+      itemCount: widget.snapshot.length,
       itemBuilder: (context, index) {
-        BookmarkData _blog = snapshot[index];
+        BookmarkData _blog = widget.snapshot[index];
         int detailid = _blog.bookmarkBlogdata.blogId;
-        if (snapshot[index] == null) {
+        if (widget.snapshot[index] == null) {
           return Center(
               child: Text(
             "Add BookMarks",
@@ -95,7 +166,7 @@ class Bookmarklist extends StatelessWidget {
                       onTap: () async {
                         await bookmarkNotifier.deleteBookmark(
                             context: context, bookmark_id: _blog.bookmarkId);
-                        onclik();
+                        widget.onclik();
                       },
                       child: Container(
                         width: 35,

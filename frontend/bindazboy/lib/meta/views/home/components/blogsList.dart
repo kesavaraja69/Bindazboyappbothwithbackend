@@ -3,6 +3,7 @@ import 'package:bindazboy/app/routes/app.routes.dart';
 import 'package:bindazboy/core/models/blog.model.dart';
 import 'package:bindazboy/core/notifiers/blogs.notifier.dart';
 import 'package:bindazboy/core/notifiers/views.notifier.dart';
+import 'package:bindazboy/meta/utils/ads_helper.dart';
 import 'package:bindazboy/meta/utils/blogdetail_arguments.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -120,7 +121,7 @@ class _BloglistState extends State<Bloglist> {
 
   void _createInterstitialAd() {
     InterstitialAd.load(
-        adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+        adUnitId: AdHelper.interstrialAdUnitid,
         request: request,
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (InterstitialAd ad) {
@@ -231,15 +232,13 @@ class _BloglistState extends State<Bloglist> {
                       .addView(context: context, fspostid: _blog.blogId)
                       .then((v) {
                     viewprovider
-                        .featchViews(
-                            context: context, post_id: _blog.blogId)
+                        .featchViews(context: context, post_id: _blog.blogId)
                         .then((f) {
                       //    _logger.i("view is ${viewprovider.likeidData2}");
                       postprovider.addviewupdatepost(
                           context: context,
                           blog_id: _blog.blogId,
-                          post_view:
-                              "${viewprovider.viewidData2.toString()}");
+                          post_view: "${viewprovider.viewidData2.toString()}");
                     });
                   });
                 }
@@ -250,8 +249,7 @@ class _BloglistState extends State<Bloglist> {
               width: MediaQuery.of(context).size.width,
               height: 135,
               imageBuilder: (context, imageProvider) => Container(
-                margin: const EdgeInsets.symmetric(
-                    horizontal: 9, vertical: 9),
+                margin: const EdgeInsets.symmetric(horizontal: 9, vertical: 9),
                 width: MediaQuery.of(context).size.width,
                 height: 135,
                 decoration: BoxDecoration(
@@ -303,8 +301,8 @@ class _BloglistState extends State<Bloglist> {
                         child: Text(
                           "Posted On ${_blog.blogDate.split('-').reversed.join('-')}",
                           style: TextStyle(
-                              color: BConstantColors.titleColor
-                                  .withOpacity(0.75),
+                              color:
+                                  BConstantColors.titleColor.withOpacity(0.75),
                               fontWeight: FontWeight.w500,
                               fontSize: 10),
                         ),
@@ -322,8 +320,8 @@ class _BloglistState extends State<Bloglist> {
                             Icon(
                               Icons.visibility,
                               size: 13,
-                              color: BConstantColors.titleColor
-                                  .withOpacity(0.75),
+                              color:
+                                  BConstantColors.titleColor.withOpacity(0.75),
                             ),
                             SizedBox(
                               width: 5,
@@ -348,8 +346,8 @@ class _BloglistState extends State<Bloglist> {
                         child: Text(
                           "Posted By BindazBoy",
                           style: TextStyle(
-                              color: BConstantColors.titleColor
-                                  .withOpacity(0.75),
+                              color:
+                                  BConstantColors.titleColor.withOpacity(0.75),
                               fontWeight: FontWeight.w400,
                               fontSize: 9),
                         ),

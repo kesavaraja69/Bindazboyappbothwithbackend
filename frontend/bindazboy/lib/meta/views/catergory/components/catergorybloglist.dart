@@ -1,26 +1,102 @@
 import 'package:bindazboy/app/constant/colors.dart';
 import 'package:bindazboy/app/routes/app.routes.dart';
 import 'package:bindazboy/core/models/blogcatergory.model.dart';
+import 'package:bindazboy/meta/utils/ads_helper.dart';
 
 import 'package:bindazboy/meta/utils/blogdetail_arguments.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:numeral/numeral.dart';
 
-class CatergoryblogList extends StatelessWidget {
+const int maxFailedLoadAttempts = 3;
+
+class CatergoryblogList extends StatefulWidget {
   final dynamic snapshot;
 
   const CatergoryblogList({required this.snapshot});
 
   @override
+  State<CatergoryblogList> createState() => _CatergoryblogListState();
+}
+
+class _CatergoryblogListState extends State<CatergoryblogList> {
+  InterstitialAd? _interstitialAd;
+  int _interstitialLoadAttempts = 0;
+  // late BannerAd _bottomBannerAd;
+  static final AdRequest request = AdRequest();
+  void _createInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: AdHelper.interstrialAdUnitid,
+        request: request,
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (InterstitialAd ad) {
+            print('$ad loaded');
+            _interstitialAd = ad;
+            _interstitialLoadAttempts = 0;
+            _interstitialAd!.setImmersiveMode(true);
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            print('InterstitialAd failed to load: $error.');
+            _interstitialLoadAttempts += 1;
+            _interstitialAd = null;
+            if (_interstitialLoadAttempts < maxFailedLoadAttempts) {
+              _createInterstitialAd();
+            }
+          },
+        ));
+  }
+
+  @override
+  void initState() {
+    _createInterstitialAd();
+    super.initState();
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd == null) {
+      print('Warning: attempt to show interstitial before loaded.');
+      return;
+    }
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          print('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        print('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        print('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+    );
+    _interstitialAd!.show();
+    _interstitialAd = null;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _interstitialAd?.dispose();
+    // _bottomBannerAd.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: snapshot.length,
+      itemCount: widget.snapshot.length,
       itemBuilder: (context, index) {
-        Data _blog = snapshot[index];
-        int detailid = _blog.blogId;
+        Data _blog = widget.snapshot[index];
+
         return GestureDetector(
           onTap: () async {
+            int detailid = _blog.blogId;
+            print("index is ${(index % 3).toInt()}");
+            if ((index % 3).toInt() == 0) {
+              _showInterstitialAd();
+            }
             Navigator.of(context).pushNamed(AppRoutes.BlogDetailRoute,
                 arguments: BlogDetailArguments(id: detailid));
           },

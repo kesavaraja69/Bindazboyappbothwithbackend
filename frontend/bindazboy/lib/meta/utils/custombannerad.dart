@@ -1,3 +1,4 @@
+import 'package:bindazboy/meta/utils/ads_helper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -24,7 +25,7 @@ class _CustomBannerAdState extends State<CustomBannerAd> {
     super.didChangeDependencies();
     bannerAd = BannerAd(
       size: AdSize.fullBanner,
-      adUnitId: "ca-app-pub-3940256099942544/6300978111",
+      adUnitId: AdHelper.bannerAdUnitid,
       listener: BannerAdListener(onAdFailedToLoad: (ad, error) {
         print("Ad Failed to Load");
         ad.dispose();
