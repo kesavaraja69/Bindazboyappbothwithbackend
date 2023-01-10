@@ -20,6 +20,7 @@ class Catergorys extends StatelessWidget {
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: snapshot.length,
+          shrinkWrap: true,
           itemBuilder: (context, index) {
             Data _blog = snapshot[index];
 

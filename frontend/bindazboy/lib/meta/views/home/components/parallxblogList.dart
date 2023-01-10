@@ -15,7 +15,7 @@ const String testDevice = '198039EA87A433F495D95F51D12D8139';
 
 // ignore: must_be_immutable
 class Bloglist extends StatefulWidget {
-  final dynamic snapshot;
+  final List<dynamic> snapshot;
   bool? detailpage;
   Bloglist({
     required this.snapshot,
@@ -157,25 +157,35 @@ class _BloglistState extends State<Bloglist> {
     final postprovider = Provider.of<BlogNotifer>(context, listen: false);
     final viewprovider = Provider.of<ViewsNotifier>(context, listen: false);
     final screenwidth = MediaQuery.of(context).size.width;
-    return ListView.builder(
-        // separatorBuilder: (context, index) {
-        //   return (_isBottomBannerAdLoaded && index != 0 && index % 3 == 0)
-        //       ? Container(
-        //           height: _bottomBannerAd.size.height.toDouble(),
-        //           width: _bottomBannerAd.size.width.toDouble(),
-        //           child: AdWidget(key: UniqueKey(), ad: _bottomBannerAd),
-        //         )
-        //       : Divider(
-        //           height: 2.0,
-        //         );
-        // },
-        shrinkWrap: true,
-        itemCount: items.length >= widget.snapshot.length
-            ? widget.snapshot.length
-            : widget.detailpage == false
-                ? items.length
-                : widget.snapshot.length,
-        itemBuilder: (context, index) {
+    return CustomScrollView(
+      slivers: [
+        SliverList(
+            //ListView.builder(
+            // separatorBuilder: (context, index) {
+            //   return (_isBottomBannerAdLoaded && index != 0 && index % 3 == 0)
+            //       ? Container(
+            //           height: _bottomBannerAd.size.height.toDouble(),
+            //           width: _bottomBannerAd.size.width.toDouble(),
+            //           child: AdWidget(key: UniqueKey(), ad: _bottomBannerAd),
+            //         )
+            //       : Divider(
+            //           height: 2.0,
+            //         );
+            // },
+
+            delegate: SliverChildBuilderDelegate(
+                childCount: items.length >= widget.snapshot.length
+                    ? widget.snapshot.length
+                    : widget.detailpage == false
+                        ? items.length
+                        : widget.snapshot.length, (context, index) {
+          // shrinkWrap: true,
+          // itemCount: items.length >= widget.snapshot.length
+          //     ? widget.snapshot.length
+          //     : widget.detailpage == false
+          //         ? items.length
+          //         : widget.snapshot.length,
+          // itemBuilder: (context, index) {
           final _blog = widget.snapshot[index] as Data;
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 9),
@@ -199,15 +209,13 @@ class _BloglistState extends State<Bloglist> {
                           .addView(context: context, fspostid: _blog.blogId)
                           .then((v) {
                         viewprovider
-                            .featchViews(
-                                context: context, post_id: _blog.blogId)
+                            .featchViews(context: context, post_id: _blog.blogId)
                             .then((f) {
                           //    _logger.i("view is ${viewprovider.likeidData2}");
                           postprovider.addviewupdatepost(
                               context: context,
                               blog_id: _blog.blogId,
-                              post_view:
-                                  "${viewprovider.viewidData2.toString()}");
+                              post_view: "${viewprovider.viewidData2.toString()}");
                         });
                       });
                     }
@@ -265,8 +273,7 @@ class _BloglistState extends State<Bloglist> {
                           child: Text(
                             "Posted On ${_blog.blogDate.split('-').reversed.join('-')}",
                             style: TextStyle(
-                                color: BConstantColors.titleColor
-                                    .withOpacity(0.75),
+                                color: BConstantColors.titleColor.withOpacity(0.75),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 10),
                           ),
@@ -284,8 +291,7 @@ class _BloglistState extends State<Bloglist> {
                               Icon(
                                 Icons.visibility,
                                 size: 13,
-                                color: BConstantColors.titleColor
-                                    .withOpacity(0.75),
+                                color: BConstantColors.titleColor.withOpacity(0.75),
                               ),
                               SizedBox(
                                 width: 5,
@@ -310,8 +316,7 @@ class _BloglistState extends State<Bloglist> {
                           child: Text(
                             "Posted By BindazBoy",
                             style: TextStyle(
-                                color: BConstantColors.titleColor
-                                    .withOpacity(0.75),
+                                color: BConstantColors.titleColor.withOpacity(0.75),
                                 fontWeight: FontWeight.w400,
                                 fontSize: 9),
                           ),
@@ -321,6 +326,8 @@ class _BloglistState extends State<Bloglist> {
                   ),
                 )),
           );
-        });
+        })),
+      ],
+    );
   }
 }
