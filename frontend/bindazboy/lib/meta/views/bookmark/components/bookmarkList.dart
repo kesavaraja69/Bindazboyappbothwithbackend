@@ -106,6 +106,10 @@ class _BookmarklistState extends State<Bookmarklist> {
         }
         return GestureDetector(
           onTap: () async {
+            print("index is ${(index % 3).toInt()}");
+            if ((index % 3).toInt() == 0) {
+              _showInterstitialAd();
+            }
             Navigator.of(context).pushNamed(AppRoutes.BlogDetailRoute,
                 arguments: BlogDetailArguments(id: detailid));
           },
