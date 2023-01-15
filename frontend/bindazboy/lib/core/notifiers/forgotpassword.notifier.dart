@@ -99,6 +99,44 @@ class ForgotPasswordNotifer extends ChangeNotifier {
             ),
           );
           break;
+        case 403:
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(customMessage),
+            ),
+          );
+          break;
+        case 306:
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(customMessage),
+            ),
+          );
+          break;
+
+        case 305:
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(customMessage),
+            ),
+          );
+          break;
+
+        case 500:
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(customMessage),
+            ),
+          );
+          break;
+
+        case 404:
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(customMessage),
+            ),
+          );
+          break;
       }
     } catch (error) {
       _logger.i(error);

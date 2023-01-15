@@ -75,6 +75,12 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     if (useremail.isNotEmpty) {
                       await forgotPasswordNotifer.forgotPassword(
                           context: context, useremail: useremail);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Fill the Value"),
+                        ),
+                      );
                     }
                   },
                   child: Text(

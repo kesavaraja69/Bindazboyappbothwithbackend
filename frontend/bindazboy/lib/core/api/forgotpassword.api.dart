@@ -17,7 +17,7 @@ class ForgotPasswordAPI {
     required BuildContext context,
     required String useremail,
   }) async {
-    final String subUrl = "/forgotpassword/user";
+    final String subUrl = "/forgotpassword/usersendotpemail";
     final Uri uri = Uri.parse(APIRoutes.LocalHost + subUrl);
 
     final http.Response response = await client.post(
@@ -47,12 +47,13 @@ class ForgotPasswordAPI {
     required String otpcode,
     required dynamic useremail,
   }) async {
-    final String subUrl = "/forgotpassword/rest-password/$useremail";
+    final String subUrl = "/forgotpassword/userverifyemail";
     final Uri uri = Uri.parse(APIRoutes.LocalHost + subUrl);
 
     final http.Response response = await client.post(
       uri,
       body: jsonEncode({
+        "useremail": useremail,
         "otpcode": otpcode,
       }),
       headers: headers,

@@ -47,7 +47,7 @@ class _verifyOtpViewState extends State<verifyOtpView> {
                 SizedBox(
                   height: 40,
                 ),
-                labeltext("Email"),
+                labeltext("Enter OTP"),
                 const SizedBox(
                   height: 6,
                 ),
@@ -80,6 +80,12 @@ class _verifyOtpViewState extends State<verifyOtpView> {
                           context: context,
                           useremail: widget.otpVerfiyArguments.useremail,
                           otpcode: otpVerify);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Fill the Value"),
+                        ),
+                      );
                     }
                   },
                   child: Text(

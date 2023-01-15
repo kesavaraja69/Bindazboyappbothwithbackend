@@ -49,10 +49,10 @@ class _UpdatePasswordViewState extends State<UpdatePasswordView> {
                 SizedBox(
                   height: 40,
                 ),
-                 labeltext("New Password"),
-                    const SizedBox(
-                      height: 6,
-                    ),
+                labeltext("New Password"),
+                const SizedBox(
+                  height: 6,
+                ),
                 TextField(
                   obscureText: _isPasswordVisible,
                   controller: passwordController1,
