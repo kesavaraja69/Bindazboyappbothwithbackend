@@ -168,6 +168,7 @@ class _BloglistState extends State<Bloglist> {
   void dispose() {
     super.dispose();
     _interstitialAd?.dispose();
+    _controller.dispose();
     // _bottomBannerAd.dispose();
   }
 

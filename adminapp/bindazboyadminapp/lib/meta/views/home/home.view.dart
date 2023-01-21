@@ -18,18 +18,27 @@ class _HomeblogViewState extends State<HomeblogView> {
   late Future<dynamic> data;
   SocketMethods socketMethods = SocketMethods();
 
-  Future loadblog() async {
-    await Future.delayed(Duration(seconds: 2));
-    setState(() {
-      this.data = Provider.of<BlogNotifer>(context, listen: false)
-          .fetchBlogs(context: context);
-    });
+  loadblog() async {
+    await Future.delayed(Duration(seconds: 1));
+
+    data = Provider.of<BlogNotifer>(context, listen: false)
+        .fetchBlogs(context: context);
+    return data;
+  }
+
+  Future loadblog1() async {
+    await Future.delayed(Duration(seconds: 1));
+
+    data = Provider.of<BlogNotifer>(context, listen: false)
+        .fetchBlogs(context: context);
+    return data;
   }
 
   @override
   void initState() {
     super.initState();
     socketMethods.fetchUserOnline(context);
+    data = loadblog();
   }
 
   @override
@@ -105,13 +114,14 @@ class _HomeblogViewState extends State<HomeblogView> {
               ],
             ),
           ),
-          Expanded(
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.80,
             child: RefreshIndicator(
-              onRefresh: loadblog,
+              onRefresh: loadblog1,
               backgroundColor: Colors.black,
               color: Colors.yellow,
               child: FutureBuilder(
-                  future: provider.fetchBlogs(context: context),
+                  future: data,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
