@@ -10,4 +10,8 @@ class SocketMethods {
       },
     );
   }
+
+  void endSocket() {
+    _socketClient!.dispose();
+  }
 }

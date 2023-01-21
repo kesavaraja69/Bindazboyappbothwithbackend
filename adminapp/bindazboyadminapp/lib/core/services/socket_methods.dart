@@ -15,7 +15,12 @@ class SocketMethods {
   void fetchUserOnline(context) {
     _socketClient!.on('onlineuser', (data) {
       print("socket data $data");
-      Provider.of<AuthenticationNotifier>(context,listen: false).readUserdata(data: data);
+      Provider.of<AuthenticationNotifier>(context, listen: false)
+          .readUserdata(data: data);
     });
+  }
+
+  void endSocket() {
+    _socketClient!.dispose();
   }
 }

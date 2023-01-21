@@ -33,6 +33,12 @@ class _HomeblogViewState extends State<HomeblogView> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    socketMethods.endSocket();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final provider = Provider.of<BlogNotifer>(context, listen: false);
     final userprovider =

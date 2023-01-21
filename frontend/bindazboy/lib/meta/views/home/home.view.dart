@@ -92,6 +92,12 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    socketMethods.endSocket();
+  }
+
   int _index = 0;
   List<IconData> data = [
     Icons.home_filled,
