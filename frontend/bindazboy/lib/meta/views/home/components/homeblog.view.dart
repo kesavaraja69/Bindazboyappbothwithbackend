@@ -214,13 +214,11 @@ class _HomeBlogsState extends State<HomeBlogs> {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.85,
-              child: 
-              RefreshIndicator(
+              child: RefreshIndicator(
                 onRefresh: loadblogs,
                 backgroundColor: BConstantColors.black,
                 color: BConstantColors.yellow,
-                child: 
-                FutureBuilder(
+                child: FutureBuilder(
                     future: data1,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -255,7 +253,7 @@ class _HomeBlogsState extends State<HomeBlogs> {
                         child: Text("something went wrong try again"),
                       );
                     }),
-             ),
+              ),
             ),
           ],
         ),

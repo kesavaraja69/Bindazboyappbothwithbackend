@@ -1,5 +1,7 @@
 import 'package:bindazboy/app/constant/colors.dart';
+import 'package:bindazboy/core/notifiers/cache.notifier.dart';
 import 'package:bindazboy/core/services/local_notification_service.dart';
+import 'package:bindazboy/core/services/socket_methods.dart';
 import 'package:bindazboy/meta/utils/alertbox.utils.dart';
 import 'package:bindazboy/meta/views/bookmark/bookmark.view.dart';
 import 'package:bindazboy/meta/views/catergory/catergory.view.dart';
@@ -8,6 +10,7 @@ import 'package:bindazboy/meta/views/home/components/navigationdrawer.view.dart'
 import 'package:bindazboy/meta/views/searchpage/search.view.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -15,6 +18,16 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  String? logedUserEmail;
+  SocketMethods socketMethods = SocketMethods();
+  getuser() async {
+    final cahce = Provider.of<CacheNotifier>(context, listen: false);
+    await cahce.readCache(key: "key2").then((value) {
+      socketMethods.adduserIsOnline(value.toString());
+      logedUserEmail = value;
+    });
+  }
+
   Future<bool> _onWillPop() async {
     return await AlertdailogBoxgm.showAlertbox(
             context: context,
@@ -54,7 +67,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-
+    getuser();
     LocalNotificationService.initialize(context);
 
     ///gives you the message on which user taps

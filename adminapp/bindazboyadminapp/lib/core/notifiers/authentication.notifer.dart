@@ -9,6 +9,10 @@ import 'package:provider/provider.dart';
 class AuthenticationNotifier extends ChangeNotifier {
   final AuthenticationApi authenticationApi = new AuthenticationApi();
   final _logger = Logger();
+
+  int? _numberofcount = 0;
+  int? get numberofcount => _numberofcount;
+
   Future signup(
       {required String admin_email,
       required String admin_password,
@@ -63,6 +67,12 @@ class AuthenticationNotifier extends ChangeNotifier {
     } catch (error) {
       _logger.i(error);
     }
+  }
+
+  void readUserdata({data}) {
+    _numberofcount = data;
+    print("user onile $data");
+    notifyListeners();
   }
 
   Future login(

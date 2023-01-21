@@ -1,7 +1,9 @@
 import 'package:bindazboyadminapp/app/constant/colors.dart';
 import 'package:bindazboyadminapp/app/routes/app.routes.dart';
+import 'package:bindazboyadminapp/core/notifiers/authentication.notifer.dart';
 import 'package:bindazboyadminapp/core/notifiers/blog.notifier.dart';
 import 'package:bindazboyadminapp/core/notifiers/cache.notifier.dart';
+import 'package:bindazboyadminapp/core/services/socket_methods.dart';
 import 'package:bindazboyadminapp/meta/views/home/components/bloglist.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -14,6 +16,7 @@ class HomeblogView extends StatefulWidget {
 
 class _HomeblogViewState extends State<HomeblogView> {
   late Future<dynamic> data;
+  SocketMethods socketMethods = SocketMethods();
 
   Future loadblog() async {
     await Future.delayed(Duration(seconds: 2));
@@ -24,8 +27,16 @@ class _HomeblogViewState extends State<HomeblogView> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    socketMethods.fetchUserOnline(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final provider = Provider.of<BlogNotifer>(context, listen: false);
+    final userprovider =
+        Provider.of<AuthenticationNotifier>(context, listen: true);
     return Scaffold(
       backgroundColor: BConstantColors.backgroundColor,
       body: Column(
@@ -70,6 +81,20 @@ class _HomeblogViewState extends State<HomeblogView> {
                     Icons.logout,
                     color: Colors.brown[800],
                   ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 11),
+            child: Column(
+              children: [
+                Text(
+                  "Online Users ${userprovider.numberofcount.toString()}",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 19,
+                      fontWeight: FontWeight.bold),
                 ),
               ],
             ),

@@ -2,6 +2,7 @@ import 'package:bindazboy/app/constant/colors.dart';
 import 'package:bindazboy/core/notifiers/forgotpassword.notifier.dart';
 import 'package:bindazboy/meta/utils/showsnackbar.utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 
 class ChangePasswordView extends StatefulWidget {
@@ -71,11 +72,13 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
+                    EasyLoading.show(status: 'please..Wait..');
                     var useremail = emailController.text;
                     if (useremail.isNotEmpty) {
                       await forgotPasswordNotifer.forgotPassword(
                           context: context, useremail: useremail);
                     } else {
+                      EasyLoading.dismiss();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text("Fill the Value"),

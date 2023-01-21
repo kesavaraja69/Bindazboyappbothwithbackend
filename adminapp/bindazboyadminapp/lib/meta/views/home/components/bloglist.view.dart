@@ -23,6 +23,7 @@ class Bloglist extends StatelessWidget {
         Provider.of<NotificationNotifiter>(context, listen: false);
     return ListView.builder(
       itemCount: snapshot.length,
+      padding: EdgeInsets.zero,
       itemBuilder: (context, index) {
         Data _blog = snapshot[index];
         int detailid = _blog.blogId;

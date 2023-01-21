@@ -5,6 +5,7 @@ import 'package:bindazboy/core/api/forgotpassword.api.dart';
 import 'package:bindazboy/meta/utils/otpverify_arguments.dart';
 import 'package:bindazboy/meta/utils/updatepasswod_arguments.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:logger/logger.dart';
 
 class ForgotPasswordNotifer extends ChangeNotifier {
@@ -31,10 +32,12 @@ class ForgotPasswordNotifer extends ChangeNotifier {
               content: Text(customMessage),
             ),
           );
+          EasyLoading.dismiss();
           await Navigator.of(context).pushNamed(AppRoutes.VerifyOTPRoute,
               arguments: OTPVerfiyArguments(useremail: useremail));
           break;
         case 404:
+          EasyLoading.dismiss();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(customMessage),
@@ -43,6 +46,7 @@ class ForgotPasswordNotifer extends ChangeNotifier {
           break;
 
         case 403:
+          EasyLoading.dismiss();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(customMessage),
@@ -51,6 +55,7 @@ class ForgotPasswordNotifer extends ChangeNotifier {
           break;
 
         case 402:
+          EasyLoading.dismiss();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(customMessage),
@@ -60,6 +65,7 @@ class ForgotPasswordNotifer extends ChangeNotifier {
       }
     } catch (error) {
       _logger.i(error);
+      EasyLoading.dismiss();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Something went Wrong"),

@@ -46,6 +46,8 @@ dependencies:
   numeral: ^2.0.1
   cached_network_image: ^3.2.2
   flutter_launcher_icons: ^0.11.0
+  socket_io_client: ^2.0.1
+  flutter_easyloading: ^3.0.3
 
 dev_dependencies:
   flutter_native_splash: ^2.2.16
