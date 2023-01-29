@@ -5,9 +5,9 @@ import 'package:bindazboy/core/notifiers/audiobook.notifer.dart';
 import 'package:bindazboy/core/notifiers/blogs.notifier.dart';
 import 'package:bindazboy/core/notifiers/cache.notifier.dart';
 import 'package:bindazboy/meta/utils/alertbox.utils.dart';
-import 'package:bindazboy/meta/views/home/components/parallxBlogList.dart';
+import 'package:bindazboy/meta/views/home/components/parallxblogList.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class HomeBlogs extends StatefulWidget {
@@ -65,14 +65,14 @@ class _HomeBlogsState extends State<HomeBlogs> {
 
   Future loadblog() async {
     final databg = Provider.of<BlogNotifer>(context, listen: false)
-        .fetchBlogs(context: context);
+        .fetchBlogswithlimit(context: context, pageno: 1);
     return databg;
   }
 
   Future loadblogs() async {
     setState(() {
       data1 = Provider.of<BlogNotifer>(context, listen: false)
-          .fetchBlogs(context: context);
+          .fetchBlogswithlimit(context: context, pageno: 1);
     });
   }
 
@@ -213,46 +213,47 @@ class _HomeBlogsState extends State<HomeBlogs> {
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.85,
+              height: MediaQuery.of(context).size.height * 0.86,
               child: RefreshIndicator(
                 onRefresh: loadblogs,
                 backgroundColor: BConstantColors.black,
                 color: BConstantColors.yellow,
-                child: FutureBuilder(
-                    future: data1,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                            child: SpinKitFadingCircle(
-                          color: BConstantColors.black,
-                          size: 50.0,
-                        ));
-                      }
-                      if (snapshot.data == null) {
-                        return Center(
-                          child: Container(),
-                        );
-                      }
-                      if (snapshot.data != null) {
-                        var _snapshot = snapshot.data as List;
+                child: Bloglist(),
+                // FutureBuilder(
+                //     future: data1,
+                //     builder: (context, snapshot) {
+                //       if (snapshot.connectionState == ConnectionState.waiting) {
+                //         return Center(
+                //             child: SpinKitFadingCircle(
+                //           color: BConstantColors.black,
+                //           size: 50.0,
+                //         ));
+                //       }
+                //       if (snapshot.data == null) {
+                //         return Center(
+                //           child: Container(),
+                //         );
+                //       }
+                //       if (snapshot.data != null) {
+                //         var _snapshot = snapshot.data as List;
 
-                        if (_snapshot.isEmpty) {
-                          return Center(
-                            child: Text(
-                              "No Blogs Post Yet",
-                              style: TextStyle(
-                                  fontSize: 17, color: BConstantColors.black),
-                            ),
-                          );
-                        }
-                        return Bloglist(
-                          snapshot: _snapshot,
-                        );
-                      }
-                      return Center(
-                        child: Text("something went wrong try again"),
-                      );
-                    }),
+                //         if (_snapshot.isEmpty) {
+                //           return Center(
+                //             child: Text(
+                //               "No Blogs Post Yet",
+                //               style: TextStyle(
+                //                   fontSize: 17, color: BConstantColors.black),
+                //             ),
+                //           );
+                //         }
+                //         return Bloglist(
+                //           snapshot: _snapshot,
+                //         );
+                //       }
+                //       return Center(
+                //         child: Text("something went wrong try again"),
+                //       );
+                //     }),
               ),
             ),
           ],

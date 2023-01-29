@@ -117,6 +117,7 @@ class _BookmarklistState extends State<Bookmarklist> {
             imageUrl: "${_blog.bookmarkBlogdata.blogImage}",
             width: MediaQuery.of(context).size.width,
             height: 135,
+            fit: BoxFit.cover,
             imageBuilder: (context, imageProvider) => Container(
               margin: const EdgeInsets.symmetric(horizontal: 9, vertical: 9),
               width: MediaQuery.of(context).size.width,

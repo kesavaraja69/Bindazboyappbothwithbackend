@@ -29,7 +29,29 @@ class BlogAPI {
 
     final statuscode = response.statusCode;
     final body = response.body;
-    _logger.i(body, statuscode);
+    if (statuscode == 200) {
+      return body;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Something went wrong"),
+        ),
+      );
+    }
+  }
+
+  Future fetchBlogswithlimit(
+      {required BuildContext context, dynamic pageno}) async {
+    final String subUrl = "/blogs/$pageno";
+    final Uri uri = Uri.parse(APIRoutes.LocalHost + subUrl);
+
+    final http.Response response = await client.get(
+      uri,
+      headers: headers,
+    );
+
+    final statuscode = response.statusCode;
+    final body = response.body;
     if (statuscode == 200) {
       return body;
     } else {

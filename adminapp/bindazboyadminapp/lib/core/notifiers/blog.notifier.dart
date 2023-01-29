@@ -11,6 +11,9 @@ class BlogNotifer extends ChangeNotifier {
   // final CacheService _cacheService = new CacheService();
   final _logger = Logger();
 
+  int? _numberofblog = 1;
+  int? get numberofblog => _numberofblog;
+
   Future updateimageBlog({
     required BuildContext context,
     required dynamic blog_id,
@@ -49,6 +52,41 @@ class BlogNotifer extends ChangeNotifier {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Something went Wrong"),
+        ),
+      );
+    }
+  }
+
+  Future fetchBlogswithlimit(
+      {required BuildContext context, dynamic pageno}) async {
+    try {
+      var _blogData =
+          await blogAPI.fetchBlogswithlimit(context: context, pageno: pageno);
+      var response = await Blogs.fromJson(json.decode(_blogData));
+      final _blogBody = response.data;
+      final _blogCode = response.code;
+      final _blogReceived = response.received;
+      //   _logger.i(_blogBody);
+
+      if (_blogReceived) {
+        switch (_blogCode) {
+          case 200:
+            _numberofblog = response.totalcount;
+            notifyListeners();
+            return _blogBody;
+          case 304:
+            return ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(_blogReceived.toString()),
+              ),
+            );
+        }
+      }
+    } catch (error) {
+      _logger.i(error);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(error.toString()),
         ),
       );
     }
@@ -144,7 +182,7 @@ class BlogNotifer extends ChangeNotifier {
     required dynamic filetype,
     required dynamic filename,
     dynamic deleteid,
-     dynamic fileindex,
+    dynamic fileindex,
   }) async {
     try {
       var _blogupdate = await blogAPI.removeBlogfile(

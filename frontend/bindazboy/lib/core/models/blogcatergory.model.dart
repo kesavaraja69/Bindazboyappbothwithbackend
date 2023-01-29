@@ -6,26 +6,24 @@ BlogCatergory blogCatergoryFromJson(String str) =>
 String blogCatergoryToJson(BlogCatergory data) => json.encode(data.toJson());
 
 class BlogCatergory {
-  BlogCatergory(
-    this.received,
-    this.data,
-    this.code,
-  );
+  BlogCatergory(this.received, this.data, this.code, this.totalcount);
 
   bool received;
   List<Data> data;
   int code;
+  int totalcount;
 
   factory BlogCatergory.fromJson(Map<String, dynamic> json) => BlogCatergory(
-        json["received"],
-        List<Data>.from(json["data"].map((x) => Data.fromJson(x))),
-        json["code"],
-      );
+      json["received"],
+      List<Data>.from(json["data"].map((x) => Data.fromJson(x))),
+      json["code"],
+      json["totalcount"]);
 
   Map<String, dynamic> toJson() => {
         "received": received,
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
         "code": code,
+        "totalcount": totalcount
       };
 }
 

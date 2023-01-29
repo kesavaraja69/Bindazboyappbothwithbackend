@@ -21,8 +21,8 @@ class CatergoryBloglistView extends StatelessWidget {
     final provider = Provider.of<CatergoryBlogNotifer>(context, listen: false);
     return Container(
         child: FutureBuilder(
-      future: provider.fetchCatergoryBlogs(
-          context: context, category: catergorytitle),
+      future: provider.fetchCatergoryBlogswithlimit(
+          context: context, catergory_title: catergorytitle, pageno: 1),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
@@ -42,7 +42,10 @@ class CatergoryBloglistView extends StatelessWidget {
             );
           }
           _logger.i(snapshot.data);
-          return CatergoryblogList(snapshot: _snaphot);
+          return CatergoryblogList(
+            snapshot: _snaphot,
+            catergorytitle: catergorytitle,
+          );
         }
         return Center(
           child: Text("something went wrong"),

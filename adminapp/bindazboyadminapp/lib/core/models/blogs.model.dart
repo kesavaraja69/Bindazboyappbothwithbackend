@@ -9,22 +9,25 @@ class Blogs {
     this.received,
     this.data,
     this.code,
+    this.totalcount,
   );
 
   bool received;
   List<Data> data;
   int code;
+  int totalcount;
 
   factory Blogs.fromJson(Map<String, dynamic> json) => Blogs(
-        json["received"],
-        List<Data>.from(json["data"].map((x) => Data.fromJson(x))),
-        json["code"],
-      );
+      json["received"],
+      List<Data>.from(json["data"].map((x) => Data.fromJson(x))),
+      json["code"],
+      json["totalcount"]);
 
   Map<String, dynamic> toJson() => {
         "received": received,
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
         "code": code,
+        "totalcount": totalcount,
       };
 }
 

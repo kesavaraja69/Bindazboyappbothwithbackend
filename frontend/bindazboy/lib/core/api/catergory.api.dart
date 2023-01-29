@@ -38,6 +38,33 @@ class CatergorysAPI {
     }
   }
 
+  Future fetchCatergoryBlogswithlimit(
+      {required BuildContext context,
+      required dynamic catergory_title,
+      required dynamic pageno}) async {
+    final String subUrl = "/blogs/categoryswithlimit/$catergory_title/$pageno";
+    final Uri uri = Uri.parse(APIRoutes.LocalHost + subUrl);
+
+    final http.Response response = await client.get(
+      uri,
+      headers: headers,
+    );
+
+    final statuscode = response.statusCode;
+    final body = response.body;
+    _logger.i(body, statuscode);
+    if (statuscode == 200) {
+      _logger.i(body, statuscode);
+      return body;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Somthing went wrong"),
+        ),
+      );
+    }
+  }
+
   Future fetchCatergory({required BuildContext context}) async {
     final String subUrl = "/catergory/categorys";
     final Uri uri = Uri.parse(APIRoutes.LocalHost + subUrl);

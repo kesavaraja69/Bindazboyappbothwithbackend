@@ -6,7 +6,6 @@ import 'package:bindazboyadminapp/core/notifiers/cache.notifier.dart';
 import 'package:bindazboyadminapp/core/services/socket_methods.dart';
 import 'package:bindazboyadminapp/meta/views/home/components/bloglist.view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class HomeblogView extends StatefulWidget {
@@ -22,7 +21,7 @@ class _HomeblogViewState extends State<HomeblogView> {
     await Future.delayed(Duration(seconds: 1));
 
     data = Provider.of<BlogNotifer>(context, listen: false)
-        .fetchBlogs(context: context);
+        .fetchBlogswithlimit(context: context, pageno: 1);
     return data;
   }
 
@@ -30,7 +29,7 @@ class _HomeblogViewState extends State<HomeblogView> {
     await Future.delayed(Duration(seconds: 1));
 
     data = Provider.of<BlogNotifer>(context, listen: false)
-        .fetchBlogs(context: context);
+        .fetchBlogswithlimit(context: context, pageno: 1);
     return data;
   }
 
@@ -49,7 +48,6 @@ class _HomeblogViewState extends State<HomeblogView> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<BlogNotifer>(context, listen: false);
     final userprovider =
         Provider.of<AuthenticationNotifier>(context, listen: true);
     return Scaffold(
@@ -120,29 +118,30 @@ class _HomeblogViewState extends State<HomeblogView> {
               onRefresh: loadblog1,
               backgroundColor: Colors.black,
               color: Colors.yellow,
-              child: FutureBuilder(
-                  future: data,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                          child: SpinKitFadingCircle(
-                        color: Colors.black,
-                        size: 50.0,
-                      ));
-                    }
-                    if (snapshot.data != null) {
-                      var _snapshot = snapshot.data as List;
-                      if (_snapshot.isEmpty) {
-                        return Center(
-                          child: Text("Add Blogs"),
-                        );
-                      }
-                      return Bloglist(snapshot: _snapshot);
-                    }
-                    return Center(
-                      child: Text("something went wrong try again"),
-                    );
-                  }),
+              child: Bloglist(),
+              // FutureBuilder(
+              //     future: data,
+              //     builder: (context, snapshot) {
+              //       if (snapshot.connectionState == ConnectionState.waiting) {
+              //         return Center(
+              //             child: SpinKitFadingCircle(
+              //           color: Colors.black,
+              //           size: 50.0,
+              //         ));
+              //       }
+              //       if (snapshot.data != null) {
+              //         var _snapshot = snapshot.data as List;
+              //         if (_snapshot.isEmpty) {
+              //           return Center(
+              //             child: Text("Add Blogs"),
+              //           );
+              //         }
+              //         return Bloglist(snapshot: _snapshot);
+              //       }
+              //       return Center(
+              //         child: Text("something went wrong try again"),
+              //       );
+              //     }),
             ),
           ),
         ],

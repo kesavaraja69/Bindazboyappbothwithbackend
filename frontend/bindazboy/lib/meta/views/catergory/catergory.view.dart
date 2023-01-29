@@ -44,7 +44,8 @@ class _CatergoryViewState extends State<CatergoryView> {
               },
               selected: selected,
             ),
-            Expanded(
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.83,
               child: CatergoryBloglistView(
                 callback: (int index) {
                   setState(() {
@@ -56,7 +57,20 @@ class _CatergoryViewState extends State<CatergoryView> {
                 pageController: pageController,
                 catergorytitle: catergorytitle,
               ),
-            ),
+            )
+            // Expanded(
+            //   child: CatergoryBloglistView(
+            //     callback: (int index) {
+            //       setState(() {
+            //         selected = index;
+            //         print(selected);
+            //       });
+            //     },
+            //     selected: selected,
+            //     pageController: pageController,
+            //     catergorytitle: catergorytitle,
+            //   ),
+            // ),
           ],
         ),
       ),

@@ -16,10 +16,10 @@ const String testDevice = '198039EA87A433F495D95F51D12D8139';
 
 // ignore: must_be_immutable
 class Bloglist extends StatefulWidget {
-  final dynamic snapshot;
+  dynamic snapshot;
   bool? detailpage;
   Bloglist({
-    required this.snapshot,
+    this.snapshot,
   });
 
   @override
