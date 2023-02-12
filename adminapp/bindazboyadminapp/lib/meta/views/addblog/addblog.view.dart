@@ -341,7 +341,8 @@ class _AddBlogState extends State<AddBlog> {
                       var description = _descriptiontext.text;
                       EasyLoading.show(status: 'Uploading..Wait..');
                       if (_mainimageurltext.text.isEmpty) {
-                        await utilityNotifer.addAllTypeFile(context: context);
+                        await utilityNotifer.addAllTypeFile(
+                            context: context, filetype: "image");
                       }
                       if (utilityNotifer.audioName != null &&
                           utilityNotifer.audioName!.isNotEmpty) {

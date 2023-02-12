@@ -130,7 +130,6 @@ class _BloglistState extends State<Bloglist> {
 
   @override
   Widget build(BuildContext context) {
-    final utilityNotifer = Provider.of<UtilityNotifer>(context, listen: true);
     final blogNotifer = Provider.of<BlogNotifer>(context, listen: false);
     final notifiNotifer =
         Provider.of<NotificationNotifiter>(context, listen: false);
@@ -245,9 +244,10 @@ class _BloglistState extends State<Bloglist> {
                                               context: context,
                                               blogid: _blog.blogId)
                                           .whenComplete(() {
-                                        utilityNotifer.deleteblogImage(
-                                            context: context,
-                                            url: _blog.blogImage);
+                                        Navigator.of(context)
+                                            .pushNamedAndRemoveUntil(
+                                                AppRoutes.HomeRoute,
+                                                (route) => false);
                                       });
                                     },
                                     child: Container(

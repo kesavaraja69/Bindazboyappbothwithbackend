@@ -26,11 +26,10 @@ class _HomeblogViewState extends State<HomeblogView> {
   }
 
   Future loadblog1() async {
-    await Future.delayed(Duration(seconds: 1));
-
-    data = Provider.of<BlogNotifer>(context, listen: false)
-        .fetchBlogswithlimit(context: context, pageno: 1);
-    return data;
+    setState(() {
+      data = Provider.of<BlogNotifer>(context, listen: false)
+          .fetchBlogswithlimit(context: context, pageno: 1);
+    });
   }
 
   @override
@@ -52,97 +51,80 @@ class _HomeblogViewState extends State<HomeblogView> {
         Provider.of<AuthenticationNotifier>(context, listen: true);
     return Scaffold(
       backgroundColor: BConstantColors.backgroundColor,
-      body: Column(
+      body: Stack(
         children: [
-          SizedBox(
-            height: 15,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  "Bindaz Boy Admin App",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 23,
-                      fontWeight: FontWeight.bold),
+          Column(
+            children: [
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      "Bindaz Boy Admin App",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 23,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      width: 4.0,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed<dynamic>(AppRoutes.AddblogRoute);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: iconcontainer(
+                            context, Icons.add, Colors.yellow, 24.0),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Provider.of<CacheNotifer>(context, listen: false)
+                            .deleteCache(key: "jwtdata");
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            AppRoutes.LoginRoute, (route) => false);
+                      },
+                      icon: Icon(
+                        Icons.logout,
+                        color: Colors.brown[800],
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  width: 4.0,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 11),
+                child: Column(
+                  children: [
+                    Text(
+                      "Online Users ${userprovider.numberofcount.toString()}",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context)
-                        .pushNamed<dynamic>(AppRoutes.AddblogRoute);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child:
-                        iconcontainer(context, Icons.add, Colors.yellow, 24.0),
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Provider.of<CacheNotifer>(context, listen: false)
-                        .deleteCache(key: "jwtdata");
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        AppRoutes.LoginRoute, (route) => false);
-                  },
-                  icon: Icon(
-                    Icons.logout,
-                    color: Colors.brown[800],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 11),
-            child: Column(
-              children: [
-                Text(
-                  "Online Users ${userprovider.numberofcount.toString()}",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 19,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.80,
-            child: RefreshIndicator(
-              onRefresh: loadblog1,
-              backgroundColor: Colors.black,
-              color: Colors.yellow,
-              child: Bloglist(),
-              // FutureBuilder(
-              //     future: data,
-              //     builder: (context, snapshot) {
-              //       if (snapshot.connectionState == ConnectionState.waiting) {
-              //         return Center(
-              //             child: SpinKitFadingCircle(
-              //           color: Colors.black,
-              //           size: 50.0,
-              //         ));
-              //       }
-              //       if (snapshot.data != null) {
-              //         var _snapshot = snapshot.data as List;
-              //         if (_snapshot.isEmpty) {
-              //           return Center(
-              //             child: Text("Add Blogs"),
-              //           );
-              //         }
-              //         return Bloglist(snapshot: _snapshot);
-              //       }
-              //       return Center(
-              //         child: Text("something went wrong try again"),
-              //       );
-              //     }),
-            ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.70,
+                child: RefreshIndicator(
+                    onRefresh: () async {
+                      setState(() {
+                        loadblog1();
+                      });
+                    },
+                    child: Bloglist()),
+              ),
+            ],
           ),
         ],
       ),

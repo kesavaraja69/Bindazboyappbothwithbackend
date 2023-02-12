@@ -291,7 +291,7 @@ class UtilityNotifer extends ChangeNotifier {
             _audioURL = "${APIRoutes.LocalHost}$customdataurl";
             notifyListeners();
           } else {
-            _imageURL = customdataurl;
+            _imageURL = "${APIRoutes.LocalHost}$customdataurl";
             notifyListeners();
           }
 

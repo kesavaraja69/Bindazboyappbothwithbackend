@@ -48,7 +48,12 @@ class AuthenticationApi {
     final http.Response response = await client.post(uri,
         body: jsonEncode(
             {"admin_email": admin_email, "admin_password": admin_password}),
-        headers: headers);
+        headers: {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          "Acess-Control-Allow-Origin": "*",
+          "Authorization": 'dragonft69\$',
+        });
 
     final statuscode = response.statusCode;
     final body = response.body;
