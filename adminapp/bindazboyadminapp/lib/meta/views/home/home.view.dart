@@ -116,13 +116,7 @@ class _HomeblogViewState extends State<HomeblogView> {
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.70,
-                child: RefreshIndicator(
-                    onRefresh: () async {
-                      setState(() {
-                        loadblog1();
-                      });
-                    },
-                    child: Bloglist()),
+                child: Bloglist(),
               ),
             ],
           ),
