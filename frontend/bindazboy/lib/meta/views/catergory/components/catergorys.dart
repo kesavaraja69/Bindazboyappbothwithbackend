@@ -2,6 +2,7 @@ import 'package:bindazboy/app/constant/colors.dart';
 import 'package:bindazboy/core/models/catergorys.model.dart';
 import 'package:flutter/material.dart';
 
+
 class Catergorys extends StatelessWidget {
   final dynamic snapshot;
   final Function callback;

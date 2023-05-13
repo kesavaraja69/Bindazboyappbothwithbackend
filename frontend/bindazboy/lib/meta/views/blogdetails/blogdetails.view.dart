@@ -259,6 +259,7 @@ class _BlogdetailsviewState extends State<Blogdetailsview> {
                                     blogdetails: datadetails.blogDescription,
                                     advancedPlayer: advancedPlayer,
                                     images: datadetails.blogImages,
+                                    blogid: datadetails.blogId,
                                     controller: controller),
                               ),
                             ],

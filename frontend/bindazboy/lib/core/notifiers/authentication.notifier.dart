@@ -48,7 +48,6 @@ class AuthenticationNotifer extends ChangeNotifier {
               .writeCache(key: "jwtdata", value: authdata)
               .whenComplete(() => Navigator.of(context).pushNamedAndRemoveUntil(
                   AppRoutes.HomeRoute, (route) => false));
-
           break;
 
         case 400:
@@ -107,7 +106,6 @@ class AuthenticationNotifer extends ChangeNotifier {
               .writeCache(key: "jwtdata", value: authdata.toString())
               .whenComplete(() => Navigator.of(context).pushNamedAndRemoveUntil(
                   AppRoutes.HomeRoute, (route) => false));
-
           break;
 
         case 401:

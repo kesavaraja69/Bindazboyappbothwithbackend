@@ -1,3 +1,4 @@
+import 'package:bindazboy/app/constant/colors.dart';
 import 'package:flutter/material.dart';
 
 class SplashView extends StatelessWidget {
@@ -9,13 +10,12 @@ class SplashView extends StatelessWidget {
         body: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/q5.png'),
-                ),
-              ),
+            child: Text(
+              "Master's Way",
+              style: TextStyle(
+                  color: BConstantColors.appbartitleColor,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold),
             ),
           ),
         ),

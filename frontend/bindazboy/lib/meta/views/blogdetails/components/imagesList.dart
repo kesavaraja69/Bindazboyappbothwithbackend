@@ -20,10 +20,10 @@ class ImageList extends StatelessWidget {
                 width: 360,
                 height: 270,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 230, 230, 230),
+                  color: Colors.transparent,
                   borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
-                      image: NetworkImage(images[index]), fit: BoxFit.cover),
+                      image: NetworkImage(images[index]), fit: BoxFit.contain),
                 )),
           );
         },

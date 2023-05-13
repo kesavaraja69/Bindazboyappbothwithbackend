@@ -115,7 +115,7 @@ class _HomeblogViewState extends State<HomeblogView> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.70,
+                height: MediaQuery.of(context).size.height * 0.79,
                 child: Bloglist(),
               ),
             ],
