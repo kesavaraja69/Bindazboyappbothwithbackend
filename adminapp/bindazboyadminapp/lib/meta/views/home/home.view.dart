@@ -1,10 +1,13 @@
 import 'package:bindazboyadminapp/app/constant/colors.dart';
 import 'package:bindazboyadminapp/app/routes/app.routes.dart';
+import 'package:bindazboyadminapp/core/models/zoomdetails.model.dart';
 import 'package:bindazboyadminapp/core/notifiers/authentication.notifer.dart';
 import 'package:bindazboyadminapp/core/notifiers/blog.notifier.dart';
 import 'package:bindazboyadminapp/core/notifiers/cache.notifier.dart';
+import 'package:bindazboyadminapp/core/notifiers/zoom.notifier.dart';
 import 'package:bindazboyadminapp/core/services/socket_methods.dart';
 import 'package:bindazboyadminapp/meta/views/home/components/bloglist.view.dart';
+import 'package:bindazboyadminapp/meta/views/zoom/updatezoom.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -82,6 +85,42 @@ class _HomeblogViewState extends State<HomeblogView> {
                         padding: const EdgeInsets.all(8.0),
                         child: iconcontainer(
                             context, Icons.add, Colors.yellow, 24.0),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 4.0,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        final zoomProvider =
+                            Provider.of<ZoomNoitifer>(context, listen: false);
+
+                        final data = await zoomProvider.fetchzoomDetail(
+                            context: context);
+
+                        final fndata = data as ZoomDetailsData;
+
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return ZoomUpdateDetailsView(
+                            zoomtitle: fndata.zoomMeetTopic,
+                            zoommtId: fndata.zoomMeetId,
+                            zoommtpwd: fndata.zoomMeetPassword,
+                            zoomurl: fndata.zoommeetURL,
+                            zoomtotalslot: fndata.zoomTotalSlots,
+                            zoomAvaliabeslot: fndata.zoomAvailableSlots,
+                            zoomDatetime: fndata.zoommeetdateandtime,
+                            zoomupcomingDatetime: fndata.zoommeetupcomingdate,
+                          );
+                        }));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: iconcontainer(
+                            context,
+                            Icons.video_camera_front_rounded,
+                            Colors.yellow,
+                            24.0),
                       ),
                     ),
                     IconButton(

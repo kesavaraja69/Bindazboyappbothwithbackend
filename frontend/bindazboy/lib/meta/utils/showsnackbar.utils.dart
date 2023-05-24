@@ -9,7 +9,7 @@ class ShowsnackBarUtiltiy {
         content: Text(
           message,
           style: const TextStyle(
-              color: Color.fromARGB(221, 16, 20, 14),
+              color: Color.fromARGB(221, 238, 239, 238),
               fontSize: 16,
               fontWeight: FontWeight.w500),
         ),

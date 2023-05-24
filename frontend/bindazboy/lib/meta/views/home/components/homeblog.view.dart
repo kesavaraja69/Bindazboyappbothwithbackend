@@ -198,18 +198,47 @@ class _HomeBlogsState extends State<HomeBlogs> {
             //               }),
             //         ),
             //       )
-            //     : SizedBox(),
-            SizedBox(
-              height: 9,
-            ),
+            //
+            //    : SizedBox(),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 9),
-              child: Text(
-                "All Posts",
-                style: TextStyle(
-                    color: BConstantColors.appbartitleColor,
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "All Posts",
+                    style: TextStyle(
+                        color: BConstantColors.appbartitleColor,
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(AppRoutes.ZoomMeetRoute);
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.45,
+                      height: 34,
+                      decoration: BoxDecoration(
+                        color: BConstantColors.fullblack,
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(4.0),
+                          child: Text(
+                            "Register here for Meeting",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: BConstantColors.yellow,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(

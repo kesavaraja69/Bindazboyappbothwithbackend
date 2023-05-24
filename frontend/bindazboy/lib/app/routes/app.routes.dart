@@ -8,6 +8,7 @@ import 'package:bindazboy/meta/views/deciderview/decider.view.dart';
 import 'package:bindazboy/meta/views/forgotpassword/changepassword.view.dart';
 import 'package:bindazboy/meta/views/forgotpassword/updatepassword.view.dart';
 import 'package:bindazboy/meta/views/forgotpassword/verifyotp.view.dart';
+import 'package:bindazboy/meta/views/home/components/meeting/meeting.view.dart';
 import 'package:bindazboy/meta/views/home/home.view.dart';
 import 'package:bindazboy/meta/views/searchpage/search.view.dart';
 import 'package:bindazboy/meta/views/splashview/splash.view.dart';
@@ -33,12 +34,14 @@ class AppRoutes {
   static const String VerifyOTPRoute = "/verifyOtp";
   static const String UpdatePasswordRoute = "/updatepassword";
   static const String ContactusRoute = "/contactus";
+  static const String ZoomMeetRoute = "/zoommeet";
 
   static Map<String, Widget Function(BuildContext)> routes = {
     LoginRoute: (context) => LoginView(),
     SearchRoute: (context) => SearchBlogview(),
     SplashRoute: (context) => SplashView(),
     SignUpRoute: (context) => SignupView(),
+    ZoomMeetRoute: (context) => MeetingView(),
     BookmarkRoute: (context) => BookmarkView(),
     CatergoryRoute: (context) => CatergoryView(),
     ContactusRoute: (context) => ContactusView(

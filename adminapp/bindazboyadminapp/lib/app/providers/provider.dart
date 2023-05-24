@@ -4,6 +4,7 @@ import 'package:bindazboyadminapp/core/notifiers/cache.notifier.dart';
 import 'package:bindazboyadminapp/core/notifiers/category.notifier.dart';
 import 'package:bindazboyadminapp/core/notifiers/notification.notifier.dart';
 import 'package:bindazboyadminapp/core/notifiers/utility.notifer.dart';
+import 'package:bindazboyadminapp/core/notifiers/zoom.notifier.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -14,4 +15,5 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (_) => CategoryNotifer()),
   ChangeNotifierProvider(create: (_) => BlogNotifer()),
   ChangeNotifierProvider(create: (_) => NotificationNotifiter()),
+  ChangeNotifierProvider(create: (_) => ZoomNoitifer()),
 ];

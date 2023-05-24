@@ -6,6 +6,7 @@ import 'package:bindazboyadminapp/meta/views/home/components/blogdetail.view.dar
 import 'package:bindazboyadminapp/meta/views/home/home.view.dart';
 import 'package:bindazboyadminapp/meta/views/splashView/splash.view.dart';
 import 'package:bindazboyadminapp/meta/views/updateblog/updateblog.view.dart';
+import 'package:bindazboyadminapp/meta/views/zoom/updatezoom.dart';
 import 'package:flutter/cupertino.dart';
 
 class AppRoutes {
@@ -16,10 +17,12 @@ class AppRoutes {
   static const String SplashRoute = "/splash";
   static const String AddblogRoute = "/addblog";
   static const String UpdateblogRoute = "/update";
+  static const String UpdatezoomRoute = "/updatezoom";
   static const String BlogDetailRoute = "/details";
 
   static Map<String, Widget Function(BuildContext)> routes = {
     HomeRoute: (context) => HomeblogView(),
+    UpdatezoomRoute: (context) => ZoomUpdateDetailsView(),
     DeciderRoute: (context) => DeciderView(),
     SplashRoute: (context) => SplashView(),
     SignupRoute: (context) => SignupView(),

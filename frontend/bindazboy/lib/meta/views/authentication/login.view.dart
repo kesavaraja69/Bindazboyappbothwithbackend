@@ -26,7 +26,6 @@ class _LoginViewState extends State<LoginView> {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-
     super.dispose();
   }
 
@@ -39,16 +38,18 @@ class _LoginViewState extends State<LoginView> {
         return true;
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         backgroundColor: BConstantColors.backgroundColor,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
-          child: Container(
+          child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
                   children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.24,
+                    ),
                     Text(
                       "Login",
                       style: TextStyle(

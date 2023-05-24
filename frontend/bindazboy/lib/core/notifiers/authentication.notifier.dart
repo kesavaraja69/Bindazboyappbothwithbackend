@@ -116,6 +116,14 @@ class AuthenticationNotifer extends ChangeNotifier {
           );
           break;
 
+        case 402:
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("user not found"),
+            ),
+          );
+          break;
+
         case 404:
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
