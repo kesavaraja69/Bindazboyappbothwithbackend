@@ -137,7 +137,7 @@ class _HomeViewState extends State<HomeView> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 19),
               child: Material(
                 elevation: 10,
                 borderRadius: BorderRadius.circular(20),
@@ -167,7 +167,10 @@ class _HomeViewState extends State<HomeView> {
                               border: index == _index
                                   ? Border(
                                       top: BorderSide(
-                                          width: 3.0,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.005,
                                           color: BConstantColors.yellow))
                                   : null,
                               gradient: index == _index
@@ -181,7 +184,7 @@ class _HomeViewState extends State<HomeView> {
                                   : null),
                           child: Icon(
                             data[index],
-                            size: 30,
+                            size: MediaQuery.of(context).size.width * 0.07,
                             color: index == _index
                                 ? BConstantColors.yellow
                                 : BConstantColors.lightgrey,

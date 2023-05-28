@@ -45,7 +45,7 @@ class _CustomBannerAdState extends State<CustomBannerAd> {
     return isBannerAdLoaded
         ? SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: 40,
+            height: 50,
             child: AdWidget(
               ad: bannerAd!,
             ),

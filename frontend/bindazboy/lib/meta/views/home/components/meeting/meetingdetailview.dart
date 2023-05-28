@@ -1,13 +1,87 @@
 import 'package:bindazboy/app/constant/colors.dart';
 import 'package:bindazboy/core/models/zoomdetails.model.dart';
+import 'package:bindazboy/meta/utils/ads_helper.dart';
 import 'package:bindazboy/meta/utils/showsnackbar.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-class ZoomMeetingDetails extends StatelessWidget {
+const int maxFailedLoadAttempts = 3;
+const String testDevice = '198039EA87A433F495D95F51D12D8139';
+
+class ZoomMeetingDetails extends StatefulWidget {
   ZoomDetailsData data;
   ZoomMeetingDetails({super.key, required this.data});
+
+  @override
+  State<ZoomMeetingDetails> createState() => _ZoomMeetingDetailsState();
+}
+
+class _ZoomMeetingDetailsState extends State<ZoomMeetingDetails> {
+  InterstitialAd? _interstitialAd;
+  int _interstitialLoadAttempts = 0;
+  // late BannerAd _bottomBannerAd;
+
+  static final AdRequest request = AdRequest();
+
+  @override
+  void initState() {
+    super.initState();
+    _createInterstitialAd();
+  }
+
+  void _createInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: AdHelper.interstrialAdUnitid2,
+        request: request,
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (InterstitialAd ad) {
+            print('$ad loaded');
+            _interstitialAd = ad;
+            _interstitialLoadAttempts = 0;
+            _interstitialAd!.setImmersiveMode(true);
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            print('InterstitialAd failed to load: $error.');
+            _interstitialLoadAttempts += 1;
+            _interstitialAd = null;
+            if (_interstitialLoadAttempts < maxFailedLoadAttempts) {
+              _createInterstitialAd();
+            }
+          },
+        ));
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd == null) {
+      print('Warning: attempt to show interstitial before loaded.');
+      return;
+    }
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          print('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        print('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        print('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+    );
+    _interstitialAd!.show();
+    _interstitialAd = null;
+  }
+
+  @override
+  void dispose() {
+    _interstitialAd?.dispose();
+    super.dispose();
+
+    // _bottomBannerAd.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +112,10 @@ class ZoomMeetingDetails extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 9),
                   child: Text(
-                    "Zoom Meeting Details",
+                    "Your Registration is Successful",
                     style: TextStyle(
-                        color: Color.fromARGB(221, 254, 222, 81),
-                        fontSize: 20,
+                        color: Color.fromARGB(221, 95, 254, 81),
+                        fontSize: mwidth * 0.047,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -52,10 +126,25 @@ class ZoomMeetingDetails extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      "Title : ${data.zoomMeetTopic}",
+                      "Zoom Meeting Details",
                       style: TextStyle(
                           color: Color.fromARGB(221, 254, 222, 81),
-                          fontSize: 20,
+                          fontSize: mwidth * 0.047,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                left: mwidth * 0.07,
+                top: mheigth * 0.097,
+                child: Row(
+                  children: [
+                    Text(
+                      "Title : ${widget.data.zoomMeetTopic}",
+                      style: TextStyle(
+                          color: Color.fromARGB(221, 254, 222, 81),
+                          fontSize: mwidth * 0.047,
                           fontWeight: FontWeight.w500),
                     ),
                   ],
@@ -63,61 +152,32 @@ class ZoomMeetingDetails extends StatelessWidget {
               ),
               Positioned(
                 left: mwidth * 0.07,
-                top: mheigth * 0.095,
+                top: mheigth * 0.14,
                 child: Text(
-                  "Date & Time : ${data.zoommeetdateandtime}",
+                  "Date & Time : ${widget.data.zoommeetdateandtime}",
                   style: TextStyle(
                       color: Color.fromARGB(221, 254, 222, 81),
-                      fontSize: 20,
+                      fontSize: mwidth * 0.047,
                       fontWeight: FontWeight.w500),
                 ),
               ),
               Positioned(
                 left: mwidth * 0.07,
-                top: mheigth * 0.15,
+                top: mheigth * 0.19,
                 child: Row(
                   children: [
                     Text(
-                      "Meeting ID : ${data.zoomMeetId}",
+                      "Meeting ID : ${widget.data.zoomMeetId}",
                       style: TextStyle(
                           color: Color.fromARGB(221, 254, 222, 81),
-                          fontSize: 20,
+                          fontSize: mwidth * 0.047,
                           fontWeight: FontWeight.w500),
                     ),
                     GestureDetector(
                       onTap: () {
-                        Clipboard.setData(ClipboardData(text: data.zoomMeetId));
-                        ShowsnackBarUtiltiy.showSnackbar(
-                            message: "Copied to Clipboard", context: context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 60),
-                        child: Icon(
-                          Icons.copy,
-                          size: 25,
-                          color: Colors.amber,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                left: mwidth * 0.07,
-                top: mheigth * 0.199,
-                child: Row(
-                  children: [
-                    Text(
-                      "Meeting Password : ${data.zoomMeetPassword}",
-                      style: TextStyle(
-                          color: Color.fromARGB(221, 254, 222, 81),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Clipboard.setData(
-                            ClipboardData(text: data.zoomMeetPassword));
+                        _showInterstitialAd();
+                        Clipboard.setData(ClipboardData(
+                            text: widget.data.zoomMeetId.toString()));
                         ShowsnackBarUtiltiy.showSnackbar(
                             message: "Copied to Clipboard", context: context);
                       },
@@ -136,85 +196,50 @@ class ZoomMeetingDetails extends StatelessWidget {
               Positioned(
                 left: mwidth * 0.07,
                 top: mheigth * 0.25,
+                child: Row(
+                  children: [
+                    Text(
+                      "Meeting Password : ${widget.data.zoomMeetPassword}",
+                      style: TextStyle(
+                          color: Color.fromARGB(221, 254, 222, 81),
+                          fontSize: mwidth * 0.047,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Clipboard.setData(ClipboardData(
+                            text: widget.data.zoomMeetPassword.toString()));
+                        ShowsnackBarUtiltiy.showSnackbar(
+                            message: "Copied to Clipboard", context: context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 60),
+                        child: Icon(
+                          Icons.copy,
+                          size: 25,
+                          color: Colors.amber,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                left: mwidth * 0.07,
+                top: mheigth * 0.3,
                 child: Text(
-                  data.zoommeetupcomingdate != null
-                      ? "UpComing Meeting : ${data.zoommeetupcomingdate}"
+                  widget.data.zoommeetupcomingdate != null
+                      ? "UpComing Meeting : ${widget.data.zoommeetupcomingdate}"
                       : "UpComing Meeting : None",
                   style: TextStyle(
                       color: Color.fromARGB(221, 254, 222, 81),
-                      fontSize: 20,
+                      fontSize: mwidth * 0.047,
                       fontWeight: FontWeight.w500),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 50),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Text(
-                    "( OR )",
-                    style: TextStyle(
-                        color: Color.fromARGB(221, 254, 222, 81),
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: GestureDetector(
-                  onTap: () {
-                    final url = '${data.zoommeetURL}';
-                    openBrowserUrl(url: url, inApp: false);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 9),
-                    child: Text(
-                      "Click Here",
-                      style: TextStyle(
-                          color: Color.fromARGB(221, 254, 222, 81),
-                          fontSize: 25,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
                 ),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Future openBrowserUrl({required dynamic url, bool inApp = false}) async {
-    if (await canLaunchUrlString(url)) {
-      await launchUrlString(
-        url,
-      );
-    }
-  }
-
-  Widget bulidMenuItem(
-      {required String text, required IconData icon, VoidCallback? onClicked}) {
-    final color = Colors.brown[700];
-    return Padding(
-      padding: const EdgeInsets.only(left: 12),
-      child: ListTile(
-        leading: Icon(
-          icon,
-          color: color,
-        ),
-        title: Padding(
-          padding: const EdgeInsets.only(left: 7),
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 17,
-              color: color,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-        onTap: onClicked,
       ),
     );
   }

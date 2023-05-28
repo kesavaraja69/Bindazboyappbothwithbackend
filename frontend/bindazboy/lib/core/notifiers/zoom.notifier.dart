@@ -1,9 +1,8 @@
 import 'dart:convert';
-
-import 'package:bindazboy/app/routes/app.routes.dart';
 import 'package:bindazboy/core/api/zoom.api.dart';
 import 'package:bindazboy/core/models/zoomdetails.model.dart';
 import 'package:bindazboy/core/notifiers/cache.notifier.dart';
+import 'package:bindazboy/meta/utils/alertbox.utils.dart';
 import 'package:bindazboy/meta/utils/showsnackbar.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +13,19 @@ class ZoomNoitifer extends ChangeNotifier {
 
   bool? _isUserRegistered;
   bool? get isUserRegistered => _isUserRegistered;
+
+  Future<bool> _logoutdailog({text, isZoom, context}) async {
+    return await AlertdailogBoxgm.showAlertbox2(
+            context: context,
+            onclick1: () async {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+            title: "Message",
+            content: text,
+            isCorrect: isZoom) ??
+        false;
+  }
 
   Future registerZoom({
     required BuildContext context,
@@ -36,52 +48,30 @@ class ZoomNoitifer extends ChangeNotifier {
 
       switch (customStatusCode) {
         case 201:
-          await fetchzoomDetail(context: context).then((value) async {
-            print(value);
+          cacheprovider.writeCache(key: "Zoomuser", value: useremail);
 
-            ZoomDetailsData data = value;
+          _isUserRegistered = true;
 
-            print(data.zoomAvailableSlots);
+          notifyListeners();
 
-            if (data.zoomAvailableSlots != 0) {
-              await updatezoomSlot(
-                      context: context,
-                      zoomid: data.zoomId,
-                      nofSlots: data.zoomAvailableSlots! - 1)
-                  .then((value) {
-                if (value == true) {
-                  cacheprovider.writeCache(key: "Zoomuser", value: useremail);
-                  ShowsnackBarUtiltiy.showSnackbar(
-                      message: "Email Registered Successfully",
-                      context: context);
-                  _isUserRegistered = true;
-                  notifyListeners();
-                }
-              });
-            } else {
-              ShowsnackBarUtiltiy.showSnackbar(
-                  message: "No Slot Available, try next time",
-                  context: context);
-            }
-          });
-
-          // await Provider.of<CacheNotifier>(context, listen: false)
-          //     .writeCache(key: "jwtdata", value: authdata)
-          //     .whenComplete(() => Navigator.of(context).pushNamedAndRemoveUntil(
-          //         AppRoutes.HomeRoute, (route) => false));
-          break;
+          return true;
 
         case 400:
           devtools.log("zoom rg log $customMessage");
           await cacheprovider.writeCache(key: "Zoomuser", value: useremail);
-          ShowsnackBarUtiltiy.showSnackbar(
-              message: "Email is Already Registered", context: context);
-          break;
+          await _logoutdailog(
+              context: context,
+              text: "Email is Already Registered",
+              isZoom: false);
+
+          return false;
 
         case 301:
           devtools.log("zoom rg log $customMessage");
-          ShowsnackBarUtiltiy.showSnackbar(
-              message: "Email is Not Registered", context: context);
+          // ShowsnackBarUtiltiy.showSnackbar(
+          //     message: "Email is Not Registered", context: context);
+          await _logoutdailog(
+              context: context, text: "Email is Not Registered", isZoom: false);
           break;
 
         case 403:
@@ -98,6 +88,8 @@ class ZoomNoitifer extends ChangeNotifier {
       }
     } catch (error) {
       devtools.log("zoom rg api data not found");
+      ShowsnackBarUtiltiy.showSnackbar(
+          message: error.toString(), context: context);
     }
   }
 
@@ -166,6 +158,7 @@ class ZoomNoitifer extends ChangeNotifier {
       }
     } catch (error) {
       devtools.log("zoom slot update api data not found $error");
+      return false;
     }
   }
 

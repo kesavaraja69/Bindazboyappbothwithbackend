@@ -87,7 +87,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       style: TextStyle(
                           color: BConstantColors.appbartitleColor,
-                          fontSize: 19,
+                          fontSize: MediaQuery.of(context).size.width * 0.045,
                           fontWeight: FontWeight.w600),
                     ),
                     SizedBox(
@@ -137,7 +137,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       style: TextStyle(
                           color: BConstantColors.appbartitleColor,
-                          fontSize: 19,
+                          fontSize: MediaQuery.of(context).size.width * 0.045,
                           fontWeight: FontWeight.w600),
                     ),
                     SizedBox(
@@ -151,7 +151,8 @@ class _LoginViewState extends State<LoginView> {
                         child: Text("Forgot Password ?",
                             style: TextStyle(
                                 color: BConstantColors.appbartitleColor,
-                                fontSize: 17,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.045,
                                 fontWeight: FontWeight.bold))),
                     SizedBox(
                       height: 10,

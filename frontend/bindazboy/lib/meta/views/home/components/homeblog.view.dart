@@ -41,24 +41,6 @@ class _HomeBlogsState extends State<HomeBlogs> {
                   fontSize: 24),
             ))
 
-        // (await showDialog(
-        //   context: context,
-        //   builder: (context) => new AlertDialog(
-        //     title: new Text('Are you sure?'),
-        //     content: new Text('Do you want to exit an App'),
-        //     actions: <Widget>[
-        //       TextButton(
-        //         onPressed: () => Navigator.of(context).pop(false),
-        //         child: new Text('No'),
-        //       ),
-        //       TextButton(
-        //         onPressed: () => Navigator.of(context).pop(true),
-        //         child: new Text('Yes'),
-        //       ),
-        //     ],
-        //   ),
-        // ))
-
         ??
         false;
   }
@@ -116,7 +98,7 @@ class _HomeBlogsState extends State<HomeBlogs> {
                   "Bindaz Boy App",
                   style: TextStyle(
                       color: BConstantColors.appbartitleColor,
-                      fontSize: 23,
+                      fontSize: MediaQuery.of(context).size.width * 0.06,
                       fontWeight: FontWeight.bold),
                 ),
                 IconButton(
@@ -210,28 +192,32 @@ class _HomeBlogsState extends State<HomeBlogs> {
                     "All Posts",
                     style: TextStyle(
                         color: BConstantColors.appbartitleColor,
-                        fontSize: 19,
+                        fontSize: MediaQuery.of(context).size.width * 0.045,
                         fontWeight: FontWeight.bold),
                   ),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).pushNamed(AppRoutes.ZoomMeetRoute);
                     },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.45,
-                      height: 34,
-                      decoration: BoxDecoration(
-                        color: BConstantColors.fullblack,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(4.0),
-                          child: Text(
-                            "Register here for Meeting",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: BConstantColors.yellow,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        height: 34,
+                        decoration: BoxDecoration(
+                          color: BConstantColors.fullblack,
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(4.0),
+                            child: Text(
+                              "Register here for Meeting",
+                              style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.035,
+                                color: BConstantColors.yellow,
+                              ),
                             ),
                           ),
                         ),
@@ -242,7 +228,7 @@ class _HomeBlogsState extends State<HomeBlogs> {
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.86,
+              height: MediaQuery.of(context).size.height * 0.847,
               child: RefreshIndicator(
                 onRefresh: loadblogs,
                 backgroundColor: BConstantColors.black,

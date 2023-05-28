@@ -76,7 +76,7 @@ class _SignupViewState extends State<SignupView> {
                 ),
                 style: TextStyle(
                     color: BConstantColors.appbartitleColor,
-                    fontSize: 19,
+                    fontSize: MediaQuery.of(context).size.width * 0.045,
                     fontWeight: FontWeight.w600),
               ),
               SizedBox(
@@ -105,7 +105,7 @@ class _SignupViewState extends State<SignupView> {
                 ),
                 style: TextStyle(
                     color: BConstantColors.appbartitleColor,
-                    fontSize: 19,
+                    fontSize: MediaQuery.of(context).size.width * 0.045,
                     fontWeight: FontWeight.w600),
               ),
               SizedBox(
@@ -152,7 +152,7 @@ class _SignupViewState extends State<SignupView> {
                 ),
                 style: TextStyle(
                     color: BConstantColors.appbartitleColor,
-                    fontSize: 19,
+                    fontSize: MediaQuery.of(context).size.width * 0.045,
                     fontWeight: FontWeight.w600),
               ),
               SizedBox(

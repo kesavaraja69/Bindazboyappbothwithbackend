@@ -830,13 +830,12 @@ class _UpdateBlogState extends State<UpdateBlog> {
               onTap: () {
                 utilityNotifer
                     .addAllTypeFile(context: context)
-                    .whenComplete(() => {
-                          provider.updateimageBlog(
-                              context: context,
-                              blog_id: widget.blogDetailArguments.id,
-                              blog_image: utilityNotifer.imageURL)
-                        })
-                    .whenComplete(() => iconcontainer(
+                    .whenComplete(() {
+                  provider.updateimageBlog(
+                      context: context,
+                      blog_id: widget.blogDetailArguments.id,
+                      blog_image: utilityNotifer.imageURL);
+                }).whenComplete(() => iconcontainer(
                         onclick: () async {
                           await utilityNotifer
                               .deleteblogImage(
