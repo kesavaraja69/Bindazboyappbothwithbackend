@@ -14,6 +14,12 @@ class ZoomNoitifer extends ChangeNotifier {
   bool? _isUserRegistered;
   bool? get isUserRegistered => _isUserRegistered;
 
+  String? _isUserRegistereddate;
+  String? get isUserRegistereddate => _isUserRegistereddate;
+
+  String? _isUserRegistereduser;
+  String? get isUserRegistereduser => _isUserRegistereduser;
+
   Future<bool> _logoutdailog({text, isZoom, context}) async {
     return await AlertdailogBoxgm.showAlertbox2(
             context: context,
@@ -106,11 +112,14 @@ class ZoomNoitifer extends ChangeNotifier {
 
       final customStatusCode = parsedData["code"];
       final customMessage = parsedData["message"];
+      final custmdate = parsedData["data"]["user_date"];
       switch (customStatusCode) {
         case 201:
           //await cacheprovider.writeCache(key: "Zoomuser", value: userem);
           devtools.log("zoom check user log $customMessage");
           _isUserRegistered = true;
+          _isUserRegistereddate = custmdate;
+          _isUserRegistereduser = userem;
           notifyListeners();
           return true;
 

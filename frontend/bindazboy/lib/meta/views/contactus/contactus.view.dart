@@ -33,90 +33,98 @@ class _ContactusViewState extends State<ContactusView> {
     super.dispose();
   }
 
+  Future<bool> _onWillPop() async {
+    FocusManager.instance.primaryFocus?.unfocus();
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final mheight = MediaQuery.of(context).size.height;
     final mwidth = MediaQuery.of(context).size.width;
     final contactusprovider =
         Provider.of<ContactusNotifier>(context, listen: false);
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 11, 9, 19),
-        centerTitle: true,
-        title: Text(
-          widget.reportandcontactArguments.isReport == false
-              ? "Contact US"
-              : "Report or Bug",
-          style: TextStyle(
-              color: BConstantColors.titleColor,
-              fontSize: 19,
-              fontWeight: FontWeight.w600),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 11, 9, 19),
+          centerTitle: true,
+          title: Text(
+            widget.reportandcontactArguments.isReport == false
+                ? "Contact US"
+                : "Report or Bug",
+            style: TextStyle(
+                color: BConstantColors.titleColor,
+                fontSize: 19,
+                fontWeight: FontWeight.w600),
+          ),
         ),
-      ),
-      backgroundColor: BConstantColors.backgroundColor,
-      body: SizedBox(
-        height: mheight,
-        width: mwidth,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: mheight * 0.02),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: mheight * 0.02,
-                ),
-                labeltext("Name"),
-                SizedBox(
-                  height: mheight * 0.012,
-                ),
-                title(
-                  controller: _titletext,
-                  text: "Enter here",
-                ),
-                SizedBox(
-                  height: mheight * 0.04,
-                ),
-                labeltext("Description"),
-                SizedBox(
-                  height: mheight * 0.012,
-                ),
-                description(controller: _descriptiontext, text: "Enter here"),
-                SizedBox(
-                  height: mheight * 0.04,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: mwidth * 0.33),
-                  child: subitbutton(
-                    text: "Submit",
-                    onclick: () async {
-                      if (_descriptiontext.text.isNotEmpty &&
-                          _titletext.text.isNotEmpty) {
-                        if (widget.reportandcontactArguments.isReport ==
-                            false) {
-                          print("contact us");
-                          await contactusprovider.addContactus(
-                              usname: _titletext.text,
-                              context: context,
-                              iscontactus: "true",
-                              usmessage: _descriptiontext.text);
-                        } else {
-                          print("report or bug");
-                          await contactusprovider.addContactus(
-                              usname: _titletext.text,
-                              context: context,
-                              iscontactus: "false",
-                              usmessage: _descriptiontext.text);
-                        }
-                      } else {
-                        ShowsnackBarUtiltiy.showSnackbar(
-                            message: "Fill the value", context: context);
-                      }
-                    },
-                    color1: Color.fromARGB(255, 19, 19, 19),
+        backgroundColor: BConstantColors.backgroundColor,
+        body: SizedBox(
+          height: mheight,
+          width: mwidth,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: mheight * 0.02),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: mheight * 0.02,
                   ),
-                ),
-              ],
+                  labeltext("Name"),
+                  SizedBox(
+                    height: mheight * 0.012,
+                  ),
+                  title(
+                    controller: _titletext,
+                    text: "Enter here",
+                  ),
+                  SizedBox(
+                    height: mheight * 0.04,
+                  ),
+                  labeltext("Description"),
+                  SizedBox(
+                    height: mheight * 0.012,
+                  ),
+                  description(controller: _descriptiontext, text: "Enter here"),
+                  SizedBox(
+                    height: mheight * 0.04,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: mwidth * 0.33),
+                    child: subitbutton(
+                      text: "Submit",
+                      onclick: () async {
+                        if (_descriptiontext.text.isNotEmpty &&
+                            _titletext.text.isNotEmpty) {
+                          if (widget.reportandcontactArguments.isReport ==
+                              false) {
+                            print("contact us");
+                            await contactusprovider.addContactus(
+                                usname: _titletext.text,
+                                context: context,
+                                iscontactus: "true",
+                                usmessage: _descriptiontext.text);
+                          } else {
+                            print("report or bug");
+                            await contactusprovider.addContactus(
+                                usname: _titletext.text,
+                                context: context,
+                                iscontactus: "false",
+                                usmessage: _descriptiontext.text);
+                          }
+                        } else {
+                          ShowsnackBarUtiltiy.showSnackbar(
+                              message: "Fill the value", context: context);
+                        }
+                      },
+                      color1: Color.fromARGB(255, 19, 19, 19),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

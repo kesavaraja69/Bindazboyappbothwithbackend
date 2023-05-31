@@ -5,13 +5,17 @@ import 'package:bindazboy/meta/utils/showsnackbar.utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:intl/intl.dart';
 
 const int maxFailedLoadAttempts = 3;
 const String testDevice = '198039EA87A433F495D95F51D12D8139';
 
 class ZoomMeetingDetails extends StatefulWidget {
   ZoomDetailsData data;
-  ZoomMeetingDetails({super.key, required this.data});
+  dynamic userem;
+  dynamic bookdate;
+  ZoomMeetingDetails(
+      {super.key, required this.data, this.userem, this.bookdate});
 
   @override
   State<ZoomMeetingDetails> createState() => _ZoomMeetingDetailsState();
@@ -92,7 +96,7 @@ class _ZoomMeetingDetailsState extends State<ZoomMeetingDetails> {
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 2),
         child: Container(
-          height: mheigth * 0.39,
+          height: mheigth * 0.42,
           width: mwidth,
           decoration: BoxDecoration(
             color: BConstantColors.fullblack,
@@ -152,7 +156,7 @@ class _ZoomMeetingDetailsState extends State<ZoomMeetingDetails> {
               ),
               Positioned(
                 left: mwidth * 0.07,
-                top: mheigth * 0.14,
+                top: mheigth * 0.145,
                 child: Text(
                   "Date & Time : ${widget.data.zoommeetdateandtime}",
                   style: TextStyle(
@@ -195,7 +199,7 @@ class _ZoomMeetingDetailsState extends State<ZoomMeetingDetails> {
               ),
               Positioned(
                 left: mwidth * 0.07,
-                top: mheigth * 0.25,
+                top: mheigth * 0.24,
                 child: Row(
                   children: [
                     Text(
@@ -226,7 +230,7 @@ class _ZoomMeetingDetailsState extends State<ZoomMeetingDetails> {
               ),
               Positioned(
                 left: mwidth * 0.07,
-                top: mheigth * 0.3,
+                top: mheigth * 0.29,
                 child: Text(
                   widget.data.zoommeetupcomingdate != null
                       ? "UpComing Meeting : ${widget.data.zoommeetupcomingdate}"
@@ -235,6 +239,51 @@ class _ZoomMeetingDetailsState extends State<ZoomMeetingDetails> {
                       color: Color.fromARGB(221, 254, 222, 81),
                       fontSize: mwidth * 0.047,
                       fontWeight: FontWeight.w500),
+                ),
+              ),
+              Positioned(
+                left: mwidth * 0.07,
+                bottom: mheigth * 0.067,
+                child: Row(
+                  children: [
+                    Text(
+                      "---------------------------------------",
+                      style: TextStyle(
+                          color: Color.fromARGB(221, 254, 167, 81),
+                          fontSize: mwidth * 0.04,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                left: mwidth * 0.07,
+                bottom: mheigth * 0.045,
+                child: Row(
+                  children: [
+                    Text(
+                      "UserEmail Id : ${widget.userem}",
+                      style: TextStyle(
+                          color: Color.fromARGB(221, 254, 167, 81),
+                          fontSize: mwidth * 0.04,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                left: mwidth * 0.07,
+                bottom: mheigth * 0.015,
+                child: Row(
+                  children: [
+                    Text(
+                      "Booked Date : ${DateFormat().format(DateTime.parse("${widget.bookdate}"))}",
+                      style: TextStyle(
+                          color: Color.fromARGB(221, 254, 167, 81),
+                          fontSize: mwidth * 0.04,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
                 ),
               ),
             ],

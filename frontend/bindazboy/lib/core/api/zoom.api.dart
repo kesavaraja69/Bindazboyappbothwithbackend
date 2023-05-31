@@ -23,13 +23,14 @@ class ZoomMeetApi {
   }) async {
     final String subUrl = "/zoomall/Adduserzoom";
     final Uri uri = Uri.parse(APIRoutes.LocalHost + subUrl);
-
+    DateTime now = DateTime.now();
     final http.Response response = await client.post(
       uri,
       body: jsonEncode({
         "zoomMeetUser": username,
         "zoomMeetUserEmail": useremail,
-        "zoomId": zoomid
+        "zoomId": zoomid,
+        "zoomdate": now.toLocal().toString()
       }),
       headers: headers,
     );
