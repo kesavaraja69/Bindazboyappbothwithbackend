@@ -11,9 +11,9 @@ const int maxFailedLoadAttempts = 3;
 const String testDevice = '198039EA87A433F495D95F51D12D8139';
 
 class ZoomMeetingDetails extends StatefulWidget {
-  ZoomDetailsData data;
-  dynamic userem;
-  dynamic bookdate;
+  final ZoomDetailsData data;
+  final dynamic userem;
+  final dynamic bookdate;
   ZoomMeetingDetails(
       {super.key, required this.data, this.userem, this.bookdate});
 

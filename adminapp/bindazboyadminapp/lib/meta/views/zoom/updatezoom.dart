@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ZoomUpdateDetailsView extends StatefulWidget {
-  dynamic zoomtitle;
-  dynamic zoommtId;
-  dynamic zoommtpwd;
-  dynamic zoomurl;
-  dynamic zoomtotalslot;
-  dynamic zoomAvaliabeslot;
-  dynamic zoomDatetime;
-  dynamic zoomupcomingDatetime;
+  final dynamic zoomtitle;
+  final dynamic zoommtId;
+  final dynamic zoommtpwd;
+  final dynamic zoomurl;
+  final dynamic zoomtotalslot;
+  final dynamic zoomAvaliabeslot;
+  final dynamic zoomDatetime;
+  final dynamic zoomupcomingDatetime;
   ZoomUpdateDetailsView(
       {this.zoomtitle,
       this.zoommtId,
@@ -119,6 +119,43 @@ class _ZoomUpdateDetailsViewState extends State<ZoomUpdateDetailsView> {
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold),
                 )
+              ],
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            labeltext("Zoomenable"),
+            SizedBox(
+              height: 4,
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 2,
+                  ),
+                  child: subitbutton(
+                      text: "EnableZoom",
+                      onclick: () async {
+                        await zoomProvider.updateZoomIseanble(
+                            context: context,
+                            zoomid: 1,
+                            zoomMeetIsEnable: "true");
+                      }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 2,
+                  ),
+                  child: subitbutton(
+                      text: "DisableZoom",
+                      onclick: () async {
+                        await zoomProvider.updateZoomIseanble(
+                            context: context,
+                            zoomid: 1,
+                            zoomMeetIsEnable: null);
+                      }),
+                ),
               ],
             ),
             SizedBox(
@@ -277,6 +314,9 @@ class _ZoomUpdateDetailsViewState extends State<ZoomUpdateDetailsView> {
                 onclick: () async {
                   await zoomProvider.removeAllUsers(context: context);
                 }),
+            SizedBox(
+              height: 12,
+            ),
             SizedBox(
               height: 25,
             ),

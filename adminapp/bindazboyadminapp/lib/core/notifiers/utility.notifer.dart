@@ -2,9 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:bindazboyadminapp/app/routes/api.routes.dart';
 import 'package:bindazboyadminapp/core/models/images.model.dart';
-import 'package:bindazboyadminapp/credentials/cloudnary.credential.dart';
 import 'package:bindazboyadminapp/meta/widgets/snackbarutitly.dart';
-import 'package:cloudinary_sdk/cloudinary_sdk.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -391,64 +389,64 @@ class UtilityNotifer extends ChangeNotifier {
   //   });
   // }
 
-  Future deleteblogImage({required BuildContext context, required url}) async {
-    final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
-        CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
-    await _cloudinary
-        .deleteFile(
-      url: url,
-      resourceType: CloudinaryResourceType.image,
-    )
-        .then((value) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Image Removed"),
-      ));
-      notifyListeners();
-      return true;
-    }).catchError((error) {
-      print(error);
-    });
-  }
+  // Future deleteblogImage({required BuildContext context, required url}) async {
+  //   final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
+  //       CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
+  //   await _cloudinary
+  //       .deleteFile(
+  //     url: url,
+  //     resourceType: CloudinaryResourceType.image,
+  //   )
+  //       .then((value) {
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Text("Image Removed"),
+  //     ));
+  //     notifyListeners();
+  //     return true;
+  //   }).catchError((error) {
+  //     print(error);
+  //   });
+  // }
 
-  Future deleteblogImages(
-      {required BuildContext context, required dynamic urls}) async {
-    final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
-        CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
-    await _cloudinary
-        .deleteFiles(
-      urls: urls,
-      resourceType: CloudinaryResourceType.image,
-    )
-        .then((value) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Image Removed"),
-      ));
-      notifyListeners();
-      return true;
-    }).catchError((error) {
-      print(error);
-    });
-  }
+  // Future deleteblogImages(
+  //     {required BuildContext context, required dynamic urls}) async {
+  //   final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
+  //       CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
+  //   await _cloudinary
+  //       .deleteFiles(
+  //     urls: urls,
+  //     resourceType: CloudinaryResourceType.image,
+  //   )
+  //       .then((value) {
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Text("Image Removed"),
+  //     ));
+  //     notifyListeners();
+  //     return true;
+  //   }).catchError((error) {
+  //     print(error);
+  //   });
+  // }
 
-  Future deleteblogAudio({required BuildContext context, required url}) async {
-    final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
-        CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
-    await _cloudinary
-        .deleteFile(
-      url: url,
-      resourceType: CloudinaryResourceType.auto,
-    )
-        .then((value) {
-      _audioURL = null;
-      _audioName = null;
-      _previewblogaudio = null;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Audio Removed"),
-      ));
-      notifyListeners();
-      return true;
-    }).catchError((error) {
-      print(error);
-    });
-  }
+  // Future deleteblogAudio({required BuildContext context, required url}) async {
+  //   final _cloudinary = Cloudinary(CloudnaryCredentials.ApiKey,
+  //       CloudnaryCredentials.ApiScrect, CloudnaryCredentials.Cloudname);
+  //   await _cloudinary
+  //       .deleteFile(
+  //     url: url,
+  //     resourceType: CloudinaryResourceType.auto,
+  //   )
+  //       .then((value) {
+  //     _audioURL = null;
+  //     _audioName = null;
+  //     _previewblogaudio = null;
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Text("Audio Removed"),
+  //     ));
+  //     notifyListeners();
+  //     return true;
+  //   }).catchError((error) {
+  //     print(error);
+  //   });
+  // }
 }

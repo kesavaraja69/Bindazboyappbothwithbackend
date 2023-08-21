@@ -183,6 +183,35 @@ class ZoomMeetApi {
     }
   }
 
+  Future updateZoomIseanble({
+    required BuildContext context,
+    required zoomid,
+    dynamic zoomMeetIsEnable,
+  }) async {
+    final String subUrl = "/zoomall/updatezoomsisenable/$zoomid";
+    final Uri uri = Uri.parse(APIRoutes.LocalHost + subUrl);
+
+    final http.Response response = await client.put(
+      uri,
+      body: jsonEncode({"zoomMeetIsEnable": zoomMeetIsEnable}),
+      headers: headers,
+    );
+
+    final statuscode = response.statusCode;
+    final body = response.body;
+    // _logger.i(body, statuscode);
+    if (statuscode == 200) {
+      return body;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Somthing went wrong"),
+        ),
+      );
+      devtools.log("auth api data not found");
+    }
+  }
+
   Future removeAllUsers({
     required BuildContext context,
   }) async {

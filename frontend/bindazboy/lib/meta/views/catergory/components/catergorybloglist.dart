@@ -14,8 +14,8 @@ import 'package:shimmer/shimmer.dart';
 const int maxFailedLoadAttempts = 3;
 
 class CatergoryblogList extends StatefulWidget {
-  List<dynamic> snapshot;
-  dynamic catergorytitle;
+  final List<dynamic> snapshot;
+  final dynamic catergorytitle;
 
   CatergoryblogList({required this.snapshot, this.catergorytitle});
 

@@ -50,6 +50,7 @@ class _HomeblogViewState extends State<HomeblogView> {
 
   @override
   Widget build(BuildContext context) {
+    final zoomProvider = Provider.of<ZoomNoitifer>(context, listen: false);
     final userprovider =
         Provider.of<AuthenticationNotifier>(context, listen: true);
     return Scaffold(
@@ -138,6 +139,43 @@ class _HomeblogViewState extends State<HomeblogView> {
                   ],
                 ),
               ),
+              labeltext("Zoomenable"),
+              SizedBox(
+                height: 4,
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 2,
+                    ),
+                    child: subitbutton(
+                        text: "EnableZoom",
+                        onclick: () async {
+                          await zoomProvider.updateZoomIseanble(
+                              context: context,
+                              zoomid: 1,
+                              zoomMeetIsEnable: "true");
+                        }),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 2,
+                    ),
+                    child: subitbutton(
+                        text: "DisableZoom",
+                        onclick: () async {
+                          await zoomProvider.updateZoomIseanble(
+                              context: context,
+                              zoomid: 1,
+                              zoomMeetIsEnable: null);
+                        }),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 15,
+              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 16, horizontal: 11),
@@ -154,12 +192,62 @@ class _HomeblogViewState extends State<HomeblogView> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.79,
+                height: MediaQuery.of(context).size.height * 0.65,
                 child: Bloglist(),
               ),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget subitbutton({required String text, onclick}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: ElevatedButton(
+        onPressed: onclick,
+        child: Text(
+          text,
+          style: TextStyle(color: Colors.yellow),
+        ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.black,
+          minimumSize: Size(88, 36),
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(7)),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget labeltext(String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 29, vertical: 3.0),
+      child: Text(
+        text,
+        style: TextStyle(
+            color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget title({required text, required controller}) {
+    return Container(
+      width: 190,
+      height: 60,
+      decoration: BoxDecoration(
+          color: Colors.yellow[200], borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextFormField(
+          controller: controller,
+          maxLines: 4,
+          decoration:
+              new InputDecoration(border: InputBorder.none, hintText: text),
+        ),
       ),
     );
   }

@@ -55,21 +55,22 @@ class AlertdailogBoxgm {
   static showAlertbox2(
       {onclick1, content, title, isCorrect, required BuildContext context}) {
     return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => Dialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              child: contentBox(
-                  context: context,
-                  title: title,
-                  descriptions: content,
-                  isCorrect: isCorrect,
-                  onclick1: onclick1),
-            ));
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        child: contentBox(
+            context: context,
+            title: title,
+            descriptions: content,
+            isCorrect: isCorrect,
+            onclick1: onclick1),
+      ),
+    );
   }
 }
 

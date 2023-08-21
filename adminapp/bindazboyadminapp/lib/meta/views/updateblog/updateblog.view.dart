@@ -837,12 +837,12 @@ class _UpdateBlogState extends State<UpdateBlog> {
                       blog_image: utilityNotifer.imageURL);
                 }).whenComplete(() => iconcontainer(
                         onclick: () async {
-                          await utilityNotifer
-                              .deleteblogImage(
-                                  context: context,
-                                  url: widget.blogDetailArguments.blogImage)
-                              .whenComplete(
-                                  () => utilityNotifer.pickblogimage(context));
+                          // await utilityNotifer
+                          //     .deleteblogImage(
+                          //         context: context,
+                          //         url: widget.blogDetailArguments.blogImage)
+                          //     .whenComplete(
+                          //         () => utilityNotifer.pickblogimage(context));
                         },
                         context: context));
               },

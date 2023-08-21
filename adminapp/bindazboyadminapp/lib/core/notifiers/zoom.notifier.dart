@@ -189,6 +189,47 @@ class ZoomNoitifer extends ChangeNotifier {
     }
   }
 
+  Future updateZoomIseanble({
+    required BuildContext context,
+    required zoomid,
+    dynamic zoomMeetIsEnable,
+  }) async {
+    try {
+      var userData = await _zoomMeetApi.updateZoomIseanble(
+          context: context, zoomid: zoomid, zoomMeetIsEnable: zoomMeetIsEnable);
+      final Map<String, dynamic> parsedData = await jsonDecode(userData);
+
+      final customStatusCode = parsedData["code"];
+      final customMessage = parsedData["message"];
+
+      switch (customStatusCode) {
+        case 201:
+          ShowsnackBarUtiltiy.showSnackbar(
+              message: "Updated enable zoom", context: context);
+
+          // await Provider.of<CacheNotifier>(context, listen: false)
+          //     .writeCache(key: "jwtdata", value: authdata)
+          //     .whenComplete(() => Navigator.of(context).pushNamedAndRemoveUntil(
+          //         AppRoutes.HomeRoute, (route) => false));
+          break;
+
+        case 302:
+          devtools.log("zoom enable log $customMessage");
+          ShowsnackBarUtiltiy.showSnackbar(
+              message: customMessage, context: context);
+          break;
+
+        case 401:
+          devtools.log("zoom enable log $customMessage");
+          ShowsnackBarUtiltiy.showSnackbar(
+              message: customMessage, context: context);
+          break;
+      }
+    } catch (error) {
+      devtools.log("zoom date api data not found");
+    }
+  }
+
   Future updateZoomdate({
     required BuildContext context,
     required zoomid,
