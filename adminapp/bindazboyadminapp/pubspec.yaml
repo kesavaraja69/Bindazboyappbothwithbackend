@@ -43,6 +43,7 @@ dependencies:
   flutter_native_image: ^0.0.6+1
   socket_io_client: ^2.0.1
   shimmer: ^3.0.0
+  connectivity_plus: ^6.1.4
 
 dev_dependencies:
   flutter_native_splash: ^2.3.0
