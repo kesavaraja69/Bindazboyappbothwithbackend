@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "434767590521",
+    "project_id": "newbindazboy",
+    "storage_bucket": "newbindazboy.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434767590521:android:eec4c75b332c832d2210a8",
+        "android_client_info": {
+          "package_name": "com.dftacademy.bindazboy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoArV-9nAi3oY1j59Hg4vLnAl4rNiavbk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

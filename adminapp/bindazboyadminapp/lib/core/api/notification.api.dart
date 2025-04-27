@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bindazboyadminapp/app/routes/api.routes.dart';
+import 'package:adminbindazboyapp/app/routes/api.routes.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 

@@ -1,5 +1,5 @@
-import 'package:bindazboyadminapp/app/routes/app.routes.dart';
-import 'package:bindazboyadminapp/core/notifiers/authentication.notifer.dart';
+import 'package:adminbindazboyapp/app/routes/app.routes.dart';
+import 'package:adminbindazboyapp/core/notifiers/authentication.notifer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

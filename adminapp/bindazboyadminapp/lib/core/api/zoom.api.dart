@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:bindazboyadminapp/app/routes/api.routes.dart';
-import 'package:bindazboyadminapp/credentials/authuration.credentials.dart';
-import 'package:bindazboyadminapp/meta/widgets/snackbarutitly.dart';
+import 'package:adminbindazboyapp/app/routes/api.routes.dart';
+import 'package:adminbindazboyapp/credentials/authuration.credentials.dart';
+import 'package:adminbindazboyapp/meta/widgets/snackbarutitly.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer' as devtools show log;

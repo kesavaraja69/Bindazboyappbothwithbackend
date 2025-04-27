@@ -1,4 +1,4 @@
-import 'package:bindazboyadminapp/core/notifiers/blog.notifier.dart';
+import 'package:adminbindazboyapp/core/notifiers/blog.notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';

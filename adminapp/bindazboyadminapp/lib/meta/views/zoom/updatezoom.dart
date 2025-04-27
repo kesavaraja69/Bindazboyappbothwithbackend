@@ -1,5 +1,4 @@
-import 'package:bindazboyadminapp/core/models/zoomdetails.model.dart';
-import 'package:bindazboyadminapp/core/notifiers/zoom.notifier.dart';
+import 'package:adminbindazboyapp/core/notifiers/zoom.notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

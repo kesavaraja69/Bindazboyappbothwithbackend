@@ -1,7 +1,7 @@
-import 'package:bindazboyadminapp/core/models/blogdetails.model.dart';
-import 'package:bindazboyadminapp/core/notifiers/blog.notifier.dart';
-import 'package:bindazboyadminapp/meta/utils/blogdetail.arguments.dart';
-import 'package:bindazboyadminapp/meta/views/home/components/lowerdetail.view.dart';
+import 'package:adminbindazboyapp/core/models/blogdetails.model.dart';
+import 'package:adminbindazboyapp/core/notifiers/blog.notifier.dart';
+import 'package:adminbindazboyapp/meta/utils/blogdetail.arguments.dart';
+import 'package:adminbindazboyapp/meta/views/home/components/lowerdetail.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';

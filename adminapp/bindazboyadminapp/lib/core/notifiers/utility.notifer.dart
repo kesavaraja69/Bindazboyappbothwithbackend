@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:bindazboyadminapp/app/routes/api.routes.dart';
-import 'package:bindazboyadminapp/core/models/images.model.dart';
-import 'package:bindazboyadminapp/meta/widgets/snackbarutitly.dart';
+import 'package:adminbindazboyapp/app/routes/api.routes.dart';
+import 'package:adminbindazboyapp/core/models/images.model.dart';
+import 'package:adminbindazboyapp/meta/widgets/snackbarutitly.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

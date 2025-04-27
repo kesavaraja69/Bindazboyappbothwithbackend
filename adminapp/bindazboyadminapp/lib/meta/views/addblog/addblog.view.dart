@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:bindazboyadminapp/app/routes/app.routes.dart';
-import 'package:bindazboyadminapp/core/notifiers/blog.notifier.dart';
-import 'package:bindazboyadminapp/core/notifiers/category.notifier.dart';
-import 'package:bindazboyadminapp/core/notifiers/utility.notifer.dart';
-import 'package:bindazboyadminapp/meta/views/addblog/catergorycomponents/catergorylist.dart';
-import 'package:bindazboyadminapp/meta/views/addblog/showmodel/showmodel.view.dart';
+import 'package:adminbindazboyapp/app/routes/app.routes.dart';
+import 'package:adminbindazboyapp/core/notifiers/blog.notifier.dart';
+import 'package:adminbindazboyapp/core/notifiers/category.notifier.dart';
+import 'package:adminbindazboyapp/core/notifiers/utility.notifer.dart';
+import 'package:adminbindazboyapp/meta/views/addblog/catergorycomponents/catergorylist.dart';
+import 'package:adminbindazboyapp/meta/views/addblog/showmodel/showmodel.view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';

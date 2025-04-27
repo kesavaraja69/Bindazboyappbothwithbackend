@@ -1,5 +1,5 @@
-import 'package:bindazboyadminapp/core/notifiers/category.notifier.dart';
-import 'package:bindazboyadminapp/meta/views/addblog/catergorycomponents/catergorys.dart';
+import 'package:adminbindazboyapp/core/notifiers/category.notifier.dart';
+import 'package:adminbindazboyapp/meta/views/addblog/catergorycomponents/catergorys.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

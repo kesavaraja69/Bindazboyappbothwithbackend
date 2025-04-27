@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:bindazboyadminapp/app/routes/api.routes.dart';
-import 'package:bindazboyadminapp/credentials/authuration.credentials.dart';
+import 'package:adminbindazboyapp/app/routes/api.routes.dart';
+import 'package:adminbindazboyapp/credentials/authuration.credentials.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
@@ -44,7 +44,7 @@ class BlogAPI {
 
     final statuscode = response.statusCode;
     final body = response.body;
-    //   _logger.i(body, statuscode);
+    //   _logger.i(body, error: statuscode);
     if (statuscode == 200) {
       return body;
     } else {
@@ -68,7 +68,7 @@ class BlogAPI {
 
     final statuscode = response.statusCode;
     final body = response.body;
-    // _logger.i(body, statuscode);
+    // _logger.i(body, error: statuscode);
     if (statuscode == 200) {
       return body;
     } else {
@@ -96,7 +96,7 @@ class BlogAPI {
     );
     final statuscode = response.statusCode;
     final body = response.body;
-    _logger.i(body, statuscode);
+    _logger.i(body, error: statuscode);
     if (statuscode == 200) {
       return body;
     } else {
@@ -124,7 +124,7 @@ class BlogAPI {
     );
     final statuscode = response.statusCode;
     final body = response.body;
-    _logger.i(body, statuscode);
+    _logger.i(body, error: statuscode);
     if (statuscode == 200) {
       return body;
     } else {
@@ -152,7 +152,7 @@ class BlogAPI {
     );
     final statuscode = response.statusCode;
     final body = response.body;
-    _logger.i(body, statuscode);
+    _logger.i(body, error: statuscode);
     if (statuscode == 200) {
       return body;
     } else {
@@ -181,7 +181,7 @@ class BlogAPI {
 
     final statuscode = response.statusCode;
     final body = response.body;
-    _logger.i(body, statuscode);
+    _logger.i(body, error: statuscode);
     if (statuscode == 200) {
       return body;
     } else {
@@ -222,7 +222,7 @@ class BlogAPI {
 
     final statuscode = response.statusCode;
     final body = response.body;
-    _logger.i(body, statuscode);
+    _logger.i(body, error: statuscode);
     if (statuscode == 200) {
       return body;
     } else {
@@ -273,7 +273,7 @@ class BlogAPI {
 
     final statuscode = response.statusCode;
     final body = response.body;
-    _logger.i(body, statuscode);
+    _logger.i(body, error: statuscode);
     if (statuscode == 200) {
       return body;
     } else {
@@ -300,7 +300,7 @@ class BlogAPI {
 
     final statuscode = response.statusCode;
     final body = response.body;
-    _logger.i(body, statuscode);
+    _logger.i(body, error: statuscode);
     if (statuscode == 200) {
       return body;
     } else {
@@ -327,7 +327,7 @@ class BlogAPI {
 
     final statuscode = response.statusCode;
     final body = response.body;
-    _logger.i(body, statuscode);
+    _logger.i(body, error: statuscode);
     if (statuscode == 200) {
       return body;
     } else {

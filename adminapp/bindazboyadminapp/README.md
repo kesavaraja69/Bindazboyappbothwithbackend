@@ -1,4 +1,4 @@
-# bindazboyadminapp
+# adminbindazboyapp
 
 A new Flutter project.
 

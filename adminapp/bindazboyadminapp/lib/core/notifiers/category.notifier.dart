@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:bindazboyadminapp/core/api/category.api.dart';
-import 'package:bindazboyadminapp/core/models/category.model.dart';
+import 'package:adminbindazboyapp/core/api/category.api.dart';
+import 'package:adminbindazboyapp/core/models/category.model.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 

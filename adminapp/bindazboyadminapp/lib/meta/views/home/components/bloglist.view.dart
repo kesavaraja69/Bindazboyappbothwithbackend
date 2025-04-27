@@ -1,9 +1,8 @@
-import 'package:bindazboyadminapp/app/routes/app.routes.dart';
-import 'package:bindazboyadminapp/core/models/blogs.model.dart';
-import 'package:bindazboyadminapp/core/notifiers/blog.notifier.dart';
-import 'package:bindazboyadminapp/core/notifiers/notification.notifier.dart';
-import 'package:bindazboyadminapp/core/notifiers/utility.notifer.dart';
-import 'package:bindazboyadminapp/meta/utils/blogdetail.arguments.dart';
+import 'package:adminbindazboyapp/app/routes/app.routes.dart';
+import 'package:adminbindazboyapp/core/models/blogs.model.dart';
+import 'package:adminbindazboyapp/core/notifiers/blog.notifier.dart';
+import 'package:adminbindazboyapp/core/notifiers/notification.notifier.dart';
+import 'package:adminbindazboyapp/meta/utils/blogdetail.arguments.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

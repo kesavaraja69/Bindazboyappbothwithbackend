@@ -1,4 +1,4 @@
-import 'package:bindazboyadminapp/core/models/category.model.dart';
+import 'package:adminbindazboyapp/core/models/category.model.dart';
 import 'package:flutter/material.dart';
 
 class Catergorys extends StatelessWidget {

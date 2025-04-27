@@ -1,10 +1,9 @@
 import 'dart:convert';
 
-import 'package:bindazboyadminapp/core/api/zoom.api.dart';
-import 'package:bindazboyadminapp/core/models/zoomdetails.model.dart';
-import 'package:bindazboyadminapp/meta/widgets/snackbarutitly.dart';
+import 'package:adminbindazboyapp/core/api/zoom.api.dart';
+import 'package:adminbindazboyapp/core/models/zoomdetails.model.dart';
+import 'package:adminbindazboyapp/meta/widgets/snackbarutitly.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'dart:developer' as devtools show log;
 
 class ZoomNoitifer extends ChangeNotifier {

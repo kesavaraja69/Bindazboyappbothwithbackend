@@ -1,5 +1,5 @@
-import 'package:bindazboyadminapp/core/notifiers/authentication.notifer.dart';
-import 'package:bindazboyadminapp/core/services/socket_client.dart';
+import 'package:adminbindazboyapp/core/notifiers/authentication.notifer.dart';
+import 'package:adminbindazboyapp/core/services/socket_client.dart';
 import 'package:provider/provider.dart';
 
 class SocketMethods {

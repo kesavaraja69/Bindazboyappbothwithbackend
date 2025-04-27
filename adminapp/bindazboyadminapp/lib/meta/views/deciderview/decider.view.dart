@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:bindazboyadminapp/core/notifiers/cache.notifier.dart';
-import 'package:bindazboyadminapp/meta/views/authentication/login.view.dart';
-import 'package:bindazboyadminapp/meta/views/home/home.view.dart';
-import 'package:bindazboyadminapp/meta/views/splashView/splash.view.dart';
+import 'package:adminbindazboyapp/core/notifiers/cache.notifier.dart';
+import 'package:adminbindazboyapp/meta/views/authentication/login.view.dart';
+import 'package:adminbindazboyapp/meta/views/home/home.view.dart';
+import 'package:adminbindazboyapp/meta/views/splashView/splash.view.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

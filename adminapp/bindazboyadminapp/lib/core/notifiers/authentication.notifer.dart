@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:bindazboyadminapp/app/routes/app.routes.dart';
-import 'package:bindazboyadminapp/core/api/authentication.api.dart';
-import 'package:bindazboyadminapp/core/notifiers/cache.notifier.dart';
+import 'package:adminbindazboyapp/app/routes/app.routes.dart';
+import 'package:adminbindazboyapp/core/api/authentication.api.dart';
+import 'package:adminbindazboyapp/core/notifiers/cache.notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';

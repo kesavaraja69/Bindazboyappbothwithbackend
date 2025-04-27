@@ -1,5 +1,5 @@
-import 'package:bindazboyadminapp/app/providers/provider.dart';
-import 'package:bindazboyadminapp/app/routes/app.routes.dart';
+import 'package:adminbindazboyapp/app/providers/provider.dart';
+import 'package:adminbindazboyapp/app/routes/app.routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';

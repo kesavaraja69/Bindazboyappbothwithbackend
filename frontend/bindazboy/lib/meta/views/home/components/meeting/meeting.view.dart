@@ -393,7 +393,7 @@ class _MeetingViewState extends State<MeetingView> {
                                 controller: nameController,
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
-                                    Icons.email,
+                                    Icons.person,
                                     color:
                                         BConstantColors.authenticationIconColor,
                                   ),

@@ -39,9 +39,7 @@ class _HomeBlogsState extends State<HomeBlogs> {
                   fontWeight: FontWeight.w400,
                   color: Colors.black,
                   fontSize: 24),
-            ))
-
-        ??
+            )) ??
         false;
   }
 
@@ -195,35 +193,35 @@ class _HomeBlogsState extends State<HomeBlogs> {
                         fontSize: MediaQuery.of(context).size.width * 0.045,
                         fontWeight: FontWeight.bold),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(AppRoutes.ZoomMeetRoute);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.45,
-                        height: 34,
-                        decoration: BoxDecoration(
-                          color: BConstantColors.fullblack,
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.all(4.0),
-                            child: Text(
-                              "Register here for Meeting",
-                              style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.035,
-                                color: BConstantColors.yellow,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     Navigator.of(context).pushNamed(AppRoutes.ZoomMeetRoute);
+                  //   },
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(bottom: 4),
+                  //     child: Container(
+                  //       width: MediaQuery.of(context).size.width * 0.45,
+                  //       height: 34,
+                  //       decoration: BoxDecoration(
+                  //         color: BConstantColors.fullblack,
+                  //         borderRadius: BorderRadius.circular(14),
+                  //       ),
+                  //       child: Center(
+                  //         child: Padding(
+                  //           padding: EdgeInsets.all(4.0),
+                  //           child: Text(
+                  //             "Register here for Meeting",
+                  //             style: TextStyle(
+                  //               fontSize:
+                  //                   MediaQuery.of(context).size.width * 0.035,
+                  //               color: BConstantColors.yellow,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

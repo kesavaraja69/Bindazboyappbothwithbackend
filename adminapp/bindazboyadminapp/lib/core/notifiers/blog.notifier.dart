@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:bindazboyadminapp/core/api/blog.api.dart';
-import 'package:bindazboyadminapp/core/models/blogdetails.model.dart';
-import 'package:bindazboyadminapp/core/models/blogs.model.dart';
+import 'package:adminbindazboyapp/core/api/blog.api.dart';
+import 'package:adminbindazboyapp/core/models/blogdetails.model.dart';
+import 'package:adminbindazboyapp/core/models/blogs.model.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
@@ -31,7 +31,7 @@ class BlogNotifer extends ChangeNotifier {
 
       switch (statuscode) {
         case 201:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -39,7 +39,7 @@ class BlogNotifer extends ChangeNotifier {
           );
           break;
         case 401:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -108,7 +108,7 @@ class BlogNotifer extends ChangeNotifier {
       final statusmessage = parsedData["message"];
       switch (statuscode) {
         case 201:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -116,7 +116,7 @@ class BlogNotifer extends ChangeNotifier {
           );
           break;
         case 401:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -151,7 +151,7 @@ class BlogNotifer extends ChangeNotifier {
 
       switch (statuscode) {
         case 201:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -159,7 +159,7 @@ class BlogNotifer extends ChangeNotifier {
           );
           break;
         case 401:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -197,7 +197,7 @@ class BlogNotifer extends ChangeNotifier {
 
       switch (statuscode) {
         case 201:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -205,7 +205,7 @@ class BlogNotifer extends ChangeNotifier {
           );
           break;
         case 401:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -213,7 +213,7 @@ class BlogNotifer extends ChangeNotifier {
           );
           break;
         case 302:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -221,7 +221,7 @@ class BlogNotifer extends ChangeNotifier {
           );
           break;
         case 303:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -267,7 +267,7 @@ class BlogNotifer extends ChangeNotifier {
 
       switch (statuscode) {
         case 201:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -275,7 +275,7 @@ class BlogNotifer extends ChangeNotifier {
           );
           break;
         case 401:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -321,7 +321,7 @@ class BlogNotifer extends ChangeNotifier {
 
       switch (statuscode) {
         case 201:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -329,7 +329,7 @@ class BlogNotifer extends ChangeNotifier {
           );
           break;
         case 401:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -337,7 +337,7 @@ class BlogNotifer extends ChangeNotifier {
           );
           break;
         case 409:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -427,7 +427,7 @@ class BlogNotifer extends ChangeNotifier {
 
       switch (statuscode) {
         case 201:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -436,7 +436,7 @@ class BlogNotifer extends ChangeNotifier {
 
           break;
         case 302:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -444,7 +444,7 @@ class BlogNotifer extends ChangeNotifier {
           );
           break;
         case 402:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -476,7 +476,7 @@ class BlogNotifer extends ChangeNotifier {
 
       switch (statuscode) {
         case 201:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -485,7 +485,7 @@ class BlogNotifer extends ChangeNotifier {
 
           break;
         case 302:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),
@@ -493,7 +493,7 @@ class BlogNotifer extends ChangeNotifier {
           );
           break;
         case 402:
-          _logger.i(statuscode, statusmessage);
+          _logger.i(statuscode, error: statusmessage);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(statusmessage),

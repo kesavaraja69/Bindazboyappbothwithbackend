@@ -1,13 +1,13 @@
-import 'package:bindazboyadminapp/app/constant/colors.dart';
-import 'package:bindazboyadminapp/app/routes/app.routes.dart';
-import 'package:bindazboyadminapp/core/models/zoomdetails.model.dart';
-import 'package:bindazboyadminapp/core/notifiers/authentication.notifer.dart';
-import 'package:bindazboyadminapp/core/notifiers/blog.notifier.dart';
-import 'package:bindazboyadminapp/core/notifiers/cache.notifier.dart';
-import 'package:bindazboyadminapp/core/notifiers/zoom.notifier.dart';
-import 'package:bindazboyadminapp/core/services/socket_methods.dart';
-import 'package:bindazboyadminapp/meta/views/home/components/bloglist.view.dart';
-import 'package:bindazboyadminapp/meta/views/zoom/updatezoom.dart';
+import 'package:adminbindazboyapp/app/constant/colors.dart';
+import 'package:adminbindazboyapp/app/routes/app.routes.dart';
+import 'package:adminbindazboyapp/core/models/zoomdetails.model.dart';
+import 'package:adminbindazboyapp/core/notifiers/authentication.notifer.dart';
+import 'package:adminbindazboyapp/core/notifiers/blog.notifier.dart';
+import 'package:adminbindazboyapp/core/notifiers/cache.notifier.dart';
+import 'package:adminbindazboyapp/core/notifiers/zoom.notifier.dart';
+import 'package:adminbindazboyapp/core/services/socket_methods.dart';
+import 'package:adminbindazboyapp/meta/views/home/components/bloglist.view.dart';
+import 'package:adminbindazboyapp/meta/views/zoom/updatezoom.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,12 +1,12 @@
-import 'package:bindazboyadminapp/meta/views/addblog/addblog.view.dart';
-import 'package:bindazboyadminapp/meta/views/authentication/login.view.dart';
-import 'package:bindazboyadminapp/meta/views/authentication/signup.view.dart';
-import 'package:bindazboyadminapp/meta/views/deciderview/decider.view.dart';
-import 'package:bindazboyadminapp/meta/views/home/components/blogdetail.view.dart';
-import 'package:bindazboyadminapp/meta/views/home/home.view.dart';
-import 'package:bindazboyadminapp/meta/views/splashView/splash.view.dart';
-import 'package:bindazboyadminapp/meta/views/updateblog/updateblog.view.dart';
-import 'package:bindazboyadminapp/meta/views/zoom/updatezoom.dart';
+import 'package:adminbindazboyapp/meta/views/addblog/addblog.view.dart';
+import 'package:adminbindazboyapp/meta/views/authentication/login.view.dart';
+import 'package:adminbindazboyapp/meta/views/authentication/signup.view.dart';
+import 'package:adminbindazboyapp/meta/views/deciderview/decider.view.dart';
+import 'package:adminbindazboyapp/meta/views/home/components/blogdetail.view.dart';
+import 'package:adminbindazboyapp/meta/views/home/home.view.dart';
+import 'package:adminbindazboyapp/meta/views/splashView/splash.view.dart';
+import 'package:adminbindazboyapp/meta/views/updateblog/updateblog.view.dart';
+import 'package:adminbindazboyapp/meta/views/zoom/updatezoom.dart';
 import 'package:flutter/cupertino.dart';
 
 class AppRoutes {

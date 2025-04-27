@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bindazboyadminapp/core/api/notification.api.dart';
+import 'package:adminbindazboyapp/core/api/notification.api.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
